@@ -70,6 +70,3 @@ target/
 
 # pyenv
 .python-version
-
-# Migrations
-migrations/
