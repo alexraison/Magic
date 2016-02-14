@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% from 'macros.html' import render_form %}
+{% block content %}
+
+<div class="col-lg-6">
+
+  {{ render_form(form, action_url='', action_text='Submit') }}
+
+</div>
+
+{% endblock %}

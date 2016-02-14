@@ -1,0 +1,32 @@
+     
+        <table id="main_table" class="table table-striped table-bordered" style="text-align:center">
+
+          <thead>
+            <tr>
+              <th style="text-align:center">Player</th>
+              <th style="text-align:center">Position</th>
+              <th style="text-align:center">Match Wins</th>
+              <th style="text-align:center">Match Losses</th>
+              <th style="text-align:center">Game Wins</th>
+              <th style="text-align:center">Game Losses</th>   
+              <th style="text-align:center">Game Win Percentage</th>    
+              <th style="text-align:center">Matches Unfinished</th>                
+            </tr>
+          </thead>
+
+          <tbody>
+          {% for player in tournament.players %}
+            <tr>
+              <td>{{player.name}}</td>
+              <td>{{player.position}}</td>
+              <td>{{player.match_wins}}</td>
+              <td>{{player.match_losses}}</td>
+              <td>{{player.game_wins}}</td>
+              <td>{{player.game_losses}}</td>
+              <td>{{player.game_win_percentage}}</td>
+              <td>{{player.unfinished_matches}}</td>          
+            </tr>
+        {% endfor %}
+        </tbody>
+
+</table>

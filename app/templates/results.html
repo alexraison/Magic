@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+    {% for tournament in tournaments %}
+
+        <h1>{{tournament[0].tournament.name}} {% if tournament[0].tournament.tournamentSet %} [{{tournament[0].tournament.tournamentSet.name}}] {% endif %}</h1>
+        
+        <table id="main_table" class="table table-striped table-bordered">
+
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Position</th>
+              <th>Match Wins</th>
+              <th>Match Losses</th>
+              <th>Game Wins</th>
+              <th>Game Losses</th>   
+              <th>Game Win Percentage</th>    
+              <th>Matches Unfinished</th>                
+            </tr>
+          </thead>
+
+          <tbody>
+          {% for row in tournament %}
+            <tr>
+              <td>{% for player in row.entity.participants %}{%- if loop.index > 1 %} & {% endif %}{{player.player.name}}{% endfor %}</td>
+              <td>{{row.position}}</td>
+              <td>{{row.match_wins}}</td>
+              <td>{{row.match_losses}}</td>
+              <td>{{row.game_wins}}</td>
+              <td>{{row.game_losses}}</td>
+              <td>{{row.game_win_percentage|round|int }}%</td>
+              <td>{{row.matches_unfinished}}</td>          
+            </tr>
+        {% endfor %}
+        </tbody>
+
+      </table>
+
+    {% endfor %}
+
+{% endblock %}

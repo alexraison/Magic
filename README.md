@@ -1,0 +1,1 @@
+An application to store tournament results for MTG.

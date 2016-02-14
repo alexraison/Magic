@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div class="playerselect">Player:
+
+      <select id="player"> 
+      {% for player in players %}
+        <option  value="{{player.name}}" {% if player.name == currentPlayer.name %} Selected{% endif %}>{{player.name}}</option>
+      {% endfor %}                             
+      </select>
+
+    </div>
+
+    <table id="main_table" class="table table-striped table-bordered">
+
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Opponent</th>
+          <th>Match Wins</th>
+          <th>Match Losses</th>
+          <th>Game Wins</th>
+          <th>Game Losses</th>      
+          <th>Matches Played</th>                
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for row in playerHeadToHeadData %}
+        <tr>
+          <td>{{row['player']}}</td>
+          <td>{{row['opponent']}}</td>
+          <td>{{row['total_match_wins']}}</td>
+          <td>{{row['total_match_losses']}}</td>
+          <td>{{row['total_game_wins']}}</td>
+          <td>{{row['total_game_losses']}}</td>
+          <td>{{row['total_matches_played']}}</td>          
+        </tr>
+    {% endfor %}
+    </tbody>
+
+   <script>
+
+        $.fn.dataTableExt.afnFiltering.push(
+        function( oSettings, aData, iDataIndex ) {
+          var iplayer = document.getElementById('player').value.toUpperCase();
+          var player_one = aData[0].toUpperCase();
+
+          if ( player_one == iplayer )
+          {
+            return true;
+          }
+
+          return false;
+        }
+      );
+
+        $(document).ready(function() {
+            var oTable = $('#main_table').dataTable({
+                                                    "sDom": '<"top"i>rt<"bottom"lp><"clear">',
+                                                    "bPaginate": false,
+                                                    "bLengthChange": false,
+                                                    "bSort": false, 
+                                                   })
+
+            $('#player').change( function() { oTable.fnDraw(); } );
+
+        } );
+
+
+
+    </script>
+
+{% endblock %}

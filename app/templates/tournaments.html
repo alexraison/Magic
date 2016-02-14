@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <table class="table table-striped table-bordered">
+	
+    <thead>
+      <tr>
+        <th>Number</th>
+        <th>Name</th>
+        <th>Set</th>
+        <th>Date</th>
+		    <th>Winner(s)</th>
+		    <th>Games</th>
+        <th>Edit</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for tournament in tournaments %}
+        <tr href="{{url_for('viewTournamentMatches', id=tournament.id)}}">
+          <td>{{ tournament.id }} </td>
+		      <td><a href="{{ url_for('viewTournamentResults', id = tournament.id) }}">{{ tournament.name }} {% if tournament.tournamentType.description == 'Two headed Giant' %} [2HG] {% endif %}</a></td>
+          <td>{{ tournament.tournamentSet.name }}</td>
+          <td>{{ tournament.date.strftime('%d/%m/%y') }}     </td>  
+          <td>{{ tournament.winners }}     </td>
+		      <td><a href="{{ url_for('viewTournamentMatches', id = tournament.id) }}">Games</a></td>
+          <td><a href="{{ url_for('editTournament', id = tournament.id) }}">Edit</a></td>
+        </tr>
+      {% endfor %}
+	  </tbody>
+
+    </table>
+
+{% endblock %}

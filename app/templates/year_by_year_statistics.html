@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+    {% for year in yearByYearStats %}
+    <h1>{{year[0].year|int}}</h1>
+    <table id="main_table" class="table table-striped table-bordered">
+
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Position</th>
+          <th>Match Wins</th>
+          <th>Match Losses</th>
+          <th>Match Win Percentage</th>
+          <th>Game Wins</th>
+          <th>Game Losses</th>   
+          <th>Game Win Percentage</th>    
+          <th>Matches Played</th>                
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for player in year %}
+        <tr>
+          <td>{{player.player}}</td>
+          <td>{{player.position}}</td>
+          <td>{{player.total_match_wins}}</td>
+          <td>{{player.total_match_losses}}</td>
+          <td>{{player.match_win_percentage|round(1)}}</td>
+          <td>{{player.total_game_wins}}</td>
+          <td>{{player.total_game_losses}}</td>
+          <td>{{player.game_win_percentage|round(1)}}</td>
+          <td>{{player.total_matches_played}}</td>          
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    {% endfor %}
+    
+{% endblock %}

@@ -1,0 +1,37 @@
+
+h1 {
+	margin-top:10px;
+}
+
+form {
+	margin: 0;
+}
+
+table {
+	margin-top:10px; 
+	text-align:center;
+}
+
+th {
+	text-align:center;
+}
+
+.navbar-default {
+	margin:0;
+}
+
+.navbar-inner {
+	-webkit-border-radius: 0; 
+	-moz-border-radius: 0; 
+	border-radius: 0;
+}
+
+.playerselect{
+	float:right;
+	margin:10px;
+}
+
+.content{
+	margin-left: 10px;
+	margin-right: 10px;
+}

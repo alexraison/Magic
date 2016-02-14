@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <table id="main_table" class="table table-striped table-bordered">
+
+      <thead>
+        <tr>
+          <th>Player</th>
+          <th>Position</th>
+          <th>Match Wins</th>
+          <th>Match Losses</th>
+          <th>Match Win Percentage</th>
+          <th>Game Wins</th>
+          <th>Game Losses</th>   
+          <th>Game Win Percentage</th>    
+          <th>Matches Played</th>                
+        </tr>
+      </thead>
+
+      <tbody>
+      {% for row in lifetimeStatistics %}
+        <tr>
+          <td>{{row['player']}}</td>
+          <td>{{row['position']}}</td>
+          <td>{{row['total_match_wins']}}</td>
+          <td>{{row['total_match_losses']}}</td>
+          <td>{{row['match_win_percentage']|round(1)}}</td>
+          <td>{{row['total_game_wins']}}</td>
+          <td>{{row['total_game_losses']}}</td>
+          <td>{{row['game_win_percentage']|round(1)}}</td>
+          <td>{{row['total_matches_played']}}</td>          
+        </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+{% endblock %}
