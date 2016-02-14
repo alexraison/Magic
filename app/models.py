@@ -18,6 +18,7 @@ class TournamentType(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
     description = db.Column(db.String(50))
+    game_wins_required = db.Column(db.Integer)
 
     tournaments = relationship('Tournament', backref='tournamentType')
 

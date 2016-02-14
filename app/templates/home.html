@@ -37,17 +37,16 @@
             {% if playerInParticipantOne(currentPlayer, match) %}
               
                 <td>{% for player in match.participants[1].entity.participants %}{%- if loop.index > 1 %} & {% endif %}{{player.player.name}}{% endfor %}</td>
+
                 <td>
                     <form action="" method="POST">
                       <select name="score" onchange="this.form.submit()"> 
-                        <option value="00" {% if match.participants[1].game_wins == 0 and match.participants[0].game_wins == 0 %}Selected{% endif %}>0 - 0</option>
-                        <option value="01" {% if match.participants[1].game_wins == 0 and match.participants[0].game_wins == 1 %}Selected{% endif %}>0 - 1</option>
-                        <option value="02" {% if match.participants[1].game_wins == 0 and match.participants[0].game_wins == 2 %}Selected{% endif %}>0 - 2</option>                   
-                        <option value="10" {% if match.participants[1].game_wins == 1 and match.participants[0].game_wins == 0 %}Selected{% endif %}>1 - 0</option>
-                        <option value="11" {% if match.participants[1].game_wins == 1 and match.participants[0].game_wins == 1 %}Selected{% endif %}>1 - 1</option>
-                        <option value="12" {% if match.participants[1].game_wins == 1 and match.participants[0].game_wins == 2 %}Selected{% endif %}>1 - 2</option>
-                        <option value="20" {% if match.participants[1].game_wins == 2 and match.participants[0].game_wins == 0 %}Selected{% endif %}>2 - 0</option>
-                        <option value="21" {% if match.participants[1].game_wins == 2 and match.participants[0].game_wins == 1 %}Selected{% endif %}>2 - 1</option>               
+                        {% for i in range(match.tournament.tournamentType.game_wins_required + 1) %}
+                          {% for j in range(match.tournament.tournamentType.game_wins_required + 1) %}
+                          {% if not (i == match.tournament.tournamentType.game_wins_required and j == match.tournament.tournamentType.game_wins_required) %}<option value="{{i}}{{j}}  {{match.tournament.tournamentType.game_wins_required }} K" {% if match.participants[1].game_wins == i and match.participants[0].game_wins == j %}Selected{% endif %}>{{i}} - {{j}}</option>{% endif %}
+                          {% endfor %}
+                        {% endfor %}
+             
                       </select>
                       <input type="hidden" name="player_one_id" value="{{match.participants[1].entity_id}}">
                       <input type="hidden" name="player_two_id" value="{{match.participants[0].entity_id}}">
@@ -62,14 +61,11 @@
                 <td>
                     <form action="" method="POST">
                       <select name="score" onchange="this.form.submit()"> 
-                        <option value="00" {% if match.participants[0].game_wins == 0 and match.participants[1].game_wins == 0 %}Selected{% endif %}>0 - 0</option>
-                        <option value="01" {% if match.participants[0].game_wins == 0 and match.participants[1].game_wins == 1 %}Selected{% endif %}>0 - 1</option>
-                        <option value="02" {% if match.participants[0].game_wins == 0 and match.participants[1].game_wins == 2 %}Selected{% endif %}>0 - 2</option>                   
-                        <option value="10" {% if match.participants[0].game_wins == 1 and match.participants[1].game_wins == 0 %}Selected{% endif %}>1 - 0</option>
-                        <option value="11" {% if match.participants[0].game_wins == 1 and match.participants[1].game_wins == 1 %}Selected{% endif %}>1 - 1</option>
-                        <option value="12" {% if match.participants[0].game_wins == 1 and match.participants[1].game_wins == 2 %}Selected{% endif %}>1 - 2</option>
-                        <option value="20" {% if match.participants[0].game_wins == 2 and match.participants[1].game_wins == 0 %}Selected{% endif %}>2 - 0</option>
-                        <option value="21" {% if match.participants[0].game_wins == 2 and match.participants[1].game_wins == 1 %}Selected{% endif %}>2 - 1</option>               
+                        {% for i in range(match.tournament.tournamentType.game_wins_required + 1) %}
+                          {% for j in range(match.tournament.tournamentType.game_wins_required + 1) %}
+                          {% if not (i == match.tournament.tournamentType.game_wins_required and j == match.tournament.tournamentType.game_wins_required) %}<option value="{{i}}{{j}}" {% if match.participants[0].game_wins == i and match.participants[1].game_wins == j %}Selected{% endif %}>{{i}} - {{j}} </option>{% endif %}
+                          {% endfor %}
+                        {% endfor %}        
                       </select>
                       <input type="hidden" name="player_one_id" value="{{match.participants[0].entity_id}}">
                       <input type="hidden" name="player_two_id" value="{{match.participants[1].entity_id}}">

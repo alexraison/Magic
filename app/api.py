@@ -16,7 +16,7 @@ def getTypeFromLiteral(typeLiteral):
 		type = TournamentType.query.filter(TournamentType.description == 'Normal').first()
 
 	if typeLiteral == 'TWOHEADEDGIANT':
-		type = TournamentType.query.filter(TournamentType.description == 'Two headed Giant').first()
+		type = TournamentType.query.filter(TournamentType.description == 'Two Headed Giant').first()
 
 	return type.id
 
@@ -169,8 +169,8 @@ def getUnfinishedTournamentResults(id):
 
 def getPlayerHeadToHeadData():
 
-	sql = '''SELECT p1.name AS player, p2.name AS opponent, sum(CASE WHEN mp1.game_wins = 2 THEN 1 ELSE 0 END) AS total_match_wins, 
-	                sum(CASE WHEN mp2.game_wins = 2 THEN 1 ELSE 0 END) AS total_match_losses, sum(mp1.game_wins) AS total_game_wins, 
+	sql = '''SELECT p1.name AS player, p2.name AS opponent, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_wins, 
+	                sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_losses, sum(mp1.game_wins) AS total_game_wins, 
 	                sum(mp2.game_wins) AS total_game_losses, count(*) AS total_matches_played
 			  FROM match AS m
 			    INNER JOIN tournament AS t ON m.tournament_id = t.id
@@ -198,13 +198,15 @@ def rebuildStatistics(tournamentId):
 				SELECT m.tournament_id, mp.entity_id, 
 					       sum(mp.game_wins) AS total_game_wins, 
 					       COALESCE(sum(mp3.game_wins), 0) AS total_game_losses,
-					       sum(CASE WHEN mp.game_wins = 2 THEN 1 ELSE 0 END) AS match_wins, 
+					       sum(CASE WHEN mp.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS match_wins, 
 					       COALESCE(count(mp2.*), 0) AS match_losses, 
-					       COALESCE(count(mp3.*) - count(mp2.*) - sum(CASE WHEN mp.game_wins = 2 THEN 1 ELSE 0 END), 0) AS matches_unfinished
+					       COALESCE(count(mp3.*) - count(mp2.*) - sum(CASE WHEN mp.game_wins = tt.game_wins_required THEN 1 ELSE 0 END), 0) AS matches_unfinished
 
 					FROM match_participant AS mp
 					  INNER JOIN match AS m ON mp.match_id = m.id
-					  LEFT OUTER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id AND mp2.game_wins = 2
+					  INNER JOIN tournament AS t ON m.tournament_id = t.id
+					  INNER JOIN tournament_type AS tt ON t.type = tt.id
+					  LEFT OUTER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id AND mp2.game_wins = tt.game_wins_required
 					  LEFT OUTER JOIN match_participant AS mp3 ON m.id = mp3.match_id AND mp.entity_id <> mp3.entity_id
 
 					WHERE m.tournament_id = ''' + str(tournamentId) + '''GROUP BY m.tournament_id, mp.entity_id'''
@@ -248,7 +250,7 @@ def rebuildStatistics(tournamentId):
 ############################################################
 def getOutstandingMatches():
 
-	subQuery = db.session.query(MatchParticipant.match_id).filter(MatchParticipant.game_wins == 2).subquery()
+	subQuery = db.session.query(MatchParticipant.match_id).join(Match).join(Tournament).join(TournamentType).filter(MatchParticipant.game_wins == TournamentType.game_wins_required).subquery()
 
 	return Match.query.filter(~Match.id.in_(subQuery)).order_by(Match.tournament_id).all()
 
@@ -262,9 +264,11 @@ def unfinishedMatchesInTournament(id):
 
 def updateMatchResult(matchId, entityResults):
 
+	match = Match.query.filter(Match.id == matchId).first()
+
 	for result in entityResults:
 
-		if result['gameWins'] not in [0, 1, 2]:
+		if result['gameWins'] > match.tournament.tournamentType.game_wins_required or result['gameWins'] < 0:
 			raise ValueError('Invalid number of game wins')
 
 		matchParticipant = MatchParticipant.query.filter(MatchParticipant.match_id == matchId).filter(MatchParticipant.entity_id == result['entityId']).first()
