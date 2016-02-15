@@ -290,9 +290,18 @@ def createPlayer(name, email, password, username):
 	if not name or not password or not username:
 		raise ValueError('Invalid input when creating a new player')
 
-	db.session.add(Player(name = name, email = email, password = password, username = username))
+	player = Player(name = name, email = email, password = password, username = username)	
+	db.session.add(player)
 	db.session.commit()
 
+	entity = Entity()
+	db.session.add(entity)
+	db.session.commit()
+	
+	entityParticipant = EntityParticipant(entity_id = entity.id, player_id = player.id)
+	db.session.add(entityParticipant)
+	db.session.commit()	
+	
 def playerExists(id):
 
 	return Player.query.filter(Player.id == id).first() is not None
