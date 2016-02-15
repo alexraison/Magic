@@ -26,6 +26,10 @@ th {
 	border-radius: 0;
 }
 
+.dropdown-toggle {
+    cursor: pointer;
+}
+
 .playerselect{
 	float:right;
 	margin:10px;
