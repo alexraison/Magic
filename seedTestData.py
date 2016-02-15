@@ -3,6 +3,10 @@ from app.api import *
 import os
 import urllib.parse as urlparse
 
+from app import db
+
+db.create_all()
+
 urlparse.uses_netloc.append("postgres")
 url = urlparse.urlparse(os.environ["DATABASE_URL"])
 

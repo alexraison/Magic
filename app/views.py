@@ -29,7 +29,7 @@ def login():
 	username = request.form['username']
 	password = request.form['password']
 
-	registered_user = Player.query.filter_by(username=username,password=password).first()
+	registered_user = Player.query.filter(func.upper(Player.username) == username.upper()).filter(Player.password == password).first()
 
 	if registered_user is None:
 		flash('Username or Password is invalid' , 'error')
