@@ -30,7 +30,7 @@
       {% for match in matches %}     
         <tr>
           <td>{{match.tournament.id}}</td>
-          <td><a href="{{ url_for('viewTournamentResults', id = match.tournament.id) }}">{{match.tournament.name}} {% if match.tournament.tournamentType.description == 'Two headed Giant' %} [2HG] {% endif %}</a></td>       
+          <td><a href="{{ url_for('viewTournamentResults', id = match.tournament.id) }}">{{match.tournament.name}} {% if match.tournament.tournamentType.description == 'Two Headed Giant' %} [2HG] {% endif %}</a></td>       
           <td>{{match.tournament.tournamentSet.name}}</td>
           <td>{{match.tournament.date.strftime('%d/%m/%y')}}</td>
 
