@@ -19,11 +19,11 @@
       {% for tournament in tournaments %}
         <tr href="{{url_for('viewTournamentMatches', id=tournament.id)}}">
           <td>{{ tournament.id }} </td>
-		      <td><a href="{{ url_for('viewTournamentResults', id = tournament.id) }}">{{ tournament.name }} {% if tournament.tournamentType.description == 'Two headed Giant' %} [2HG] {% endif %}</a></td>
+		  <td><a href="{{ url_for('viewTournamentResults', id = tournament.id) }}">{{ tournament.name }} {% if tournament.tournamentType.description == 'Two Headed Giant' %} [2HG] {% endif %}</a></td>
           <td>{{ tournament.tournamentSet.name }}</td>
           <td>{{ tournament.date.strftime('%d/%m/%y') }}     </td>  
           <td>{{ tournament.winners }}     </td>
-		      <td><a href="{{ url_for('viewTournamentMatches', id = tournament.id) }}">Games</a></td>
+		  <td><a href="{{ url_for('viewTournamentMatches', id = tournament.id) }}">Games</a></td>
           <td><a href="{{ url_for('editTournament', id = tournament.id) }}">Edit</a></td>
         </tr>
       {% endfor %}
