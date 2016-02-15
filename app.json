@@ -1,0 +1,20 @@
+{
+  "name": "Magic",
+  "description": "",
+  "scripts": {
+    "postdeploy": "python seedTestData.py"
+  },
+  "env": {
+    "APP_SETTINGS": {
+      "required": true
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "urn:buildpack:heroku/python"
+    }
+  ]
+}
