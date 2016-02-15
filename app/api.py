@@ -171,7 +171,7 @@ def getPlayerHeadToHeadData():
 
 	sql = '''SELECT p1.name AS player, p2.name AS opponent, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_wins, 
 	                sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_losses, sum(mp1.game_wins) AS total_game_wins, 
-	                sum(mp2.game_wins) AS total_game_losses, count(*) AS total_matches_played
+	                sum(mp2.game_wins) AS total_game_losses, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) + sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_matches_played
 			  FROM match AS m
 			    INNER JOIN tournament AS t ON m.tournament_id = t.id
 			    INNER JOIN tournament_type AS tt ON t.type = tt.id
