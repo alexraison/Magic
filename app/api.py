@@ -171,7 +171,7 @@ def getPlayerHeadToHeadData():
 
 	sql = '''SELECT p1.name AS player, p2.name AS opponent, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_wins, 
 	                sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_losses, sum(mp1.game_wins) AS total_game_wins, 
-	                sum(mp2.game_wins) AS total_game_losses, count(*) AS total_matches_played
+	                sum(mp2.game_wins) AS total_game_losses, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) + sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_matches_played
 			  FROM match AS m
 			    INNER JOIN tournament AS t ON m.tournament_id = t.id
 			    INNER JOIN tournament_type AS tt ON t.type = tt.id
@@ -290,9 +290,18 @@ def createPlayer(name, email, password, username):
 	if not name or not password or not username:
 		raise ValueError('Invalid input when creating a new player')
 
-	db.session.add(Player(name = name, email = email, password = password, username = username))
+	player = Player(name = name, email = email, password = password, username = username)	
+	db.session.add(player)
 	db.session.commit()
 
+	entity = Entity()
+	db.session.add(entity)
+	db.session.commit()
+	
+	entityParticipant = EntityParticipant(entity_id = entity.id, player_id = player.id)
+	db.session.add(entityParticipant)
+	db.session.commit()	
+	
 def playerExists(id):
 
 	return Player.query.filter(Player.id == id).first() is not None

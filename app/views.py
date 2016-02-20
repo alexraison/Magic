@@ -1,6 +1,5 @@
 from flask import render_template, url_for, request, flash, redirect, Flask, session, g
 from flask.ext.login import LoginManager, login_user , logout_user , current_user
-from sqlalchemy import func
 
 from app import app
 from app.forms import *
@@ -30,7 +29,7 @@ def login():
 	username = request.form['username']
 	password = request.form['password']
 
-	registered_user = Player.query.filter_by(func.upper(username)=username.upper(),password=password).first()
+	registered_user = Player.query.filter(func.upper(Player.username) == username.upper()).filter(Player.password == password).first()
 
 	if registered_user is None:
 		flash('Username or Password is invalid' , 'error')
