@@ -280,7 +280,7 @@ def updateMatchResult(matchId, entityResults):
 
 	rebuildStatistics(matchParticipant.matches.tournament.id)
 
-	if not unfinishedMatchesInTournament:
+	if not unfinishedMatchesInTournament(matchId):
 		slackResults(matchId)
 
 
