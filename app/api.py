@@ -3,7 +3,9 @@ from sqlalchemy.sql import text
 from datetime import date
 from app.models import Player, Tournament, Match, Set, Statistics, TournamentType, Entity, EntityParticipant, MatchParticipant
 import smtplib
+import json
 from itertools import combinations
+from post import slack_bot
 
 from app import db
 
@@ -278,6 +280,10 @@ def updateMatchResult(matchId, entityResults):
 
 	rebuildStatistics(matchParticipant.matches.tournament.id)
 
+	if not unfinishedMatchesInTournament:
+		slackResults(matchId)
+
+
 ############################################################
 # Player APIs
 ############################################################
@@ -418,4 +424,33 @@ def emailResults(id):
 	content = headers + "\r\n\r\n" + body_of_email
 
 	session.sendmail(GMAIL_USERNAME, recipients, content)
+
+#############################################
+# Post to Slack
+############################################# 
+def slackResults(id);
+
+	open('results.settings') as config:
+		self.settings = json.loads(config.read())
+
+	self.results_bot = slack_bot(self.settings['results_channel_url'], self.settings['results_channel_name'], self.settings['results_bot_name'], self.settings['results_bot_icon'], live)
+
+	tournament = getTournamentResults(id)
+
+	for row in tournament:
+		for player in row.entity.participants:
+			if player > 1
+				outPlayers += ' & '
+			outPlayers += player.player.name
+		outPlayers += '\n'
+
+		outPosition += '{!s}\n'.format(row.Position)
+		outMatchWins += '{!s}\n'.format(row.match_wins)
+		outMatchLosses += '{!s}\n'.format(row.match_losses)
+		outGameWins += '{!s}\n'.format(row.game_wins)
+		outGameLosses += '{!s}\n'.format(row.game_losses)
+		outPercentage += '{!s}\n'.format(row.game_win_percentage)
+
+
+	post_results_message(outPlayers, outPosition, outMatchWins, outMatchLosses, outGameWins, outGameLosses, outPercentage)
 
