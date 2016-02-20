@@ -437,6 +437,7 @@ def slackResults(id);
 
 	tournament = getTournamentResults(id)
 
+	title = tournament.name + ' Results'
 	for row in tournament:
 		for player in row.entity.participants:
 			if player > 1
@@ -452,5 +453,5 @@ def slackResults(id);
 		outPercentage += '{!s}\n'.format(row.game_win_percentage)
 
 
-	post_results_message(outPlayers, outPosition, outMatchWins, outMatchLosses, outGameWins, outGameLosses, outPercentage)
+	post_results_message(title, outPlayers, outPosition, outMatchWins, outMatchLosses, outGameWins, outGameLosses, outPercentage)
 

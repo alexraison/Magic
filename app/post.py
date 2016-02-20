@@ -56,6 +56,53 @@ class slack_bot:
 		payload = {'payload':json.dumps(message)}
 		self._send_or_simulate(payload, 'simulating post of multi-line message: {!s}'.format(message_text))
 
+	def post_results_message(self, title, player, position, matchWins, matchLosses, gameWins, gameLosses, percentage):
+		message = self.default_message.copy()
+		attachment = {
+			'title': title,
+            'fields': [
+                {
+                    'title': "Player",
+                    'value': player,
+                    'short': true
+                },
+                {
+                    'title': "Position",
+                    'value': position,
+                    'short': true
+                },
+                {
+                    'title': "Match Wins",
+                    'value': matchWins,
+                    'short': true
+                },
+                {
+                    'title': "Match Losses",
+                    'value': matchLosses,
+                    'short': true
+                },
+                {
+                    'title': "Game Wins",
+                    'value': gameWins,
+                    'short': true
+                },
+                {
+                    'title': "Game Losses",
+                    'value': gameLosses,
+                    'short': true
+                },
+                {
+                    'title': "Game Win %",
+                    'value': percentage,
+                    'short': true
+                }
+            ],
+            'color': "#F35A00"
+        }
+		message['attachments'] = [attachment]
+		payload = {'payload':json.dumps(message)}
+		self._send_or_simulate(payload, 'simulating post of multi-line message: {!s}'.format(message_text))
+
 	def _send_or_simulate(self, payload, simulate_text):
 		if self.live:
 			self.session.post(self.hook_url, data=payload)
