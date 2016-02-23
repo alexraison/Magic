@@ -433,7 +433,7 @@ def slackResults(id):
 	with open('app/results.settings') as config:
 		settings = json.loads(config.read())
 
-	results_bot = slack_bot(settings['results_channel_url'], settings['results_channel_name'], settings['results_bot_name'], settings['results_bot_icon'], live)
+	results_bot = slack_bot(settings['results_channel_url'], settings['results_channel_name'], settings['results_bot_name'], settings['results_bot_icon'])
 
 	tournament = getTournamentResults(id)
 
