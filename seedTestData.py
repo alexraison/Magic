@@ -58,14 +58,14 @@ pgCursor.executemany('INSERT INTO Tournament_Type (id, description, game_wins_re
 pgConn.commit()
 
 
-sets = [(1,'test')]
+sets = [1,'test']
 
 #args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in tournamenttypes)
 pgCursor.execute('INSERT INTO Set (id, name) VALUES(%s,%s)', sets)
 pgConn.commit()
 
 
-tournaments = [(1,'tournament1', '1', '1', 20160223)]
+tournaments = [1,'tournament1', '1', '1', 20160223]
 
 #args_str = ','.join(pgCursor.mogrify('(%s,%s,%s,%s,%s)', x) for x in tournaments)
 pgCursor.execute('INSERT INTO Tournament (id, name, type, set_id, date) VALUES(%s,%s,%s,%s,%s)', tournaments)
