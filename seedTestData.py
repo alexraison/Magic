@@ -35,7 +35,7 @@ entities = [(1,),
 			(4,)]
 
 #args_str = ','.join(pgCursor.mogrify('(%s)', x) for x in entities)
-pgCursor.executemany('INSERT INTO Entity (id) VALUES(%s)', [entities])
+pgCursor.executemany('INSERT INTO Entity (id) VALUES(%s)', entities)
 pgConn.commit()
 
 
