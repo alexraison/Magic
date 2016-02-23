@@ -29,10 +29,10 @@ pgCursor.executemany('INSERT INTO player (id, username, password, name, email) V
 pgConn.commit()
 
 
-entities = [1,
-			2,
-			3,
-			4]
+entities = [(1),
+			(2),
+			(3),
+			(4)]
 
 #args_str = ','.join(pgCursor.mogrify('(%s)', x) for x in entities)
 pgCursor.executemany('INSERT INTO Entity (id) VALUES(%s)', entities)
