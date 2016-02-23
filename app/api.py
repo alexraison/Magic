@@ -5,7 +5,7 @@ from app.models import Player, Tournament, Match, Set, Statistics, TournamentTyp
 import smtplib
 import json
 from itertools import combinations
-from post import slack_bot
+from app.post import slack_bot
 
 from app import db
 
