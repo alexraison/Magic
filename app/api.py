@@ -428,7 +428,7 @@ def emailResults(id):
 #############################################
 # Post to Slack
 ############################################# 
-def slackResults(id);
+def slackResults(id):
 
 	open('results.settings') as config:
 		self.settings = json.loads(config.read())
