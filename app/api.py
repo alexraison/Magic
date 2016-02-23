@@ -443,7 +443,7 @@ def slackResults(id):
 		for idx, player in enumerate(row.entity.participants):
 			if idx > 1:
 				outPlayers += ' & '
-			outPlayers += row.entity.player.name
+			outPlayers += row.entity.participants.player.name
 		outPlayers += '\n'
 
 		outPosition += '{!s}\n'.format(row.Position)
