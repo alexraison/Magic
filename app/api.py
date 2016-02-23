@@ -436,21 +436,22 @@ def slackResults(id):
 	results_bot = slack_bot(settings['results_channel_url'], settings['results_channel_name'], settings['results_bot_name'], settings['results_bot_icon'])
 
 	tournament = getTournamentResults(id)
+	outPlayers = ''
 
 	title = getTournamentName(id) + ' Results'
 	for row in tournament:
-		for idx, player in enumerate(tournament.entity.participants):
+		for idx, player in enumerate(row.entity.participants):
 			if idx > 1:
-				outPlayers = ' & '
-			outPlayers += tournament.player.player.name
+				outPlayers += ' & '
+			outPlayers += row.player.player.name
 		outPlayers += '\n'
 
-		outPosition += '{!s}\n'.format(tournament.Position)
-		outMatchWins += '{!s}\n'.format(tournament.match_wins)
-		outMatchLosses += '{!s}\n'.format(tournament.match_losses)
-		outGameWins += '{!s}\n'.format(tournament.game_wins)
-		outGameLosses += '{!s}\n'.format(tournament.game_losses)
-		outPercentage += '{!s}\n'.format(tournament.game_win_percentage)
+		outPosition += '{!s}\n'.format(row.Position)
+		outMatchWins += '{!s}\n'.format(row.match_wins)
+		outMatchLosses += '{!s}\n'.format(row.match_losses)
+		outGameWins += '{!s}\n'.format(row.game_wins)
+		outGameLosses += '{!s}\n'.format(row.game_losses)
+		outPercentage += '{!s}\n'.format(row.game_win_percentage)
 
 
 	results_bot.post_results_message(title, outPlayers, outPosition, outMatchWins, outMatchLosses, outGameWins, outGameLosses, outPercentage)
