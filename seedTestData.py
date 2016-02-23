@@ -25,7 +25,7 @@ players = [(1,'test1', 'password', 'test 1', 'test1@test.com'),
 		  (3,'test3', 'password', 'test 3', 'test3@test.com'),
 		  (4,'test4', 'password', 'test 4', 'test4@test.com')]
 
-args_str = ','.join(pgCursor.mogrify("(%s,%s,%s,%s,%s)", x) for x in players)
+args_str = ','.join(pgCursor.mogrify('(%s,%s,%s,%s,%s)', x) for x in players)
 pgCursor.execute('INSERT INTO player (id, username, password, name, email) VALUES ' + args_str)
 pgConn.commit()
 
@@ -36,7 +36,7 @@ entityparticipants = [(1,1),
 					  (4,4)]
 
 
-args_str = ','.join(pgCursor.mogrify("(%s,%s)", x) for x in entityparticipants)
+args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in entityparticipants)
 pgCursor.execute('INSERT INTO EntityParticipant (entity_id, player_id) VALUES ' + args_str)
 pgConn.commit()
 
@@ -46,7 +46,7 @@ entities = [1,
 			3,
 			4]
 
-args_str = ','.join(pgCursor.mogrify("(%s", x) for x in entities)
+args_str = ','.join(pgCursor.mogrify('(%s)', x) for x in entities)
 pgCursor.execute('INSERT INTO Entity (id) VALUES ' + args_str)
 pgConn.commit()
 
@@ -54,7 +54,7 @@ matchparticipants = [(1,1,0),
 					 (1,2,0)]
 
 
-args_str = ','.join(pgCursor.mogrify("(%s,%s,%s)", x) for x in matchparticipants)
+args_str = ','.join(pgCursor.mogrify('(%s,%s,%s)', x) for x in matchparticipants)
 pgCursor.execute('INSERT INTO MatchParticipant (match_id, entity_id, game_wins) VALUES ' + args_str)
 pgConn.commit()
 
@@ -62,27 +62,27 @@ pgConn.commit()
 matches = [(1,1),
 		   (1,1)]
 
-args_str = ','.join(pgCursor.mogrify("(%s,%s)", x) for x in matches)
+args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in matches)
 pgCursor.execute('INSERT INTO Match (tournament_id, match_id) VALUES ' + args_str)
 pgConn.commit()
 
 
 tournaments = (1,'tournament1', '1', '1', 20160223)
 
-args_str = ','.join(pgCursor.mogrify("(%s,%s,%s,%s,%s)", x) for x in tournaments)
+args_str = ','.join(pgCursor.mogrify('(%s,%s,%s,%s,%s)', x) for x in tournaments)
 pgCursor.execute('INSERT INTO Tournament (id, name, type, set_id, date) VALUES ' + args_str)
 pgConn.commit()
 
 
 tournamenttypes = (1,'test', 2)
 
-args_str = ','.join(pgCursor.mogrify("(%s,%s,%s)", x) for x in tournamenttypes)
+args_str = ','.join(pgCursor.mogrify('(%s,%s,%s)', x) for x in tournamenttypes)
 pgCursor.execute('INSERT INTO TournamentType (id, name, game_wins_required) VALUES ' + args_str)
 pgConn.commit()
 
 
 sets = (1,'test')
 
-args_str = ','.join(pgCursor.mogrify("(%s,%s)", x) for x in tournamenttypes)
+args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in tournamenttypes)
 pgCursor.execute('INSERT INTO Set (id, name) VALUES ' + args_str)
 pgConn.commit()
