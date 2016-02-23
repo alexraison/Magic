@@ -428,12 +428,12 @@ def emailResults(id):
 #############################################
 # Post to Slack
 ############################################# 
-def slackResults(self, id):
+def slackResults(id):
 
 	with open('app/results.settings') as config:
-		self.settings = json.loads(config.read())
+		settings = json.loads(config.read())
 
-	self.results_bot = slack_bot(self.settings['results_channel_url'], self.settings['results_channel_name'], self.settings['results_bot_name'], self.settings['results_bot_icon'], live)
+	results_bot = slack_bot(self.settings['results_channel_url'], self.settings['results_channel_name'], self.settings['results_bot_name'], self.settings['results_bot_icon'], live)
 
 	tournament = getTournamentResults(id)
 
