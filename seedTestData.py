@@ -50,10 +50,11 @@ pgCursor.executemany('INSERT INTO Entity_Participant (entity_id, player_id) VALU
 pgConn.commit()
 
 
-tournamenttypes = (1,'test', 2)
+tournamenttypes = [(1,'test', 2),
+				   (2,'test2',2)]
 
 #args_str = ','.join(pgCursor.mogrify('(%s,%s,%s)', x) for x in tournamenttypes)
-pgCursor.executemany('INSERT INTO Tournament_Type (id, name, game_wins_required) VALUES(%s,%s,%s)', tournamenttypes)
+pgCursor.executemany('INSERT INTO Tournament_Type (id, name, game_wins_required) VALUES(%s,%s,%s)', [tournamenttypes])
 pgConn.commit()
 
 
