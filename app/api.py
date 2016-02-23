@@ -430,7 +430,7 @@ def emailResults(id):
 ############################################# 
 def slackResults(id):
 
-	with open('app.results.settings') as config:
+	with open('app/results.settings') as config:
 		self.settings = json.loads(config.read())
 
 	self.results_bot = slack_bot(self.settings['results_channel_url'], self.settings['results_channel_name'], self.settings['results_bot_name'], self.settings['results_bot_icon'], live)
