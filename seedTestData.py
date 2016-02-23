@@ -76,7 +76,7 @@ matches = [(1,1),
 		   (1,1)]
 
 #args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in matches)
-pgCursor.executemany('INSERT INTO Match (tournament_id, match_id) VALUES(%s,%s)', matches)
+pgCursor.executemany('INSERT INTO Match (id, tournament_id) VALUES(%s,%s)', matches)
 pgConn.commit()
 
 
