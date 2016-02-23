@@ -439,9 +439,9 @@ def slackResults(id):
 
 	title = getTournamentName(id) + ' Results'
 	for row in tournament:
-		for idx, player in enumerate(row.entity.participants):
+		for idx, player in enumerate(tournament.entity.participants):
 			if idx > 1:
-				outPlayers += ' & '
+				outPlayers = ' & '
 			outPlayers += tournament.player.player.name
 		outPlayers += '\n'
 
