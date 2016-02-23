@@ -72,11 +72,10 @@ pgCursor.execute('INSERT INTO Tournament (id, name, type, set_id, date) VALUES(%
 pgConn.commit()
 
 
-matches = [(1,1),
-		   (1,1)]
+matches = [1,1]
 
 #args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in matches)
-pgCursor.executemany('INSERT INTO Match (id, tournament_id) VALUES(%s,%s)', matches)
+pgCursor.execute('INSERT INTO Match (id, tournament_id) VALUES(%s,%s)', matches)
 pgConn.commit()
 
 
