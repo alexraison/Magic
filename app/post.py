@@ -101,7 +101,7 @@ class slack_bot:
         }
 		message['attachments'] = [attachment]
 		payload = {'payload':json.dumps(message)}
-		self._send_or_simulate(payload, 'simulating post of multi-line message: {!s}'.format(message_text))
+		self._send_or_simulate(payload, 'simulating post of multi-line message')
 
 	def _send_or_simulate(self, payload, simulate_text):
 		if self.live:
