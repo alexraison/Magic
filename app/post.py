@@ -72,6 +72,11 @@ class slack_bot:
                     'short': "true"
                 },
                 {
+                    'title': "Game Win %",
+                    'value': percentage,
+                    'short': "true"
+                },
+                {
                     'title': "Match Wins",
                     'value': matchWins,
                     'short': "true"
@@ -90,12 +95,8 @@ class slack_bot:
                     'title': "Game Losses",
                     'value': gameLosses,
                     'short': "true"
-                },
-                {
-                    'title': "Game Win %",
-                    'value': percentage,
-                    'short': "true"
                 }
+                
             ],
             'color': "#F35A00"
         }
