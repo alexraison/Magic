@@ -23,7 +23,11 @@ pgCursor = pgConn.cursor()
 players = [(1,'test1', 'password', 'test 1', 'test1@test.com'),
 		  (2,'test2', 'password', 'test 2', 'test2@test.com'),
 		  (3,'test3', 'password', 'test 3', 'test3@test.com'),
-		  (4,'test4', 'password', 'test 4', 'test4@test.com')]
+		  (4,'test4', 'password', 'test 4', 'test4@test.com'),
+		  (5,'test5', 'password', 'test 5', 'test1@test.com'),
+		  (6,'test6', 'password', 'test 6', 'test2@test.com'),
+		  (7,'test7', 'password', 'test 7', 'test3@test.com'),
+		  (8,'test8', 'password', 'test 8', 'test4@test.com'),
 
 pgCursor.executemany('INSERT INTO player (id, username, password, name, email) VALUES(%s,%s,%s,%s,%s)', players)
 pgConn.commit()
@@ -32,7 +36,11 @@ pgConn.commit()
 entities = [(1,),
 			(2,),
 			(3,),
-			(4,)]
+			(4,),
+			(5,),
+			(6,),
+			(7,),
+			(8,)]
 
 #args_str = ','.join(pgCursor.mogrify('(%s)', x) for x in entities)
 pgCursor.executemany('INSERT INTO Entity (id) VALUES(%s)', entities)
@@ -42,7 +50,11 @@ pgConn.commit()
 entityparticipants = [(1,1),
 					  (2,2),
 					  (3,3),
-					  (4,4)]
+					  (4,4),
+					  (5,5),
+					  (6,6),
+					  (7,7),
+					  (8,8)]
 
 
 #args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in entityparticipants)
