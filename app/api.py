@@ -436,7 +436,7 @@ def slackResults(id):
 	results_bot = slack_bot(settings['results_channel_url'], settings['results_channel_name'], settings['results_bot_name'], settings['results_bot_icon'])
 
 	tournament = getTournamentResults(id)
-	
+
 	outPlayers = ''
 	outPosition = ''
 	outMatchWins = ''
@@ -455,12 +455,12 @@ def slackResults(id):
 			outPlayers += player.player.name
 		outPlayers += '\n'
 
-		outPosition += '{!s}\n'.format(row.Position)
+		outPosition += '{!s}\n'.format(row.position)
 		outMatchWins += '{!s}\n'.format(row.match_wins)
 		outMatchLosses += '{!s}\n'.format(row.match_losses)
 		outGameWins += '{!s}\n'.format(row.game_wins)
 		outGameLosses += '{!s}\n'.format(row.game_losses)
-		outPercentage += '{!s}\n'.format(row.game_win_percentage)
+		outPercentage += '{!s}%\n'.format(row.game_win_percentage)
 
 
 	results_bot.post_results_message(title, outPlayers, outPosition, outMatchWins, outMatchLosses, outGameWins, outGameLosses, outPercentage)
