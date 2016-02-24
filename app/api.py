@@ -456,7 +456,7 @@ def slackResults(id):
 			outPlayers += player.player.name
 
 		outPosition += '{!s}.   {!s}\n'.format(row.position, outPlayers)
-		outPercentage += '{!s}:   {!s}%\n'.format(outPlayers, row.game_win_percentage)
+		outPercentage += '{!s}:   {!s}%\n'.format(outPlayers, round(row.game_win_percentage,1)
 		outMatchWins += '{!s}:   {!s}\n'.format(outPlayers, row.match_wins)
 		outMatchLosses += '{!s}:   {!s}\n'.format(outPlayers, row.match_losses)
 		outGameWins += '{!s}:   {!s}\n'.format(outPlayers, row.game_wins)
