@@ -68,7 +68,7 @@ class slack_bot:
                 },
                 {
                     'title': "Game Win %",
-                    'value': percentage,
+                    'value': '     ' + percentage,
                     'short': "true"
                 }               
 
