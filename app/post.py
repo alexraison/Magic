@@ -5,7 +5,7 @@ import datetime
 
 class slack_bot:
 
-	def __init__(self, hook_url, channel_name, bot_name, bot_icon, live=False):
+	def __init__(self, hook_url, channel_name, bot_name, bot_icon, live=True):
 		self.hook_url = hook_url
 		self.default_message = {
 		#'channel': channel_name,
