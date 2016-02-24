@@ -64,37 +64,37 @@ class slack_bot:
                 {
                     'title': "Player",
                     'value': player,
-                    'short': true
+                    'short': "true"
                 },
                 {
                     'title': "Position",
                     'value': position,
-                    'short': true
+                    'short': "true"
                 },
                 {
                     'title': "Match Wins",
                     'value': matchWins,
-                    'short': true
+                    'short': "true"
                 },
                 {
                     'title': "Match Losses",
                     'value': matchLosses,
-                    'short': true
+                    'short': "true"
                 },
                 {
                     'title': "Game Wins",
                     'value': gameWins,
-                    'short': true
+                    'short': "true"
                 },
                 {
                     'title': "Game Losses",
                     'value': gameLosses,
-                    'short': true
+                    'short': "true"
                 },
                 {
                     'title': "Game Win %",
                     'value': percentage,
-                    'short': true
+                    'short': "true"
                 }
             ],
             'color': "#F35A00"
