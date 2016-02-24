@@ -77,21 +77,10 @@ class slack_bot:
                     'short': "true"
                 },
                 {
-                    'title': "Match Losses",
-                    'value': matchLosses,
-                    'short': "true"
-                },
-                {
                     'title': "Game Wins",
                     'value': gameWins,
                     'short': "true"
-                },
-                {
-                    'title': "Game Losses",
-                    'value': gameLosses,
-                    'short': "true"
                 }
-                
             ],
             'color': "#F35A00"
         }
