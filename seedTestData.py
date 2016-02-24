@@ -27,7 +27,7 @@ players = [(1,'test1', 'password', 'test 1', 'test1@test.com'),
 		  (5,'test5', 'password', 'test 5', 'test1@test.com'),
 		  (6,'test6', 'password', 'test 6', 'test2@test.com'),
 		  (7,'test7', 'password', 'test 7', 'test3@test.com'),
-		  (8,'test8', 'password', 'test 8', 'test4@test.com'),
+		  (8,'test8', 'password', 'test 8', 'test4@test.com')]
 
 pgCursor.executemany('INSERT INTO player (id, username, password, name, email) VALUES(%s,%s,%s,%s,%s)', players)
 pgConn.commit()
