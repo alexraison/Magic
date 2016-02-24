@@ -436,7 +436,15 @@ def slackResults(id):
 	results_bot = slack_bot(settings['results_channel_url'], settings['results_channel_name'], settings['results_bot_name'], settings['results_bot_icon'])
 
 	tournament = getTournamentResults(id)
+	
 	outPlayers = ''
+	outPosition = ''
+	outMatchWins = ''
+	outMatchLosses = ''
+	outGameWins = ''
+	outGameLosses = ''
+	outPercentage = ''
+
 	print(tournament)
 
 	title = getTournamentName(id) + ' Results'
