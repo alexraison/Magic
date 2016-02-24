@@ -456,12 +456,12 @@ def slackResults(id):
 			outPlayers += player.player.name
 		#outPlayers += '\n'
 
-		outPosition += '{!s}: {!s}\n'.format(outPlayers, row.position)
-		outPercentage += '{!s}: {!s}%\n'.format(outPlayers, row.game_win_percentage)
-		outMatchWins += '{!s}: {!s}\n'.format(outPlayers, row.match_wins)
-		outMatchLosses += '{!s}: {!s}\n'.format(outPlayers, row.match_losses)
-		outGameWins += '{!s}: {!s}\n'.format(outPlayers, row.game_wins)
-		outGameLosses += '{!s}: {!s}\n'.format(outPlayers, row.game_losses)
+		outPosition += '{!s}:   {!s}\n'.format(outPlayers, row.position)
+		outPercentage += '{!s}:   {!s}%\n'.format(outPlayers, row.game_win_percentage)
+		outMatchWins += '{!s}:   {!s}\n'.format(outPlayers, row.match_wins)
+		outMatchLosses += '{!s}:   {!s}\n'.format(outPlayers, row.match_losses)
+		outGameWins += '{!s}:   {!s}\n'.format(outPlayers, row.game_wins)
+		outGameLosses += '{!s}:   {!s}\n'.format(outPlayers, row.game_losses)
 		
 
 

@@ -61,11 +61,11 @@ class slack_bot:
 		attachment = {
 			'title': title,
             'fields': [
-                {
-                    'title': "Player",
-                    'value': player,
-                    'short': "true"
-                },
+                #{
+                #    'title': "Player",
+                #    'value': player,
+                #    'short': "true"
+                #},
                 {
                     'title': "Position",
                     'value': position,
