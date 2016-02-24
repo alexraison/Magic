@@ -65,7 +65,7 @@ pgCursor.execute('INSERT INTO Set (id, name) VALUES(%s,%s)', sets)
 pgConn.commit()
 
 
-tournaments = [1,'tournament1', '1', '1', '2016-02-23']
+tournaments = [1,'tournament1', 1, 1, '2016-02-23']
 
 #args_str = ','.join(pgCursor.mogrify('(%s,%s,%s,%s,%s)', x) for x in tournaments)
 pgCursor.execute('INSERT INTO Tournament (id, name, type, set_id, date) VALUES(%s,%s,%s,%s,%s)', tournaments)
