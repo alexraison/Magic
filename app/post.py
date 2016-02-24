@@ -56,16 +56,11 @@ class slack_bot:
 		payload = {'payload':json.dumps(message)}
 		self._send_or_simulate(payload, 'simulating post of multi-line message: {!s}'.format(message_text))
 
-	def post_results_message(self, title, player, position, matchWins, matchLosses, gameWins, gameLosses, percentage):
+	def post_results_message(self, title, position, matchWins, matchLosses, gameWins, gameLosses, percentage):
 		message = self.default_message.copy()
 		attachment = {
 			'title': title,
             'fields': [
-                #{
-                #    'title': "Player",
-                #    'value': player,
-                #    'short': "true"
-                #},
                 {
                     'title': "Position",
                     'value': position,
