@@ -75,16 +75,19 @@ def addPositions(statistics):
 	sortedList = sorted(statistics, key = lambda x: (x['match_win_percentage'], x['game_win_percentage']), reverse=True)
 	
 	position = 0
+	playerNumber = 0
 	savedPosition = 0
 	savedMatchWinPercentage = 0
 	savedGameWinPercentage = 0
 
 	for player in sortedList:
 
+		playerNumber += 1
+
 		if player['match_win_percentage'] == savedMatchWinPercentage and player['game_win_percentage'] == savedGameWinPercentage:
 			player['position'] = savedPosition
 		else:
-			savedPosition += 1
+			savedPosition = playerNumber
 			player['position'] = savedPosition
 			savedMatchWinPercentage = player['match_win_percentage']
 			savedGameWinPercentage = player['game_win_percentage']	
@@ -222,16 +225,19 @@ def rebuildStatistics(tournamentId):
 	db.session.commit()
 
 	position = 0
+	playerNumber = 0
 	savedPosition = 0
 	savedMatchWins = 0
 	savedGameWinPercentage = 0
 
 	for player in Statistics.query.filter(Statistics.tournament_id == tournamentId).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc()).all():
 
+ 		playerNumber += 1
+
 		if player.match_wins == savedMatchWins and player.game_win_percentage == savedGameWinPercentage:
 			player.position = savedPosition
 		else:
-			savedPosition += 1
+			savedPosition = playerNumber
 			player.position = savedPosition
 			savedMatchWins = player.match_wins
 			savedGameWinPercentage = player.game_win_percentage
