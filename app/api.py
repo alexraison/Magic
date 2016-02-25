@@ -17,6 +17,7 @@ def getTypeFromLiteral(typeLiteral):
 	if typeLiteral == 'NORMAL':
 		type = TournamentType.query.filter(TournamentType.description == 'Normal').first()
 
+
 	if typeLiteral == 'TWOHEADEDGIANT':
 		type = TournamentType.query.filter(TournamentType.description == 'Two Headed Giant').first()
 
@@ -79,13 +80,13 @@ def addPositions(statistics):
 	savedMatchWinPercentage = 0
 	savedGameWinPercentage = 0
 
-	for player in sortedList:
+	for idx, player in enumerate(sortedList):
 
 		if player['match_win_percentage'] == savedMatchWinPercentage and player['game_win_percentage'] == savedGameWinPercentage:
 			player['position'] = savedPosition
 		else:
 			savedPosition += 1
-			player['position'] = savedPosition
+			player['position'] = idx
 			savedMatchWinPercentage = player['match_win_percentage']
 			savedGameWinPercentage = player['game_win_percentage']	
 	
