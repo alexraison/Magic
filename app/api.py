@@ -84,9 +84,9 @@ def addPositions(statistics):
 
 		if player['match_win_percentage'] == savedMatchWinPercentage and player['game_win_percentage'] == savedGameWinPercentage:
 			player['position'] = savedPosition
-		else:
-			savedPosition += 1
-			player['position'] = idx
+		else:		
+			player['position'] = idx + 1
+			savedPosition = idx + 1
 			savedMatchWinPercentage = player['match_win_percentage']
 			savedGameWinPercentage = player['game_win_percentage']	
 	
