@@ -195,7 +195,7 @@ def rebuildStatistics(tournamentId):
 	sql = '''DELETE FROM statistics WHERE tournament_id = ''' + str(tournamentId)
 
 	db.session.execute(sql)
-	db.session.commit(sql)
+	db.session.commit()
 
 	sql = '''INSERT INTO statistics (tournament_id, entity_id, game_wins, game_losses, match_wins, match_losses, matches_unfinished)
 				SELECT m.tournament_id, mp.entity_id, 
