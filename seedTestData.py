@@ -20,5 +20,80 @@ pgConn = psycopg2.connect(
 
 pgCursor = pgConn.cursor()
 
-pgCursor.execute('INSERT INTO player (username, password, name, email) VALUES(%s, %s, %s, %s)', ['test', 'password', 'Test Name', 'email@email.com'])
+players = [(1,'test1', 'password', 'test 1', 'test1@test.com'),
+		  (2,'test2', 'password', 'test 2', 'test2@test.com'),
+		  (3,'test3', 'password', 'test 3', 'test3@test.com'),
+		  (4,'test4', 'password', 'test 4', 'test4@test.com'),
+		  (5,'test5', 'password', 'test 5', 'test1@test.com'),
+		  (6,'test6', 'password', 'test 6', 'test2@test.com'),
+		  (7,'test7', 'password', 'test 7', 'test3@test.com'),
+		  (8,'test8', 'password', 'test 8', 'test4@test.com')]
+
+pgCursor.executemany('INSERT INTO player (id, username, password, name, email) VALUES(%s,%s,%s,%s,%s)', players)
+pgConn.commit()
+
+
+entities = [(1,),
+			(2,),
+			(3,),
+			(4,),
+			(5,),
+			(6,),
+			(7,),
+			(8,)]
+
+#args_str = ','.join(pgCursor.mogrify('(%s)', x) for x in entities)
+pgCursor.executemany('INSERT INTO Entity (id) VALUES(%s)', entities)
+pgConn.commit()
+
+
+entityparticipants = [(1,1),
+					  (2,2),
+					  (3,3),
+					  (4,4),
+					  (5,5),
+					  (6,6),
+					  (7,7),
+					  (8,8)]
+
+
+#args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in entityparticipants)
+pgCursor.executemany('INSERT INTO Entity_Participant (entity_id, player_id) VALUES(%s,%s)', entityparticipants)
+pgConn.commit()
+
+
+tournamenttypes = [(1,'Normal', 2),
+				   (2,'Normal', 2)]
+
+#args_str = ','.join(pgCursor.mogrify('(%s,%s,%s)', x) for x in tournamenttypes)
+pgCursor.executemany('INSERT INTO Tournament_Type (id, description, game_wins_required) VALUES(%s,%s,%s)', tournamenttypes)
+pgConn.commit()
+
+
+sets = [1,'test']
+
+#args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in tournamenttypes)
+pgCursor.execute('INSERT INTO Set (id, name) VALUES(%s,%s)', sets)
+pgConn.commit()
+
+
+tournaments = [1,'tournament1', 1, 1, '2016-02-23']
+
+#args_str = ','.join(pgCursor.mogrify('(%s,%s,%s,%s,%s)', x) for x in tournaments)
+pgCursor.execute('INSERT INTO Tournament (id, name, type, set_id, date) VALUES(%s,%s,%s,%s,%s)', tournaments)
+pgConn.commit()
+
+
+matches = [1,1]
+
+#args_str = ','.join(pgCursor.mogrify('(%s,%s)', x) for x in matches)
+pgCursor.execute('INSERT INTO Match (id, tournament_id) VALUES(%s,%s)', matches)
+pgConn.commit()
+
+
+matchparticipants = [(1,1,0),
+					 (1,2,0)]
+
+#args_str = ','.join(pgCursor.mogrify('(%s,%s,%s)', x) for x in matchparticipants)
+pgCursor.executemany('INSERT INTO Match_Participant (match_id, entity_id, game_wins) VALUES(%s,%s,%s)', matchparticipants)
 pgConn.commit()

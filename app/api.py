@@ -3,7 +3,9 @@ from sqlalchemy.sql import text
 from datetime import date
 from app.models import Player, Tournament, Match, Set, Statistics, TournamentType, Entity, EntityParticipant, MatchParticipant
 import smtplib
+import json
 from itertools import combinations
+from app.post import slack_bot
 
 from app import db
 
@@ -278,6 +280,10 @@ def updateMatchResult(matchId, entityResults):
 
 	rebuildStatistics(matchParticipant.matches.tournament.id)
 
+	if not unfinishedMatchesInTournament(matchParticipant.matches.tournament.id):
+		slackResults(matchParticipant.matches.tournament.id)
+
+
 ############################################################
 # Player APIs
 ############################################################
@@ -391,31 +397,35 @@ def setExists(id):
 	return Set.query.filter(Set.id == id).first() is not None
 
 #############################################
-# Email Results
+# Post to Slack
 ############################################# 
-def emailResults(id):
+def slackResults(id):
 
-	GMAIL_USERNAME = 'jhcmagictournaments@gmail.com'
-	GMAIL_PASSWORD = 'jhcmagicpassword'
+	with open('app/results.settings') as config:
+		settings = json.loads(config.read())
+
+	results_bot = slack_bot(settings['results_channel_url'], settings['results_channel_name'], settings['results_bot_name'], settings['results_bot_icon'])
 
 	tournament = getTournamentResults(id)
-	email_subject = tournament.name + ' Results'
-	recipient_list = ', '.join([str(player.email) for player in Player.query.filter(Player.email != None).all()])
 
-	body_of_email = render_template("email_results.html", tournament=tournament)
+	outPlayers = ''
+	outPosition = ''
+	outMatchWins = ''
+	outMatchLosses = ''
+	outGameWins = ''
+	outGameLosses = ''
+	outPercentage = ''
 
-	session = smtplib.SMTP('smtp.gmail.com', 587)
-	session.ehlo()
-	session.starttls()
-	session.login(GMAIL_USERNAME, GMAIL_PASSWORD)
+	title = getTournamentName(id) + ' Results'
+	for row in tournament:
+		for idx, player in enumerate(row.entity.participants):
+			outPlayers = ''
+			if idx > 1:
+				outPlayers += ' & '
+			outPlayers += player.player.name
 
-	headers = "\r\n".join(["from: " + GMAIL_USERNAME,
-	                       "subject: " + email_subject,
-	                       "to: " + recipient_list,
-	                       "mime-version: 1.0",
-	                       "content-type: text/html"])
-              
-	content = headers + "\r\n\r\n" + body_of_email
+		outPercentage += '-\t{!s}%\n'.format(round(row.game_win_percentage,1))
+		outMatchWins += '{!s}. {!s} :   {!s} / {!s}\n'.format(row.position, outPlayers, row.match_wins, row.match_losses)
 
-	session.sendmail(GMAIL_USERNAME, recipients, content)
+	results_bot.post_results_message(title, outMatchWins, outPercentage)
 

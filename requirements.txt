@@ -16,3 +16,5 @@ SQLAlchemy==1.0.11
 Werkzeug==0.11.3
 wheel==0.26.0
 WTForms==2.1
+requests==2.9.1
+
