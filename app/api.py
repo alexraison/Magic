@@ -397,35 +397,6 @@ def setExists(id):
 	return Set.query.filter(Set.id == id).first() is not None
 
 #############################################
-# Email Results
-############################################# 
-def emailResults(id):
-
-	GMAIL_USERNAME = 'jhcmagictournaments@gmail.com'
-	GMAIL_PASSWORD = 'jhcmagicpassword'
-
-	tournament = getTournamentResults(id)
-	email_subject = tournament.name + ' Results'
-	recipient_list = ', '.join([str(player.email) for player in Player.query.filter(Player.email != None).all()])
-
-	body_of_email = render_template("email_results.html", tournament=tournament)
-
-	session = smtplib.SMTP('smtp.gmail.com', 587)
-	session.ehlo()
-	session.starttls()
-	session.login(GMAIL_USERNAME, GMAIL_PASSWORD)
-
-	headers = "\r\n".join(["from: " + GMAIL_USERNAME,
-	                       "subject: " + email_subject,
-	                       "to: " + recipient_list,
-	                       "mime-version: 1.0",
-	                       "content-type: text/html"])
-              
-	content = headers + "\r\n\r\n" + body_of_email
-
-	session.sendmail(GMAIL_USERNAME, recipients, content)
-
-#############################################
 # Post to Slack
 ############################################# 
 def slackResults(id):
@@ -444,8 +415,6 @@ def slackResults(id):
 	outGameWins = ''
 	outGameLosses = ''
 	outPercentage = ''
-
-	print(tournament)
 
 	title = getTournamentName(id) + ' Results'
 	for row in tournament:
