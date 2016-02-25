@@ -195,7 +195,7 @@ def rebuildStatistics(tournamentId):
 	sql = '''DELETE FROM statistics WHERE tournament_id = ''' + str(tournamentId)
 
 	db.session.execute(sql)
-	db.session.execute(sql)
+	db.session.commit(sql)
 
 	sql = '''INSERT INTO statistics (tournament_id, entity_id, game_wins, game_losses, match_wins, match_losses, matches_unfinished)
 				SELECT m.tournament_id, mp.entity_id, 
@@ -227,13 +227,13 @@ def rebuildStatistics(tournamentId):
 	savedMatchWins = 0
 	savedGameWinPercentage = 0
 
-	for player in Statistics.query.filter(Statistics.tournament_id == tournamentId).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc()).all():
+	for idx, player in enumerate(Statistics.query.filter(Statistics.tournament_id == tournamentId).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc()).all()):
 
 		if player.match_wins == savedMatchWins and player.game_win_percentage == savedGameWinPercentage:
 			player.position = savedPosition
 		else:
-			savedPosition += 1
-			player.position = savedPosition
+			player.position = idx + 1
+			savedPosition = idx + 1
 			savedMatchWins = player.match_wins
 			savedGameWinPercentage = player.game_win_percentage
 
