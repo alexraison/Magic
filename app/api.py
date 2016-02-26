@@ -412,7 +412,7 @@ def slackResults(id):
 	outMatchWins = ''
 	outPercentage = ''
 
-	playerList = []
+	playerList = ['zero']
 
 	title = getTournamentName(id) + ' Results'
 	for row in tournament:
