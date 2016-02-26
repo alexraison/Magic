@@ -424,7 +424,7 @@ def slackResults(id):
 			playerList[i] = (playerName)
 
 	if playerList[1] = 'Mike':
-		text = '@channel, bow down to your rightful champion, Mike Burns!'	
+		text == '@channel, bow down to your rightful champion, Mike Burns!'	
 
 	for i, row in tournament:
 		space = '  '
