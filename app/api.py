@@ -17,6 +17,7 @@ def getTypeFromLiteral(typeLiteral):
 	if typeLiteral == 'NORMAL':
 		type = TournamentType.query.filter(TournamentType.description == 'Normal').first()
 
+
 	if typeLiteral == 'TWOHEADEDGIANT':
 		type = TournamentType.query.filter(TournamentType.description == 'Two Headed Giant').first()
 
@@ -79,13 +80,13 @@ def addPositions(statistics):
 	savedMatchWinPercentage = 0
 	savedGameWinPercentage = 0
 
-	for player in sortedList:
+	for idx, player in enumerate(sortedList):
 
 		if player['match_win_percentage'] == savedMatchWinPercentage and player['game_win_percentage'] == savedGameWinPercentage:
 			player['position'] = savedPosition
-		else:
-			savedPosition += 1
-			player['position'] = savedPosition
+		else:		
+			player['position'] = idx + 1
+			savedPosition = idx + 1
 			savedMatchWinPercentage = player['match_win_percentage']
 			savedGameWinPercentage = player['game_win_percentage']	
 	
@@ -194,7 +195,7 @@ def rebuildStatistics(tournamentId):
 	sql = '''DELETE FROM statistics WHERE tournament_id = ''' + str(tournamentId)
 
 	db.session.execute(sql)
-	db.session.execute(sql)
+	db.session.commit()
 
 	sql = '''INSERT INTO statistics (tournament_id, entity_id, game_wins, game_losses, match_wins, match_losses, matches_unfinished)
 				SELECT m.tournament_id, mp.entity_id, 
@@ -226,13 +227,13 @@ def rebuildStatistics(tournamentId):
 	savedMatchWins = 0
 	savedGameWinPercentage = 0
 
-	for player in Statistics.query.filter(Statistics.tournament_id == tournamentId).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc()).all():
+	for idx, player in enumerate(Statistics.query.filter(Statistics.tournament_id == tournamentId).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc()).all()):
 
 		if player.match_wins == savedMatchWins and player.game_win_percentage == savedGameWinPercentage:
 			player.position = savedPosition
 		else:
-			savedPosition += 1
-			player.position = savedPosition
+			player.position = idx + 1
+			savedPosition = idx + 1
 			savedMatchWins = player.match_wins
 			savedGameWinPercentage = player.game_win_percentage
 
