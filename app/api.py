@@ -416,24 +416,24 @@ def slackResults(id):
 	playerList = []
 
 	title = getTournamentName(id) + ' Results'
-	for i, row in tournament:
+	for row in tournament:
 		for idx, player in enumerate(row.entity.participants):
 			if idx > 1:
 				outPlayers += ' & '
 			playerName += player.player.name
-			playerList[i] = (playerName)
+			playerList[row.position] = (playerName)
 
 	if playerList[1] == 'Mike':
 		text = '@channel, bow down to your rightful champion, Mike Burns!'	
 
-	for i, row in tournament:
+	for row in tournament:
 		space = ' '
-		additionalLength = max(playerList, key=len) - len(playerList[i])
+		additionalLength = max(playerList, key=len) - len(playerList[row.position])
 		for i in range(0,additionalLength):
 			space += ' '
 
 		outPercentage += '{!s}.\t{!s}%\n'.format(row.position, round(row.game_win_percentage,1))
-		outMatchWins += '{!s}. {!s} :{!s}{!s} / {!s}\n'.format(row.position, playerList[i], space, row.match_wins, row.match_losses)
+		outMatchWins += '{!s}. {!s} :{!s}{!s} / {!s}\n'.format(row.position, playerList[row.position], space, row.match_wins, row.match_losses)
 
 	results_bot.post_results_message(title, text, outMatchWins, outPercentage)
 
