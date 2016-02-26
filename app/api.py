@@ -409,7 +409,6 @@ def slackResults(id):
 
 	tournament = getTournamentResults(id)
 
-	outPlayers = ''
 	outMatchWins = ''
 	outPercentage = ''
 
@@ -418,8 +417,9 @@ def slackResults(id):
 	title = getTournamentName(id) + ' Results'
 	for row in tournament:
 		for idx, player in enumerate(row.entity.participants):
+			playerName = ''
 			if idx > 1:
-				outPlayers += ' & '
+				playerName += ' & '
 			playerName += player.player.name
 			playerList[row.position] = (playerName)
 
