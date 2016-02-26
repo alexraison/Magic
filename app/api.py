@@ -421,7 +421,7 @@ def slackResults(id):
 			if idx > 1:
 				playerName += ' & '
 			playerName += player.player.name
-			playerList[row.position] = (playerName)
+			playerList.insert(row.position, playerName)
 
 	if playerList[1] == 'Mike':
 		text = '@channel, bow down to your rightful champion, Mike Burns!'	
