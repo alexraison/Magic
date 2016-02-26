@@ -428,7 +428,7 @@ def slackResults(id):
 
 	for row in tournament:
 		space = ' '
-		print playerList[row.position]
+		print(playerList[row.position])
 		additionalLength = len(max(playerList, key=len)) - len(playerList[row.position])
 		for i in range(0,additionalLength):
 			space += ' '
