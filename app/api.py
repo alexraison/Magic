@@ -409,10 +409,19 @@ def slackResults(id):
 
 	tournament = getTournamentResults(id)
 
+<<<<<<< HEAD
+=======
+	outPlayers = ''
+	outPosition = ''
+>>>>>>> parent of b18cfce... Testing alignment changes
 	outMatchWins = ''
+	outMatchLosses = ''
+	outGameWins = ''
+	outGameLosses = ''
 	outPercentage = ''
 	text = ''
 
+<<<<<<< HEAD
 	playerList = ['zero']
 
 	title = getTournamentName(id) + ' Results'
@@ -437,4 +446,18 @@ def slackResults(id):
 		outMatchWins += '{!s}. {!s} :{!s}{!s} / {!s}\n'.format(row.position, playerList[row.position], space, row.match_wins, row.match_losses)
 		
 	results_bot.post_results_message(title, text, outMatchWins, outPercentage)
+=======
+	title = getTournamentName(id) + ' Results'
+	for row in tournament:
+		for idx, player in enumerate(row.entity.participants):
+			outPlayers = ''
+			if idx > 1:
+				outPlayers += ' & '
+			outPlayers += player.player.name
+
+		outPercentage += '{!s}.\t{!s}%\n'.format(row.position, round(row.game_win_percentage,1))
+		outMatchWins += '{!s}. {!s} :\t{!s} / {!s}\n'.format(row.position, outPlayers, row.match_wins, row.match_losses)
+
+	results_bot.post_results_message(title, outMatchWins, outPercentage)
+>>>>>>> parent of b18cfce... Testing alignment changes
 
