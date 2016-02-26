@@ -427,9 +427,9 @@ def slackResults(id):
 		text = '@channel, bow down to your rightful champion, Mike Burns!'	
 
 	for i, row in tournament:
-		space = '  '
+		space = ' '
 		additionalLength = max(playerList, key=len) - len(playerList[i])
-		for additionalLength:
+		for i in range(0,additionalLength):
 			space += ' '
 
 		outPercentage += '{!s}.\t{!s}%\n'.format(row.position, round(row.game_win_percentage,1))
