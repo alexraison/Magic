@@ -411,6 +411,7 @@ def slackResults(id):
 
 	outMatchWins = ''
 	outPercentage = ''
+	text = ''
 
 	playerList = ['zero']
 
@@ -422,7 +423,6 @@ def slackResults(id):
 				playerName += ' & '
 			playerName += player.player.name
 		playerList.insert(row.position, playerName)
-	print(playerList)
 
 	if playerList[1] == 'Mike':
 		text = '@channel, bow down to your rightful champion, Mike Burns!'	
