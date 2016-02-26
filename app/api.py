@@ -422,7 +422,7 @@ def slackResults(id):
 				playerName += ' & '
 			playerName += player.player.name
 		playerList.insert(row.position, playerName)
-	print playerList
+	print(playerList)
 
 	if playerList[1] == 'Mike':
 		text = '@channel, bow down to your rightful champion, Mike Burns!'	
