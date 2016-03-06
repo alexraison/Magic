@@ -187,6 +187,7 @@ def getTwoHeadedMatches(playerList):
 
 
 def flatten(l):
+	basestring = (str, bytes)
     for el in l:
         if isinstance(el, collections.Iterable) and not isinstance(el, basestring):
             for sub in flatten(el):
