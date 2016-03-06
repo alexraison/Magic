@@ -73,9 +73,6 @@ def postPairings(playerList):
 		pairings_bot.post_attachment(attachment)
 
 
-
-
-
 def getPairings(playerList, twoHeaded):
 
 	if twoHeaded:
@@ -92,15 +89,11 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-	try:
-		averageDates = getAverageDates(potentialPairings, twoHeaded)
+	averageDates = getAverageDates(potentialPairings, twoHeaded)
 
-		for idx, pairing in zip(potentialPairings, averageDates):
-			if pairings[1] == max(averageDates):
-				return pairings[0]
-				break
-	except:
-		print(potentialPairings)
+	for idx, pairing in zip(potentialPairings, averageDates):
+		if pairings[1] == max(averageDates):
+			return pairings[0]
 
 
 def getPotentialPairings(matchPairings, r):
@@ -130,7 +123,9 @@ def getAverageDates(potentialPairings, twoHeaded):
 			draftDates = [x[2] for x in pairings]
 		averageDate = mean(draftDates)
 		outputPairings.append(averageDate)
+		
 	return outputPairings
+
 
 def getMatches(playerList):
 
