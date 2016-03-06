@@ -91,7 +91,7 @@ def getPairings(playerList, twoHeaded):
 
 	oldestTournaments = getOldestDates(potentialPairings)
 
-	for idx, pairing in zip(potentialPairings, oldestTournaments):
+	for idx, pairings in zip(potentialPairings, oldestTournaments):
 		if pairings[1] == min(oldestTournaments):
 			return pairings[0]
 
