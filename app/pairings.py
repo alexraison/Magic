@@ -77,10 +77,10 @@ def getPairings(playerList, twoHeaded):
 
 	if twoHeaded:
 		numberOfMatches = int(len(playerList) / 4) 
-		matchPairings = getMatches(playerList) 
+		matchPairings = getTwoHeadedMatches(playerList)
 	else:
 		numberOfMatches = int(len(playerList) / 2) 
-		matchPairings = getTwoHeadedMatches(playerList)
+		matchPairings = getMatches(playerList) 
 
 	potentialPairings = []
 
@@ -89,10 +89,10 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-	oldestTournaments = getOldestDates(potentialPairings)
+	oldestMatches = getOldestDates(potentialPairings)
 
-	for pairings, oldestTournament in zip(potentialPairings, oldestTournaments):
-		if oldestTournament == min(oldestTournaments):
+	for pairings, oldestTournament in zip(potentialPairings, oldestMatches):
+		if oldestMatches == min(oldestMatches):
 			return pairings
 
 
@@ -119,14 +119,6 @@ def getOldestDates(potentialPairings):
 	for pairings in potentialPairings:
 		minDate = min([x[-1] for x in pairings])
 		outputPairings.append(minDate)
-		d = [x[-1] for x in pairings]
-		try:
-			averageDate = d[0] + sum((d_i-d[0] for d_i in d), datetime.timedelta(0)) / len(d)
-			print(averageDate)
-		except:
-			print("nah mate")
-		
-		print(minDate)
 
 	return outputPairings
 
