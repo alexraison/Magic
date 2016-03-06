@@ -258,7 +258,7 @@ def viewTournamentResults(id):
 def pairings():
 
 	form = Pairings()
-	form.players.choices = [(g.name) for g in Player.query.order_by('name')]
+	form.players.choices = [g.name, g.name) for g in Player.query.order_by('name')]
 
 	if form.validate_on_submit():
 	
