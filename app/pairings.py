@@ -113,8 +113,8 @@ def getMatches(playerList):
 				INNER JOIN tournament_type AS tt on t.type = tt.id
 				WHERE p1.name IN ('""" + "', '".join(playerList) + """')
 					AND p2.name IN ('""" + "', '".join(playerList) + """')
-					AND mp1.game_wins <> tt.game_wins.required
-					AND mp2.game_wins <> tt.game_wins.required
+					AND mp1.game_wins <> tt.game_wins_required
+					AND mp2.game_wins <> tt.game_wins_required
 					AND tt.description = 'Normal' """
 
 	results = db.session.execute(sql).fetchall()
@@ -145,8 +145,8 @@ def getTwoHeadedMatches(playerList):
 					AND p2.name IN ('""" + "', '".join(playerList) + """')
 					AND p3.name IN ('""" + "', '".join(playerList) + """')
 					AND p4.name IN ('""" + "', '".join(playerList) + """')
-					AND mp1.game_wins <> tt.game_wins.required
-					AND mp2.game_wins <> tt.game_wins.required
+					AND mp1.game_wins <> tt.game_wins_required
+					AND mp2.game_wins <> tt.game_wins_required
 					AND tt.description = 'Two Headed Giant' """
 
 	results = db.session.execute(sql).fetchall()
