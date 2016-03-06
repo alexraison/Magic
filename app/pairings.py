@@ -32,7 +32,7 @@ def postPairings(playerList):
             'color': "#7CD197"
         }
 
-	results_bot.post_attachment(attachment)
+	pairings_bot.post_attachment(attachment)
 
 	for twoHeadedPairing in twoHeadedPairings:
 
@@ -44,7 +44,7 @@ def postPairings(playerList):
         	    'color': "#7CD197"
      	  	 }
 
-		results_bot.post_attachment(attachment)
+		pairings_bot.post_attachment(attachment)
 
 	for normalPairing in normalPairings:
 
@@ -56,7 +56,7 @@ def postPairings(playerList):
         	    'color': "#7CD197"
      	  	 }
 
-		results_bot.post_attachment(attachment)
+		pairings_bot.post_attachment(attachment)
 
 
 def getPairings(playerList, twoHeaded):
