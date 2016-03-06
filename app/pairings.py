@@ -20,14 +20,12 @@ def postPairings(playerList):
 
 	twoHeadedPairings = []
 	twoHeadedPairings = getPairings(playerList, True)
-	print(twoHeadedPairings)
 
 	if twoHeadedPairings:
 		for player in flatten([x[1] for x in twoHeadedPairings]):
 			playerList.remove(player)
 
 	normalPairings = getPairings(playerList, False)
-	print(normalPairings)
 
 	attachment = {
 			'title': "Today's magical pairings:",
@@ -93,8 +91,6 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-	print(potentialPairings)
-
 	averageDates = getAverageDates(potentialPairings, twoHeaded)
 
 	for idx,pairings in potentialPairings:
@@ -104,16 +100,13 @@ def getPairings(playerList, twoHeaded):
 
 
 def getPotentialPairings(matchPairings, r):
-
-	print(permutations(matchPairings, r))
+	
 	for pairings in permutations(matchPairings, r):
 		allPlayers = flatten([x[1] for x in pairings])
 		for player in allPlayers:
 			if player not in seen:
 				seen.append(player)
 		if len(seen) == len(allPlayers):
-			print(seen)
-			print(allPlayers)
 			yield pairings
 
 
@@ -146,8 +139,9 @@ def getMatches(playerList):
 					AND p2.name IN ('""" + "', '".join(playerList) + """')
 					AND mp1.game_wins <> tt.game_wins_required
 					AND mp2.game_wins <> tt.game_wins_required
-					AND tt.description = 'Normal' """
-
+					AND tt.description = 'Normal' 
+				GROUP BY t.name, p1.name, p2.name, t.date"""
+	print(sql)
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
@@ -162,7 +156,7 @@ def getTwoHeadedMatches(playerList):
 
 	sql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.date
 				FROM match AS m
-				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
+				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id AND mp1.entity_id <> mp2.entity_id
 				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
 				INNER JOIN entity_participant AS ep1 ON ep1.entity_id = mp1.entity_id
 				INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp1.entity_id AND ep2.player_id <> ep1.player_id
@@ -180,7 +174,8 @@ def getTwoHeadedMatches(playerList):
 					AND p4.name IN ('""" + "', '".join(playerList) + """')
 					AND mp1.game_wins <> tt.game_wins_required
 					AND mp2.game_wins <> tt.game_wins_required
-					AND tt.description = 'Two Headed Giant' """
+					AND tt.description = 'Two Headed Giant'
+				GROUP BY t.name, p1.name, p2.name, p3.name, p4.name, t.date"""
 
 	results = db.session.execute(sql).fetchall()
 
