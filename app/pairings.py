@@ -110,8 +110,8 @@ def getMatches(playerList):
 				INNER JOIN entityParticipant AS ep2 ON ep2.entity_id = mp2.entity_id
 				INNER JOIN Tournament AS t ON t.id = m.tournament_id
 				INNER JOIN TournamentType AS tt on t.type = tt.id
-				WHERE ep1.player_id IN (''' + ', '.join(playerList) + ''')
-					AND ep2.player_id IN (''' + ', '.join(playerList) + ''')
+				WHERE ep1.player_id IN (''' + ''', '''.join(playerList) + ''')
+					AND ep2.player_id IN (''' + ''', '''.join(playerList) + ''')
 					AND mp1.game_wins <> tt.game_wins.required
 					AND mp2.game_wins <> tt.game_wins.required
 					AND tt.description = 'Normal' '''
@@ -126,7 +126,7 @@ def getMatches(playerList):
 
 def getTwoHeadedMatches(playerList):
 
-	twoHeadedsql = '''select t.name, ep1.player_id, ep2.player_id, ep3.player_id, ep4.player_id, t.date
+	twoHeadedsql = '''SELECT t.name, ep1.player_id, ep2.player_id, ep3.player_id, ep4.player_id, t.date
 				FROM Match AS m
 				INNER JOIN MatchParticipant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN MatchParticipant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id
@@ -136,10 +136,10 @@ def getTwoHeadedMatches(playerList):
 				INNER JOIN entityParticipant AS ep4 ON ep4.entity_id = mp2.entity_id AND ep4.player_id <> ep3.player_id
 				INNER JOIN Tournament AS t ON t.id = m.tournament_id
 				INNER JOIN TournamentType AS tt on t.type = tt.id
-				WHERE ep1.player_id IN (''' + ', '.join(playerList) + ''')
-					AND ep2.player_id IN (''' + ', '.join(playerList) + ''')
-					AND ep3.player_id IN (''' + ', '.join(playerList) + ''')
-					AND ep4.player_id IN (''' + ', '.join(playerList) + ''')
+				WHERE ep1.player_id IN (''' + ''', '''.join(playerList) + ''')
+					AND ep2.player_id IN (''' + ''', '''.join(playerList) + ''')
+					AND ep3.player_id IN (''' + ''', '''.join(playerList) + ''')
+					AND ep4.player_id IN (''' + ''', '''.join(playerList) + ''')
 					AND mp1.game_wins <> tt.game_wins.required
 					AND mp2.game_wins <> tt.game_wins.required
 					AND tt.description = 'Two Headed Giant' '''
