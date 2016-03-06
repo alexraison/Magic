@@ -34,29 +34,43 @@ def postPairings(playerList):
 
 	pairings_bot.post_attachment(attachment)
 
-	for twoHeadedPairing in twoHeadedPairings:
+	if twoHeadedPairings:
+		for twoHeadedPairing in twoHeadedPairings:
 
-		message = pairing[1][0] + ' and ' + pairing[1][1] + ' versus ' + pairing[1][2] + ' and ' + pairing[1][3] 
+			message = pairing[1][0] + ' and ' + pairing[1][1] + ' versus ' + pairing[1][2] + ' and ' + pairing[1][3] 
 
+			attachment = {
+					'title': pairing[0],
+       		  		'text': message,
+        		    'color': "#7CD197"
+     		  	 }
+
+			pairings_bot.post_attachment(attachment)
+
+	if normalPairings:
+		for normalPairing in normalPairings:
+
+			message = pairing[1][0] + ' versus ' + pairing[1][1] 
+
+			attachment = {
+					'title': pairing[0],
+      				'text': message,
+       			    'color': "#7CD197"
+      			 }
+
+			pairings_bot.post_attachment(attachment)
+
+	if not normalPairings and not twoHeadedPairings:
 		attachment = {
-				'title': pairing[0],
-       	  		'text': message,
-        	    'color': "#7CD197"
-     	  	 }
+					'title': "Uh oh!",
+      				'text': "There are no match pairings. Must be time to draft!",
+       			    'color': "#7CD197"
+      			 }
 
-		pairings_bot.post_attachment(attachment)
+			pairings_bot.post_attachment(attachment)
 
-	for normalPairing in normalPairings:
 
-		message = pairing[1][0] + ' versus ' + pairing[1][1] 
 
-		attachment = {
-				'title': pairing[0],
-       	  		'text': message,
-        	    'color': "#7CD197"
-     	  	 }
-
-		pairings_bot.post_attachment(attachment)
 
 
 def getPairings(playerList, twoHeaded):
