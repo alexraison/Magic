@@ -117,7 +117,7 @@ def getAverageDates(potentialPairings):
 	outputPairings = []
 
 	for pairings in potentialPairings:
-		averageDate = mean([x[-1] for x in pairings])
+		averageDate = statistics.mean([x[-1] for x in pairings])
 		outputPairings.append(averageDate)
 
 	return outputPairings
