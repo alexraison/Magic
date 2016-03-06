@@ -4,6 +4,7 @@ from flask.ext.login import LoginManager, login_user , logout_user , current_use
 from app import app
 from app.forms import *
 from app.api import *
+from app.pairings import *
 
 #############################################
 # Authentication
@@ -249,6 +250,23 @@ def viewTournamentMatches(id):
 def viewTournamentResults(id):
 
 	return render_template("results.html", tournaments=[getTournamentResults(id)])
+
+#############################################
+# Pairing Routes
+############################################# 	
+@app.route('/pairings', methods = ['GET','POST'])
+def pairings():
+
+	form = Pairings()
+	form.players.choices = [(g.name) for g in Player.query.order_by('name')]
+
+	if form.validate_on_submit():
+	
+		postPairings(form.players.data)
+		flash('Pairings posted to slack')	
+		return redirect(url_for('pairings'))
+
+	return render_template("form.html", form=form, pageName = 'Pairings')
 
 #############################################
 # Start Application

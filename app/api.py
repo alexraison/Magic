@@ -409,44 +409,10 @@ def slackResults(id):
 
 	tournament = getTournamentResults(id)
 
-<<<<<<< HEAD
-=======
 	outPlayers = ''
-	outPosition = ''
->>>>>>> parent of b18cfce... Testing alignment changes
 	outMatchWins = ''
-	outMatchLosses = ''
-	outGameWins = ''
-	outGameLosses = ''
 	outPercentage = ''
-	text = ''
 
-<<<<<<< HEAD
-	playerList = ['zero']
-
-	title = getTournamentName(id) + ' Results'
-	for row in tournament:
-		for idx, player in enumerate(row.entity.participants):
-			playerName = ''
-			if idx > 1:
-				playerName += ' & '
-			playerName += player.player.name
-		playerList.insert(row.position, playerName)
-
-	if playerList[1] == 'Mike':
-		text = '@channel, bow down to your rightful champion, Mike Burns!'	
-
-	for row in tournament:
-		space = ' '
-		additionalLength = len(max(playerList, key=len)) - len(playerList[row.position])
-		for i in range(0,additionalLength):
-			space += ' '
-
-		outPercentage += '{!s}.\t{!s}%\n'.format(row.position, round(row.game_win_percentage,1))
-		outMatchWins += '{!s}. {!s} :{!s}{!s} / {!s}\n'.format(row.position, playerList[row.position], space, row.match_wins, row.match_losses)
-		
-	results_bot.post_results_message(title, text, outMatchWins, outPercentage)
-=======
 	title = getTournamentName(id) + ' Results'
 	for row in tournament:
 		for idx, player in enumerate(row.entity.participants):
@@ -455,9 +421,24 @@ def slackResults(id):
 				outPlayers += ' & '
 			outPlayers += player.player.name
 
-		outPercentage += '{!s}.\t{!s}%\n'.format(row.position, round(row.game_win_percentage,1))
-		outMatchWins += '{!s}. {!s} :\t{!s} / {!s}\n'.format(row.position, outPlayers, row.match_wins, row.match_losses)
+		outPercentage += '{!s}\t{!s}%\n'.format(round(row.position, row.game_win_percentage,1))
+		outMatchWins += '{!s}. {!s} :   {!s} / {!s}\n'.format(row.position, outPlayers, row.match_wins, row.match_losses)
 
-	results_bot.post_results_message(title, outMatchWins, outPercentage)
->>>>>>> parent of b18cfce... Testing alignment changes
+	attachment = {
+			'title': title,
+            'fields': [
+                {
+                    'title': "Match Wins/Losses",
+                    'value': outMatchWins,
+                    'short': "true"
+                },
+                {
+                    'title': "Game Win %",
+                    'value': outPercentage,
+                    'short': "true"
+                }               
+            ],
+            'color': "#F35A00"
+        }
 
+	results_bot.post_attachment(attachment)
