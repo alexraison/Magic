@@ -92,7 +92,7 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-	print("potench" + potentialPairings)
+	print(potentialPairings)
 
 	oldestMatches = getOldestDates(potentialPairings)
 
