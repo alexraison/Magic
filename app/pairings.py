@@ -18,11 +18,12 @@ def postPairings(playerList):
 
 	pairings_bot = slack_bot(settings['pairings_channel_url'], settings['pairings_channel_name'], settings['pairings_bot_name'], settings['pairings_bot_icon'])
 
-
+	twoHeadedPairings = []
 	twoHeadedPairings = getPairings(playerList, True)
 
-	for player in flatten([x[1] for x in twoHeadedPairings]):
-		playerList.remove(player)
+	if twoHeadedPairings:
+		for player in flatten([x[1] for x in twoHeadedPairings]):
+			playerList.remove(player)
 
 	normalPairings = getPairings(playerList, False)
 
