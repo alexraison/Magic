@@ -89,8 +89,8 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-	print(potentialPairings)
-	print(numberOfMatches)
+	print(len(potentialPairings))
+
 	if len(potentialPairings) > 0:
 		oldestMatches = getOldestDates(potentialPairings)
 
@@ -104,6 +104,7 @@ def getPotentialPairings(matchPairings, r):
 	
 	outputPairings = []
 
+	print(permutations(matchPairings, r))
 	for pairings in permutations(matchPairings, r):
 		allPlayers = [flatten([x[1] for x in pairings])]
 		seen = []
