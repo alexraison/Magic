@@ -123,7 +123,7 @@ def getOldestDates(potentialPairings):
 		try:
 			averageDate = d[0] + sum((d_i-d[0] for d_i in d), datetime.timedelta(0)) / len(d)
 		except:
-			
+			print("nah mate")
 		print(averageDate)
 		print(oldestDate)
 
