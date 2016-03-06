@@ -89,10 +89,10 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-	averageDates = getAverageDates(potentialPairings)
+	oldestTournaments = getOldestDates(potentialPairings)
 
-	for idx, pairing in zip(potentialPairings, averageDates):
-		if pairings[1] == max(averageDates):
+	for idx, pairing in zip(potentialPairings, oldestTournaments):
+		if pairings[1] == min(oldestTournaments):
 			return pairings[0]
 
 
@@ -112,13 +112,13 @@ def getPotentialPairings(matchPairings, r):
 	return outputPairings
 
 
-def getAverageDates(potentialPairings):
+def getOldestDates(potentialPairings):
 
 	outputPairings = []
 
 	for pairings in potentialPairings:
-		averageDate = statistics.mean([x[-1] for x in pairings])
-		outputPairings.append(averageDate)
+		minDate = min([x[-1] for x in pairings])
+		outputPairings.append(minDate)
 
 	return outputPairings
 
