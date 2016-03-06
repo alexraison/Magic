@@ -103,7 +103,7 @@ def getPairings(playerList, twoHeaded):
 def getPotentialPairings(matchPairings, r):
 	
 	for pairings in permutations(matchPairings, r):
-		allPlayers = flatten([x[1] for x in pairings])
+		allPlayers = [flatten([x[1] for x in pairings])]
 		seen = []
 		for player in allPlayers:
 			if player not in seen:
