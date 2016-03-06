@@ -26,8 +26,8 @@ def postPairings(playerList):
 	normalPairings = getPairings(playerList, False)
 
 	attachment = {
-			"title": "Today's magical pairings:"
-            "color": "#7CD197"
+			'title': "Today's magical pairings:"
+            'color': "#7CD197"
         }
 
 	results_bot.post_attachment(attachment)
@@ -37,9 +37,9 @@ def postPairings(playerList):
 		message = pairing[1][0] + ' and ' + pairing[1][1] + ' versus ' + pairing[1][2] + ' and ' + pairing[1][3] 
 
 		attachment = {
-				"title": pairing[0],
-       	  		"text": message,
-        	    "color": "#7CD197"
+				'title': pairing[0],
+       	  		'text': message,
+        	    'color': "#7CD197"
      	  	 }
 
 		results_bot.post_attachment(attachment)
@@ -49,9 +49,9 @@ def postPairings(playerList):
 		message = pairing[1][0] + ' versus ' + pairing[1][1] 
 
 		attachment = {
-				"title": pairing[0],
-       	  		"text": message,
-        	    "color": "#7CD197"
+				'title': pairing[0],
+       	  		'text': message,
+        	    'color': "#7CD197"
      	  	 }
 
 		results_bot.post_attachment(attachment)
