@@ -137,7 +137,7 @@ def getTwoHeadedMatches(playerList):
 
 	matchList = []
 
-	twoHeadedsql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.date
+	sql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.date
 				FROM match AS m
 				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
