@@ -1,6 +1,6 @@
 from sqlalchemy import func, and_, extract, case
 from sqlalchemy.sql import text
-from datetime import date
+from datetime import date, datetime, timedelta
 from app.models import Player, Tournament, Match, Set, Statistics, TournamentType, Entity, EntityParticipant, MatchParticipant
 from itertools import permutations
 import smtplib
@@ -91,9 +91,9 @@ def getPairings(playerList, twoHeaded):
 
 	oldestTournaments = getOldestDates(potentialPairings)
 
-	for idx, pairings in zip(potentialPairings, oldestTournaments):
-		if pairings[1] == min(oldestTournaments):
-			return pairings[0]
+	for pairings, oldestTournament in zip(potentialPairings, oldestTournaments):
+		if oldestTournament == min(oldestTournaments):
+			return pairings
 
 
 def getPotentialPairings(matchPairings, r):
@@ -119,6 +119,9 @@ def getOldestDates(potentialPairings):
 	for pairings in potentialPairings:
 		minDate = min([x[-1] for x in pairings])
 		outputPairings.append(minDate)
+		averageDate = sum([x[-1] for x in pairings], timedelta()) / len(pairings)
+		print(averageDate)
+		print(oldestDate)
 
 	return outputPairings
 
