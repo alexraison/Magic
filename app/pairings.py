@@ -115,7 +115,7 @@ def getPotentialPairings(matchPairings, r):
 
 def getAverageDates(potentialPairings, twoHeaded):
 
-	for pairings in PotentialPairings:
+	for pairings in potentialPairings:
 		if twoHeaded:
 			draftDates = [x[5] for x in pairings]
 		else:
