@@ -104,6 +104,7 @@ def getPotentialPairings(matchPairings, r):
 	
 	for pairings in permutations(matchPairings, r):
 		allPlayers = flatten([x[1] for x in pairings])
+		seen = []
 		for player in allPlayers:
 			if player not in seen:
 				seen.append(player)
@@ -142,7 +143,7 @@ def getMatches(playerList):
 					AND mp2.game_wins <> tt.game_wins_required
 					AND tt.description = 'Normal' 
 				GROUP BY t.name, p1.name, p2.name, t.date"""
-	print(sql)
+
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
