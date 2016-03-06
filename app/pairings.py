@@ -83,8 +83,8 @@ def getPairings(playerList, twoHeaded):
 		matchPairings = getMatches(playerList) 
 
 	potentialPairings = []
-	print("no" + numberofMatches)
-	print("matches" + matchPairings)
+	print(numberofMatches)
+	print(matchPairings)
 
 	for i in range(numberOfMatches, 1, -1):  
 		potentialPairings = getPotentialPairings(matchPairings, i)
@@ -113,8 +113,8 @@ def getPotentialPairings(matchPairings, r):
 				seen.append(player)
 		if len(seen) == len(allPlayers):
 			outputPairings.append(pairings)
-		print("Seen" + seen)
-		print("allPlayers" + allPlayers)
+		print(seen)
+		print(allPlayers)
 
 	return outputPairings
 
