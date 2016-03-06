@@ -28,41 +28,6 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	attachment = {
-			'title': "Today's magical pairings:",
-            'color': "#7CD197"
-        }
-
-	pairings_bot.post_attachment(attachment)
-
-	if twoHeadedPairings:
-		for twoHeadedPairing in twoHeadedPairings:
-
-			message = pairing[1][0] + ' and ' + pairing[1][1] + ' versus ' + pairing[1][2] + ' and ' + pairing[1][3] 
-
-			attachment = {
-					'title': pairing[0],
-       		  		'text': message,
-        		    'color': "#7CD197"
-     		  	 }
-
-			pairings_bot.post_attachment(attachment)
-
-	if normalPairings:
-		for normalPairing in normalPairings:
-
-			message = pairing[1][0] + ' versus ' + pairing[1][1] 
-
-			attachment = {
-					'title': pairing[0],
-      				'text': message,
-       			    'color': "#7CD197"
-      			 }
-
-			pairings_bot.post_attachment(attachment)
-
-
-
 	if not normalPairings and not twoHeadedPairings:
 		attachment = {
 					'title': "Uh oh!",
@@ -71,6 +36,43 @@ def postPairings(playerList):
       			 }
 
 		pairings_bot.post_attachment(attachment)
+	else:	
+		attachment = {
+					'title': "Today's magical pairings:",
+  				    'color': "#7CD197"
+  				}
+
+		pairings_bot.post_attachment(attachment)
+
+		if twoHeadedPairings:
+			for twoHeadedPairing in twoHeadedPairings:
+
+				message = pairing[1][0] + ' and ' + pairing[1][1] + ' versus ' + pairing[1][2] + ' and ' + pairing[1][3] 
+
+				attachment = {
+						'title': pairing[0],
+       		  			'text': message,
+        		    	'color': "#7CD197"
+     			  	 }
+
+				pairings_bot.post_attachment(attachment)
+
+		if normalPairings:
+			for normalPairing in normalPairings:
+
+				message = pairing[1][0] + ' versus ' + pairing[1][1] 
+
+				attachment = {
+						'title': pairing[0],
+      					'text': message,
+       				    'color': "#7CD197"
+      				 }
+
+				pairings_bot.post_attachment(attachment)
+
+
+
+
 
 
 def getPairings(playerList, twoHeaded):
