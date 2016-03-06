@@ -100,7 +100,7 @@ def getAverageDates(potentialPairings):
 
 def getMatches(playerList):
 
-	sql = '''select t.name, ep1.player_id, ep2.player_id, t.date
+	sql = '''SELECT t.name, ep1.player_id, ep2.player_id, t.date
 				FROM Match AS m
 				INNER JOIN MatchParticipant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN MatchParticipant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id
