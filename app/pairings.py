@@ -72,7 +72,7 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-	averageDates = getAverageDates(potentialPairings)
+	averageDates = getAverageDates(potentialPairings, twoHeaded)
 
 	for idx,pairings in potentialPairings:
 		if averageDates[idx] == max(averageDates):
@@ -91,15 +91,20 @@ def getPotentialPairings(matchPairings, r):
 			yield pairings
 
 
-def getAverageDates(potentialPairings):
+def getAverageDates(potentialPairings, twoHeaded):
 
 	for pairings in PotentialPairings:
-		draftDates = [x[2] for x in pairings]
+		if twoHeaded:
+			draftDates = [x[5] for x in pairings]
+		else:
+			draftDates = [x[2] for x in pairings]
 		averageDate = mean(draftDates)
 		yield averageDate
 
 
 def getMatches(playerList):
+
+	matchList = []
 
 	sql = """SELECT t.name, p1.name, p2.name, t.date
 				FROM match AS m
@@ -120,12 +125,14 @@ def getMatches(playerList):
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
-		matchList.append((row[0],[row[1],row[2]],row[5]))
+		matchList.append((row[0],[row[1],row[2]],row[3]))
 
 	return matchList
 
 
 def getTwoHeadedMatches(playerList):
+
+	matchList = []
 
 	twoHeadedsql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.date
 				FROM match AS m
