@@ -86,7 +86,7 @@ def getPairings(playerList, twoHeaded):
 
 	for i in range(numberOfMatches, 1, -1):  
 		potentialPairings = [getPotentialPairings(matchPairings, i)]
-		if len(potentialPairings) > 0:
+		if potentialPairings:
 			break
 
 	print(potentialPairings)
