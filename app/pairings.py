@@ -20,12 +20,14 @@ def postPairings(playerList):
 
 	twoHeadedPairings = []
 	twoHeadedPairings = getPairings(playerList, True)
+	print(twoHeadedPairings)
 
 	if twoHeadedPairings:
 		for player in flatten([x[1] for x in twoHeadedPairings]):
 			playerList.remove(player)
 
 	normalPairings = getPairings(playerList, False)
+	print(normalPairings)
 
 	attachment = {
 			'title': "Today's magical pairings:",
@@ -60,6 +62,8 @@ def postPairings(playerList):
 
 			pairings_bot.post_attachment(attachment)
 
+
+
 	if not normalPairings and not twoHeadedPairings:
 		attachment = {
 					'title': "Uh oh!",
@@ -89,6 +93,8 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
+	print potentialPairings
+
 	averageDates = getAverageDates(potentialPairings, twoHeaded)
 
 	for idx,pairings in potentialPairings:
@@ -99,12 +105,15 @@ def getPairings(playerList, twoHeaded):
 
 def getPotentialPairings(matchPairings, r):
 
+	print permutations(matchPairings, r)
 	for pairings in permutations(matchPairings, r):
 		allPlayers = flatten([x[1] for x in pairings])
 		for player in allPlayers:
 			if player not in seen:
 				seen.append(player)
 		if len(seen) == len(allPlayers):
+			print seen
+			print allPlayers
 			yield pairings
 
 
