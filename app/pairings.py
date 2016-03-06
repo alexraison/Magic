@@ -21,12 +21,14 @@ def postPairings(playerList):
 
 	twoHeadedPairings = []
 	twoHeadedPairings = getPairings(playerList, True)
+	print(twoHeadedPairings)
 
 	if twoHeadedPairings:
 		for player in flatten([x[1] for x in twoHeadedPairings]):
 			playerList.remove(player)
 
 	normalPairings = getPairings(playerList, False)
+	print(normalPairings)
 
 	attachment = {
 			'title': "Today's magical pairings:",
