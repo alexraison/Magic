@@ -92,13 +92,15 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-	if potentialPairings:
+	try:
 		averageDates = getAverageDates(potentialPairings, twoHeaded)
 
 		for idx, pairing in zip(potentialPairings, averageDates):
 			if pairings[1] == max(averageDates):
 				return pairings[0]
 				break
+	except:
+		print(potentialPairings)
 
 
 def getPotentialPairings(matchPairings, r):
