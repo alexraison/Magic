@@ -89,6 +89,7 @@ def getPairings(playerList, twoHeaded):
 	for i in range(numberOfMatches, 1, -1):  
 		potentialPairings = [getPotentialPairings(matchPairings, i)]
 		if potentialPairings:
+			print(potentialPairings)
 			break
 
 	oldestMatches = getOldestDates(potentialPairings)
@@ -96,7 +97,7 @@ def getPairings(playerList, twoHeaded):
 	for pairings, oldestTournament in zip(potentialPairings, oldestMatches):
 		if oldestMatches == min(oldestMatches):
 			return pairings
-			print pairings
+			
 
 
 def getPotentialPairings(matchPairings, r):
@@ -111,8 +112,6 @@ def getPotentialPairings(matchPairings, r):
 				seen.append(player)
 		if len(seen) == len(allPlayers):
 			outputPairings.append(pairings)
-		print(seen)
-		print(allPlayers)
 
 	return outputPairings
 
