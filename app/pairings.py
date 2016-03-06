@@ -26,7 +26,7 @@ def postPairings(playerList):
 	normalPairings = getPairings(playerList, False)
 
 	attachment = {
-			'title': "Today's magical pairings:"
+			'title': "Today's magical pairings:",
             'color': "#7CD197"
         }
 
