@@ -152,7 +152,7 @@ def getMatches(playerList):
 	for row in results:
 		matchList.append((row[0],[row[1],row[2]],row[3]))
 
-	print matchList
+	print(matchList)
 
 	return matchList
 
