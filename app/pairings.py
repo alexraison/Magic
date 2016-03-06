@@ -67,7 +67,7 @@ def postPairings(playerList):
        			    'color': "#7CD197"
       			 }
 
-			pairings_bot.post_attachment(attachment)
+		pairings_bot.post_attachment(attachment)
 
 
 
