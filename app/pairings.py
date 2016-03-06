@@ -126,7 +126,7 @@ def getOldestDates(potentialPairings):
 		except:
 			print("nah mate")
 		
-		print(oldestDate)
+		print(minDate)
 
 	return outputPairings
 
