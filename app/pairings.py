@@ -101,18 +101,18 @@ def getAverageDates(potentialPairings):
 
 def getMatches(playerList):
 
-	sql = """SELECT t.name, ep1.player_id, ep2.player_id, t.date
-				FROM Match AS m
-				INNER JOIN MatchParticipant AS mp1 ON m.id = mp1.match_id
-				INNER JOIN MatchParticipant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id
-				INNER JOIN Entity AS e1 ON e1.id = mp1.entity_id
-				INNER JOIN Entity AS e2 ON e2.id = mp2.entity_id
-				INNER JOIN EntityParticipant AS ep1 ON ep1.entity_id = mp1.entity_id
-				INNER JOIN EntityParticipant AS ep2 ON ep2.entity_id = mp2.entity_id
-				INNER JOIN Tournament AS t ON t.id = m.tournament_id
-				INNER JOIN TournamentType AS tt on t.type = tt.id
-				WHERE ep1.player_id IN ('""" + "', '".join(playerList) + """')
-					AND ep2.player_id IN ('""" + "', '".join(playerList) + """')
+	sql = """SELECT t.name, p1.name, p2.name, t.date
+				FROM match AS m
+				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
+				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id
+				INNER JOIN entity_participant AS ep1 ON ep1.entity_id = mp1.entity_id
+				INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp2.entity_id
+				INNER JOIN player AS p1 ON p1.id = ep1.player_id
+				INNER JOIN player AS p2 ON p2.id = ep2.player_id
+				INNER JOIN tournament AS t ON t.id = m.tournament_id
+				INNER JOIN tournament_type AS tt on t.type = tt.id
+				WHERE p1.name IN ('""" + "', '".join(playerList) + """')
+					AND p2.name IN ('""" + "', '".join(playerList) + """')
 					AND mp1.game_wins <> tt.game_wins.required
 					AND mp2.game_wins <> tt.game_wins.required
 					AND tt.description = 'Normal' """
@@ -127,20 +127,24 @@ def getMatches(playerList):
 
 def getTwoHeadedMatches(playerList):
 
-	twoHeadedsql = """SELECT t.name, ep1.player_id, ep2.player_id, ep3.player_id, ep4.player_id, t.date
-				FROM Match AS m
-				INNER JOIN MatchParticipant AS mp1 ON m.id = mp1.match_id
-				INNER JOIN MatchParticipant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id
-				INNER JOIN EntityParticipant AS ep1 ON ep1.entity_id = mp.entity_id
-				INNER JOIN EntityParticipant AS ep2 ON ep2.entity_id = mp.entity_id AND ep2.player_id <> ep1.player_id
-				INNER JOIN EntityParticipant AS ep3 ON ep3.entity_id = mp2.entity_id
-				INNER JOIN EntityParticipant AS ep4 ON ep4.entity_id = mp2.entity_id AND ep4.player_id <> ep3.player_id
-				INNER JOIN Tournament AS t ON t.id = m.tournament_id
-				INNER JOIN TournamentType AS tt on t.type = tt.id
-				WHERE ep1.player_id IN ('""" + "', '".join(playerList) + """')
-					AND ep2.player_id IN ('""" + "', '".join(playerList) + """')
-					AND ep3.player_id IN ('""" + "', '".join(playerList) + """')
-					AND ep4.player_id IN ('""" + "', '".join(playerList) + """')
+	twoHeadedsql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.date
+				FROM match AS m
+				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
+				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id
+				INNER JOIN entity_participant AS ep1 ON ep1.entity_id = mp.entity_id
+				INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp.entity_id AND ep2.player_id <> ep1.player_id
+				INNER JOIN entity_participant AS ep3 ON ep3.entity_id = mp2.entity_id
+				INNER JOIN entity_participant AS ep4 ON ep4.entity_id = mp2.entity_id AND ep4.player_id <> ep3.player_id
+				INNER JOIN player AS p1 ON p1.id = ep1.player_id
+				INNER JOIN player AS p2 ON p2.id = ep2.player_id
+				INNER JOIN player AS p3 ON p3.id = ep3.player_id
+				INNER JOIN player AS p4 ON p4.id = ep4.player_id
+				INNER JOIN tournament AS t ON t.id = m.tournament_id
+				INNER JOIN tournament_type AS tt on t.type = tt.id
+				WHERE p1.name IN ('""" + "', '".join(playerList) + """')
+					AND p2.name IN ('""" + "', '".join(playerList) + """')
+					AND p3.name IN ('""" + "', '".join(playerList) + """')
+					AND p4.name IN ('""" + "', '".join(playerList) + """')
 					AND mp1.game_wins <> tt.game_wins.required
 					AND mp2.game_wins <> tt.game_wins.required
 					AND tt.description = 'Two Headed Giant' """
