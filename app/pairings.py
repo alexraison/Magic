@@ -1,6 +1,7 @@
 from sqlalchemy import func, and_, extract, case
 from sqlalchemy.sql import text
 from datetime import date
+from app.models import Player, Tournament, Match, Set, Statistics, TournamentType, Entity, EntityParticipant, MatchParticipant
 from itertools import permutations
 import smtplib
 import json
@@ -104,10 +105,10 @@ def getMatches(playerList):
 				FROM Match AS m
 				INNER JOIN MatchParticipant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN MatchParticipant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id
-				INNER JOIN entity AS e1 ON e1.id = mp1.entity_id
-				INNER JOIN entity AS e2 ON e2.id = mp2.entity_id
-				INNER JOIN entityParticipant AS ep1 ON ep1.entity_id = mp1.entity_id
-				INNER JOIN entityParticipant AS ep2 ON ep2.entity_id = mp2.entity_id
+				INNER JOIN Entity AS e1 ON e1.id = mp1.entity_id
+				INNER JOIN Entity AS e2 ON e2.id = mp2.entity_id
+				INNER JOIN EntityParticipant AS ep1 ON ep1.entity_id = mp1.entity_id
+				INNER JOIN EntityParticipant AS ep2 ON ep2.entity_id = mp2.entity_id
 				INNER JOIN Tournament AS t ON t.id = m.tournament_id
 				INNER JOIN TournamentType AS tt on t.type = tt.id
 				WHERE ep1.player_id IN ('""" + "', '".join(playerList) + """')
@@ -130,10 +131,10 @@ def getTwoHeadedMatches(playerList):
 				FROM Match AS m
 				INNER JOIN MatchParticipant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN MatchParticipant AS mp2 ON m.id = mp2.match_id AND mp.entity_id <> mp2.entity_id
-				INNER JOIN entityParticipant AS ep1 ON ep1.entity_id = mp.entity_id
-				INNER JOIN entityParticipant AS ep2 ON ep2.entity_id = mp.entity_id AND ep2.player_id <> ep1.player_id
-				INNER JOIN entityParticipant AS ep3 ON ep3.entity_id = mp2.entity_id
-				INNER JOIN entityParticipant AS ep4 ON ep4.entity_id = mp2.entity_id AND ep4.player_id <> ep3.player_id
+				INNER JOIN EntityParticipant AS ep1 ON ep1.entity_id = mp.entity_id
+				INNER JOIN EntityParticipant AS ep2 ON ep2.entity_id = mp.entity_id AND ep2.player_id <> ep1.player_id
+				INNER JOIN EntityParticipant AS ep3 ON ep3.entity_id = mp2.entity_id
+				INNER JOIN EntityParticipant AS ep4 ON ep4.entity_id = mp2.entity_id AND ep4.player_id <> ep3.player_id
 				INNER JOIN Tournament AS t ON t.id = m.tournament_id
 				INNER JOIN TournamentType AS tt on t.type = tt.id
 				WHERE ep1.player_id IN ('""" + "', '".join(playerList) + """')
