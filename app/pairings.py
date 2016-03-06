@@ -21,14 +21,12 @@ def postPairings(playerList):
 
 	twoHeadedPairings = []
 	twoHeadedPairings = getPairings(playerList, True)
-	print(twoHeadedPairings)
 
 	if twoHeadedPairings:
 		for player in flatten([x[1] for x in twoHeadedPairings]):
 			playerList.remove(player)
 
 	normalPairings = getPairings(playerList, False)
-	print(normalPairings)
 
 	attachment = {
 			'title': "Today's magical pairings:",
@@ -85,16 +83,21 @@ def getPairings(playerList, twoHeaded):
 		matchPairings = getMatches(playerList) 
 
 	potentialPairings = []
+	print("no" + numberofMatches)
+	print("matches" + matchPairings)
 
 	for i in range(numberOfMatches, 1, -1):  
 		potentialPairings = getPotentialPairings(matchPairings, i)
 		if potentialPairings:
 			break
 
+	print("potench" + potentialPairings)
+
 	oldestMatches = getOldestDates(potentialPairings)
 
 	for pairings, oldestTournament in zip(potentialPairings, oldestMatches):
 		if oldestMatches == min(oldestMatches):
+			print(pairings)
 			return pairings
 
 
@@ -110,6 +113,8 @@ def getPotentialPairings(matchPairings, r):
 				seen.append(player)
 		if len(seen) == len(allPlayers):
 			outputPairings.append(pairings)
+		print("Seen" + seen)
+		print("allPlayers" + allPlayers)
 
 	return outputPairings
 
