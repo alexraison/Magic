@@ -105,6 +105,8 @@ def getPairings(playerList, twoHeaded):
 
 def getPotentialPairings(matchPairings, r):
 	
+	outputPairings = []
+
 	for pairings in permutations(matchPairings, r):
 		allPlayers = [flatten([x[1] for x in pairings])]
 		seen = []
@@ -112,10 +114,14 @@ def getPotentialPairings(matchPairings, r):
 			if player not in seen:
 				seen.append(player)
 		if len(seen) == len(allPlayers):
-			yield pairings
+			outputPairings.append(pairings)
+
+	return outputPairings
 
 
 def getAverageDates(potentialPairings, twoHeaded):
+
+	outputPairings = []
 
 	for pairings in potentialPairings:
 		if twoHeaded:
@@ -123,8 +129,8 @@ def getAverageDates(potentialPairings, twoHeaded):
 		else:
 			draftDates = [x[2] for x in pairings]
 		averageDate = mean(draftDates)
-		yield averageDate
-
+		outputPairings.append(averageDate)
+	return outputPairings
 
 def getMatches(playerList):
 
@@ -151,8 +157,6 @@ def getMatches(playerList):
 
 	for row in results:
 		matchList.append((row[0],[row[1],row[2]],row[3]))
-
-	print(matchList)
 
 	return matchList
 
