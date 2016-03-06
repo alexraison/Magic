@@ -28,7 +28,7 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	if not normalPairings and not twoHeadedPairings:
+	if not normalPairings[0] and not twoHeadedPairings[0]:
 		print(normalPairings)
 		attachment = {
 					'title': "Uh oh!",
@@ -45,7 +45,7 @@ def postPairings(playerList):
 
 		pairings_bot.post_attachment(attachment)
 
-		if twoHeadedPairings:
+		if twoHeadedPairings[0]:
 			for twoHeadedPairing in twoHeadedPairings:
 
 				message = pairing[1][0] + ' and ' + pairing[1][1] + ' versus ' + pairing[1][2] + ' and ' + pairing[1][3] 
@@ -58,7 +58,7 @@ def postPairings(playerList):
 
 				pairings_bot.post_attachment(attachment)
 
-		if normalPairings:
+		if normalPairings[0]:
 			for normalPairing in normalPairings:
 
 				message = pairing[1][0] + ' versus ' + pairing[1][1] 
