@@ -5,6 +5,7 @@ from app.models import Player, Tournament, Match, Set, Statistics, TournamentTyp
 from itertools import permutations
 import smtplib
 import json
+import collections
 from app.post import slack_bot
 import statistics
 
