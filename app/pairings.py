@@ -50,8 +50,8 @@ def postPairings(playerList):
 				message = twoHeadedPairing[1][0] + ' and ' + twoHeadedPairing[1][1] + ' versus ' + twoHeadedPairing[1][2] + ' and ' + twoHeadedPairing[1][3] 
 
 				attachment = {
-						'title': twoHeadedPairing[0],
-       		  			'text': message,
+						'title': message, 
+       		  			'text': twoHeadedPairing[0],
         		    	'color': "#7CD197"
      			  	 }
 
@@ -63,8 +63,8 @@ def postPairings(playerList):
 				message = normalPairing[1][0] + ' versus ' + normalPairing[1][1] 
 
 				attachment = {
-						'title': normalPairing[0],
-      					'text': message,
+						'title': message,
+      					'text': normalPairing[0],
        				    'color': "#7CD197"
       				 }
 
