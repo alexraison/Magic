@@ -61,6 +61,8 @@ def postPairings(playerList):
 		if normalPairings:
 			for normalPairing in normalPairings:
 
+				print(normalPairing)
+
 				message = normalPairing[1][0] + ' versus ' + normalPairing[1][1] 
 
 				attachment = {
