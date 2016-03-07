@@ -28,14 +28,6 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	#delete
-	if normalPairings:
-		for normalPairing in normalPairings:
-			message = normalPairing[1][0] + ' versus ' + normalPairing[1][1] 
-			print(message)
-	return
-	#delete
-
 	if not normalPairings and not twoHeadedPairings:
 	 	attachment = {
 	 				'title': "Uh oh!",
