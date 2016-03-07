@@ -29,14 +29,13 @@ def postPairings(playerList):
 	normalPairings = getPairings(playerList, False)
 
 	if not normalPairings and not twoHeadedPairings:
-		print("We done fucked up")
-	#	attachment = {
-	#				'title': "Uh oh!",
-    #  				'text': "There are no match pairings. Must be time to draft!",
-    #   			    'color': "#7CD197"
-    #  			 }
+	 	attachment = {
+	 				'title': "Uh oh!",
+       				'text': "There are no match pairings. Must be time to draft!",
+        			    'color': "#7CD197"
+       			 }
 
-	#	pairings_bot.post_attachment(attachment)
+	 	pairings_bot.post_attachment(attachment)
 	else:	
 		attachment = {
 					'title': "Today's magical pairings:",
@@ -60,8 +59,6 @@ def postPairings(playerList):
 
 		if normalPairings:
 			for normalPairing in normalPairings:
-
-				print(normalPairing)
 
 				message = normalPairing[1][0] + ' versus ' + normalPairing[1][1] 
 
@@ -94,11 +91,9 @@ def getPairings(playerList, twoHeaded):
 
 	if potentialPairings[0]:
 		oldestMatches = getOldestDates(potentialPairings)
-		print(oldestMatches)
 
 		for pairings, oldestTournament in zip(potentialPairings, oldestMatches):
 			if oldestTournament == min(oldestMatches):
-				print(pairings)
 				return pairings
 				break
 			
@@ -127,6 +122,7 @@ def getOldestDates(potentialPairings):
 	for pairings in potentialPairings:
 		minDate = min([x[2] for x in pairings])
 		outputDates.append(minDate)
+		print(minDate
 
 	return outputDates
 
