@@ -2,7 +2,7 @@ from sqlalchemy import func, and_, extract, case
 from sqlalchemy.sql import text
 from datetime import date, datetime, timedelta
 from app.models import Player, Tournament, Match, Set, Statistics, TournamentType, Entity, EntityParticipant, MatchParticipant
-from itertools import permutations
+from itertools import combinations
 import smtplib
 import json
 import collections
@@ -28,8 +28,7 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	if not normalPairings[0] and not twoHeadedPairings[0]:
-		print(normalPairings)
+	if not normalPairings and not twoHeadedPairings:
 		attachment = {
 					'title': "Uh oh!",
       				'text': "There are no match pairings. Must be time to draft!",
@@ -45,7 +44,7 @@ def postPairings(playerList):
 
 		pairings_bot.post_attachment(attachment)
 
-		if twoHeadedPairings[0]:
+		if twoHeadedPairings:
 			for twoHeadedPairing in twoHeadedPairings:
 
 				message = pairing[1][0] + ' and ' + pairing[1][1] + ' versus ' + pairing[1][2] + ' and ' + pairing[1][3] 
@@ -58,7 +57,7 @@ def postPairings(playerList):
 
 				pairings_bot.post_attachment(attachment)
 
-		if normalPairings[0]:
+		if normalPairings:
 			for normalPairing in normalPairings:
 
 				message = pairing[1][0] + ' versus ' + pairing[1][1] 
@@ -101,12 +100,14 @@ def getPotentialPairings(matchPairings, r):
 	
 	outputPairings = []
  
-	for pairings in permutations(matchPairings, r):
+	for pairings in combinations(matchPairings, r):
 		allPlayers = [flatten([x[1] for x in pairings])]
 		seen = []
 		for player in allPlayers:
 			if player not in seen:
 				seen.append(player)
+		print(seen)
+		print(allPlayers)
 		if len(seen) == len(allPlayers):
 			outputPairings.append(pairings)
 
