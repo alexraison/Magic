@@ -88,12 +88,14 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings[0]:
 			break
 
+			#all good at this point
+
 	if potentialPairings[0]:
 		oldestMatches = getOldestDates(potentialPairings)
 		print(oldestMatches)
 
 		for pairings, oldestTournament in zip(potentialPairings, oldestMatches):
-			if oldestMatches == min(oldestMatches):
+			if oldestTournament == min(oldestMatches):
 				print(pairings)
 				return pairings
 				break
