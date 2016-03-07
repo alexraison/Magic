@@ -83,7 +83,7 @@ def getPairings(playerList, twoHeaded):
 	potentialPairings = []
 
 	for i in range(numberOfMatches, 1, -1):  
-		potentialPairings = [getPotentialPairings(matchPairings, i)]
+		potentialPairings = getPotentialPairings(matchPairings, i)
 		if potentialPairings[0]:
 			break
 
@@ -119,7 +119,7 @@ def getOldestDates(potentialPairings):
 
 	outputDates = []
 
-	for pairings in potentialPairings:#
+	for pairings in potentialPairings:
 		dates = [x[2] for x in pairings] 
 		minDate = min(dates)
 		outputDates.append(minDate)
