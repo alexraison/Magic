@@ -28,6 +28,12 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
+	if normalPairings:
+		for normalPairing in normalPairings:
+			message = normalPairing[1][0] + ' versus ' + normalPairing[1][1] 
+			print(message)
+		return
+
 	if not normalPairings and not twoHeadedPairings:
 	 	attachment = {
 	 				'title': "Uh oh!",
@@ -87,8 +93,6 @@ def getPairings(playerList, twoHeaded):
 		if potentialPairings:
 			break
 
-			#all good at this point
-
 	if potentialPairings:
 		oldestMatches = getOldestDates(potentialPairings)
 
@@ -104,13 +108,16 @@ def getPotentialPairings(matchPairings, r):
 	outputPairings = []
  
 	for pairings in combinations(matchPairings, r):
-		allPlayers = [flatten([x[1] for x in pairings])]
+		playersInPairings = [x[1] for x in pairings]
+		allPlayers = flatten(playersInPairings)
 		seen = []
 		for player in allPlayers:
 			if player not in seen:
 				seen.append(player)
 		if len(seen) == len(allPlayers):
 			outputPairings.append(pairings)
+
+	print(outputPairings)		
 
 	return outputPairings
 
@@ -123,7 +130,6 @@ def getOldestDates(potentialPairings):
 		dates = [x[2] for x in pairings] 
 		minDate = min(dates)
 		outputDates.append(minDate)
-		print(minDate)
 
 	return outputDates
 
