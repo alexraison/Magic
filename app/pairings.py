@@ -122,7 +122,7 @@ def getOldestDates(potentialPairings):
 	for pairings in potentialPairings:
 		minDate = min([x[2] for x in pairings])
 		outputDates.append(minDate)
-		print(minDate
+		print(minDate)
 
 	return outputDates
 
