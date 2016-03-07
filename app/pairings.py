@@ -51,7 +51,8 @@ def postPairings(playerList):
 
 				attachment = {
 						'text': message,
-        		    	'color': "#7CD197"
+        		    	'color': "#7CD197",
+        		    	'mrkdwn_in': ["text"]
      			  	 }
 
 				pairings_bot.post_attachment(attachment)
@@ -63,7 +64,8 @@ def postPairings(playerList):
 
 				attachment = {
       					'text': message,
-       				    'color': "#7CD197"
+       				    'color': "#7CD197",
+       				    'mrkdwn_in': ["text"]
       				 }
 
 				pairings_bot.post_attachment(attachment)
