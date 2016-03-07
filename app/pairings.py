@@ -29,13 +29,14 @@ def postPairings(playerList):
 	normalPairings = getPairings(playerList, False)
 
 	if not normalPairings and not twoHeadedPairings:
-		attachment = {
-					'title': "Uh oh!",
-      				'text': "There are no match pairings. Must be time to draft!",
-       			    'color': "#7CD197"
-      			 }
+		print("We done fucked up")
+	#	attachment = {
+	#				'title': "Uh oh!",
+    #  				'text': "There are no match pairings. Must be time to draft!",
+    #   			    'color': "#7CD197"
+    #  			 }
 
-		pairings_bot.post_attachment(attachment)
+	#	pairings_bot.post_attachment(attachment)
 	else:	
 		attachment = {
 					'title': "Today's magical pairings:",
