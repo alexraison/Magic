@@ -47,7 +47,7 @@ def postPairings(playerList):
 		if twoHeadedPairings:
 			for twoHeadedPairing in twoHeadedPairings:
 
-				message = '*' + twoHeadedPairing[1][0] + '* and *' + twoHeadedPairing[1][1] + '* versus *' + twoHeadedPairing[1][2] + '* and *' + twoHeadedPairing[1][3] + '* \n' + twoHeadedPairing[0] 
+				message = '*' + twoHeadedPairing[1][0] + '* and *' + twoHeadedPairing[1][1] + '* vs *' + twoHeadedPairing[1][2] + '* and *' + twoHeadedPairing[1][3] + '* \n' + twoHeadedPairing[0] 
 
 				attachment = {
 						'text': message,
@@ -60,7 +60,7 @@ def postPairings(playerList):
 		if normalPairings:
 			for normalPairing in normalPairings:
 
-				message = '*' + normalPairing[1][0] + '* versus *' + normalPairing[1][1] + '* \n' + normalPairing[0] 
+				message = '*' + normalPairing[1][0] + '* vs *' + normalPairing[1][1] + '* \n' + normalPairing[0] 
 
 				attachment = {
       					'text': message,
@@ -129,7 +129,7 @@ def getMatches(playerList):
 
 	matchList = []
 
-	sql = """WITH temp AS (SELECT t.name, p1.name, p2.name, t.id,
+	sql = """WITH temp AS (SELECT t.name AS tourn, p1.name AS player1, p2.name AS player2, t.id AS tid,
 				row_number() OVER (PARTITION BY p1.name ORDER BY p2.name) AS rownum
 				FROM match AS m
 				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
@@ -147,7 +147,7 @@ def getMatches(playerList):
 					AND tt.description = 'Normal' 
 					AND rownum = 1
 				GROUP BY t.name, p1.name, p2.name, t.id)
-			SELECT t.name, p1.name, p2.name, t.id FROM temp WHERE rownum = 1""" 
+			SELECT tourn, player1, player2, tid FROM temp WHERE rownum = 1""" 
 
 	results = db.session.execute(sql).fetchall()
 
