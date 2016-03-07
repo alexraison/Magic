@@ -89,10 +89,10 @@ def getPairings(playerList, twoHeaded):
 			break
 
 	if potentialPairings:
-		oldestMatches = getOldestDates(potentialPairings)
+		averageTournaments = getAverageTournament(potentialPairings)
 
-		for pairings, oldestTournament in zip(potentialPairings, oldestMatches):
-			if oldestTournament == min(oldestMatches):
+		for pairings, averageTournament in zip(potentialPairings, averageTournaments):
+			if averageTournament == min(averageTournaments):
 				return pairings
 				break
 			
@@ -114,24 +114,22 @@ def getPotentialPairings(matchPairings, r):
 	return outputPairings
 
 
-def getOldestDates(potentialPairings):
+def getAverageTournament(potentialPairings):
 
-	outputDates = []
+	average = []
 
 	for pairings in potentialPairings:
-		dates = [time.mktime(x[2].timetuple()) for x in pairings] 
-		averageDate = mean(dates)
-		#minDate = min(dates)
-		outputDates.append(minDate)
+		tournaments = list([x[2] for x in pairings])
+		average = mean(tournaments)
 
-	return outputDates
+	return average
 
 
 def getMatches(playerList):
 
 	matchList = []
 
-	sql = """SELECT t.name, p1.name, p2.name, t.date
+	sql = """SELECT t.name, p1.name, p2.name, t.id
 				FROM match AS m
 				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
@@ -160,7 +158,7 @@ def getTwoHeadedMatches(playerList):
 
 	matchList = []
 
-	sql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.date
+	sql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.id
 				FROM match AS m
 				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
