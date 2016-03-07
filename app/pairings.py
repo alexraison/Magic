@@ -153,6 +153,7 @@ def getMatches(playerList):
 			b = matchList.index((row[0],[row[2],row[1]],row[3]))
 		except:	
 			matchList.append((row[0],[row[1],row[2]],row[3]))
+	print(matchList)
 
 	return matchList
 
