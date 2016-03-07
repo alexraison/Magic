@@ -148,6 +148,7 @@ def getMatches(playerList):
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
+		print(matchList.count((row[0],[row[2],row[1]],row[3])))
 		if matchList.count((row[0],[row[2],row[1]],row[3])) == 0:
 			matchList.append((row[0],[row[1],row[2]],row[3]))
 
