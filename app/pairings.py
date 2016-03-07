@@ -29,7 +29,7 @@ def postPairings(playerList):
 	normalPairings = getPairings(playerList, False)
 
 	#delete
-	if normalPairing:
+	if normalPairings:
 		for normalPairing in normalPairings:
 			message = normalPairing[1][0] + ' versus ' + normalPairing[1][1] 
 			print(message)
@@ -90,9 +90,11 @@ def getPairings(playerList, twoHeaded):
 
 	potentialPairings = []
 
-	for i in range(numberOfMatches, 1, -1):  
+	for i in range(numberOfMatches, 1, -1): 
+		print(i) 
 		potentialPairings = getPotentialPairings(matchPairings, i)
 		if potentialPairings:
+			print(potentialPairings)
 			break
 
 	if potentialPairings:
@@ -111,7 +113,6 @@ def getPotentialPairings(matchPairings, r):
  
 	for pairings in combinations(matchPairings, r):
 		allPlayers = list(flatten([x[1] for x in pairings]))
-		print(''.join(allPlayers))
 		seen = []
 		for player in allPlayers:
 			if player not in seen:
