@@ -47,7 +47,7 @@ def postPairings(playerList):
 		if twoHeadedPairings:
 			for twoHeadedPairing in twoHeadedPairings:
 
-				message = '*' + twoHeadedPairing[1][0] + '* and *' + twoHeadedPairing[1][1] + '* versus *' + twoHeadedPairing[1][2] + '* and *' + twoHeadedPairing[1][3] '* \n' + twoHeadedPairing[0] 
+				message = '*' + twoHeadedPairing[1][0] + '* and *' + twoHeadedPairing[1][1] + '* versus *' + twoHeadedPairing[1][2] + '* and *' + twoHeadedPairing[1][3] + '* \n' + twoHeadedPairing[0] 
 
 				attachment = {
 						'text': message,
