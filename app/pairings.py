@@ -1,6 +1,6 @@
 from sqlalchemy import func, and_, extract, case
 from sqlalchemy.sql import text
-from datetime import date, datetime, time
+from datetime import date, datetime
 from app.models import Player, Tournament, Match, Set, Statistics, TournamentType, Entity, EntityParticipant, MatchParticipant
 from itertools import combinations
 import smtplib
