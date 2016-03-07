@@ -129,13 +129,12 @@ def getMatches(playerList):
 
 	matchList = []
 
-	sql = """WITH temp AS (SELECT t.name AS tourn, p1.name AS player1, p2.name AS player2, t.id AS tid,
-				row_number() OVER (PARTITION BY p1.name ORDER BY p2.name) AS rownum
+	sql = """SELECT t.name, p1.name, p2.name, t.id
 				FROM match AS m
 				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
 				INNER JOIN entity_participant AS ep1 ON ep1.entity_id = mp1.entity_id
-				INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp2.entity_id
+				INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp1.entity_id AND ep2.player_id <> ep1.player_id
 				INNER JOIN player AS p1 ON p1.id = ep1.player_id
 				INNER JOIN player AS p2 ON p2.id = ep2.player_id
 				INNER JOIN tournament AS t ON t.id = m.tournament_id
@@ -144,15 +143,16 @@ def getMatches(playerList):
 					AND p2.name IN ('""" + "', '".join(playerList) + """')
 					AND mp1.game_wins <> tt.game_wins_required
 					AND mp2.game_wins <> tt.game_wins_required
-					AND tt.description = 'Normal' 
-					AND rownum = 1
-				GROUP BY t.name, p1.name, p2.name, t.id)
-			SELECT tourn, player1, player2, tid FROM temp WHERE rownum = 1""" 
+					AND tt.description = 'Normal'
+				GROUP BY t.name, p1.name, p2.name, t.id"""
 
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
-		matchList.append((row[0],[row[1],row[2]],row[3]))
+		try:
+			b = matchList.index((row[0],[row[2],row[1]],row[3]))
+		except:	
+			matchList.append((row[0],[row[1],row[2]],row[3]))
 
 	return matchList
 
