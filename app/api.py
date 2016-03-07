@@ -410,11 +410,7 @@ def slackResults(id):
 	tournament = getTournamentResults(id)
 
 	outPlayers = ''
-	outPosition = ''
 	outMatchWins = ''
-	outMatchLosses = ''
-	outGameWins = ''
-	outGameLosses = ''
 	outPercentage = ''
 
 	title = getTournamentName(id) + ' Results'
@@ -425,8 +421,24 @@ def slackResults(id):
 				outPlayers += ' & '
 			outPlayers += player.player.name
 
-		outPercentage += '-\t{!s}%\n'.format(round(row.game_win_percentage,1))
+		outPercentage += '{!s}\t{!s}%\n'.format(round(row.position, row.game_win_percentage,1))
 		outMatchWins += '{!s}. {!s} :   {!s} / {!s}\n'.format(row.position, outPlayers, row.match_wins, row.match_losses)
 
-	results_bot.post_results_message(title, outMatchWins, outPercentage)
+	attachment = {
+			'title': title,
+            'fields': [
+                {
+                    'title': "Match Wins/Losses",
+                    'value': outMatchWins,
+                    'short': "true"
+                },
+                {
+                    'title': "Game Win %",
+                    'value': outPercentage,
+                    'short': "true"
+                }               
+            ],
+            'color': "#F35A00"
+        }
 
+	results_bot.post_attachment(attachment)

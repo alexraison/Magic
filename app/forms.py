@@ -34,3 +34,7 @@ class EditSet(Form):
 
 class AddPair(Form):
 	players         = SelectMultipleField('Players')
+
+class Pairings(Form):
+	players         = SelectMultipleField('Players')
+
