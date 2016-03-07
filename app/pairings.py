@@ -109,10 +109,9 @@ def getPotentialPairings(matchPairings, r):
 		for player in allPlayers:
 			if player not in seen:
 				seen.append(player)
-		print(seen)
-		print(allPlayers)
 		if len(seen) == len(allPlayers):
 			outputPairings.append(pairings)
+	print(outputPairings)
 
 	return outputPairings
 
