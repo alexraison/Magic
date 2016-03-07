@@ -102,7 +102,7 @@ def getPotentialPairings(matchPairings, r):
 	
 	outputPairings = []
  
- 	print(matchPairings)
+	print(matchPairings)
 	for pairings in combinations(matchPairings, r):
 		allPlayers = [flatten([x[1] for x in pairings])]
 		seen = []
