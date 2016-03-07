@@ -120,7 +120,7 @@ def getAverageTournament(potentialPairings):
 
 	for pairings in potentialPairings:
 		tournaments = list([x[2] for x in pairings])
-		average = mean(tournaments)
+		average = statistics.mean(tournaments)
 
 	return average
 
