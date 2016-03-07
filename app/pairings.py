@@ -129,8 +129,8 @@ def getMatches(playerList):
 
 	matchList = []
 
-	sql = """SELECT t.name, p1.name, p2.name, t.id,
-				row_number() OVER (PARTITION BY p1.name ORDER BY p2.name) as rownum
+	sql = """WITH temp AS (SELECT t.name, p1.name, p2.name, t.id,
+				row_number() OVER (PARTITION BY p1.name ORDER BY p2.name) AS rownum
 				FROM match AS m
 				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
@@ -146,7 +146,8 @@ def getMatches(playerList):
 					AND mp2.game_wins <> tt.game_wins_required
 					AND tt.description = 'Normal' 
 					AND rownum = 1
-				GROUP BY t.name, p1.name, p2.name, t.id"""
+				GROUP BY t.name, p1.name, p2.name, t.id)
+			SELECT t.name, p1.name, p2.name, t.id FROM temp WHERE rownum = 1""" 
 
 	results = db.session.execute(sql).fetchall()
 
