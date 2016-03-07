@@ -108,8 +108,7 @@ def getPotentialPairings(matchPairings, r):
 	outputPairings = []
  
 	for pairings in combinations(matchPairings, r):
-		playersInPairings = [x[1] for x in pairings]
-		allPlayers = flatten(playersInPairings)
+		allPlayers = list(flatten([x[1] for x in pairings]))
 		seen = []
 		for player in allPlayers:
 			if player not in seen:
