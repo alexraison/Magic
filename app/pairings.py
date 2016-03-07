@@ -144,7 +144,7 @@ def getMatches(playerList):
 					AND mp1.game_wins <> tt.game_wins_required
 					AND mp2.game_wins <> tt.game_wins_required
 					AND tt.description = 'Normal' 
-				GROUP BY t.name, p1.name, p2.name, t.date"""
+				GROUP BY t.name, p1.name, p2.name, t.id"""
 
 	results = db.session.execute(sql).fetchall()
 
@@ -179,7 +179,7 @@ def getTwoHeadedMatches(playerList):
 					AND mp1.game_wins <> tt.game_wins_required
 					AND mp2.game_wins <> tt.game_wins_required
 					AND tt.description = 'Two Headed Giant'
-				GROUP BY t.name, p1.name, p2.name, p3.name, p4.name, t.date"""
+				GROUP BY t.name, p1.name, p2.name, p3.name, p4.name, t.id"""
 
 	results = db.session.execute(sql).fetchall()
 
