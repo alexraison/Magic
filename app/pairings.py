@@ -112,7 +112,6 @@ def getPotentialPairings(matchPairings, r):
 				seen.append(player)
 		if len(seen) == len(allPlayers):
 			outputPairings.append(pairings)
-	print(outputPairings)
 
 	return outputPairings
 
