@@ -16,6 +16,11 @@ th {
 	text-align:center;
 }
 
+form select#players.form-control {
+     width: 600px;
+     height: 330px;
+}
+
 .navbar-default {
 	margin:0;
 }
