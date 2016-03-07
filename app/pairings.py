@@ -28,11 +28,13 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	
-	for normalPairing in normalPairings:
-		message = normalPairing[1][0] + ' versus ' + normalPairing[1][1] 
-		print(message)
+	#delete
+	if normalPairing:
+		for normalPairing in normalPairings:
+			message = normalPairing[1][0] + ' versus ' + normalPairing[1][1] 
+			print(message)
 	return
+	#delete
 
 	if not normalPairings and not twoHeadedPairings:
 	 	attachment = {
@@ -109,16 +111,13 @@ def getPotentialPairings(matchPairings, r):
  
 	for pairings in combinations(matchPairings, r):
 		allPlayers = list(flatten([x[1] for x in pairings]))
+		print(''.join(allPlayers))
 		seen = []
 		for player in allPlayers:
 			if player not in seen:
 				seen.append(player)
 		if len(seen) == len(allPlayers):
-			print(seen)
-			print(allPlayers)
-			outputPairings.append(pairings)
-
-	print(outputPairings)		
+			outputPairings.append(pairings)	
 
 	return outputPairings
 
