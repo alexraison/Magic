@@ -261,10 +261,13 @@ def pairings():
 	form.players.choices = [(g.name, g.name) for g in Player.query.order_by('name')]
 
 	if form.validate_on_submit():
-	
-		postPairings(form.players.data)
-		flash('Pairings posted to slack')	
-		return redirect(url_for('pairings'))
+
+		if len(form.players.data) < 2:
+			flash('At least two pairs must be selected')
+		else:	
+			postPairings(form.players.data)
+			flash('Pairings posted to slack')	
+			return redirect(url_for('pairings'))
 
 	return render_template("form.html", form=form, pageName = 'Pairings')
 
