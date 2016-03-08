@@ -14,11 +14,6 @@ from app import db
 
 def postPairings(playerList):
 
-	with open('app/pairings.settings') as config:
-		settings = json.loads(config.read())
-
-	pairings_bot = slack_bot(settings['pairings_channel_url'], settings['pairings_channel_name'], settings['pairings_bot_name'], settings['pairings_bot_icon'])
-
 	twoHeadedPairings = []
 	twoHeadedPairings = getPairings(playerList, True)
 
@@ -150,6 +145,12 @@ def getTwoHeadedMatches(playerList):
 
 
 def slackPairings(normalPairings,twoHeadedPairings):
+
+	with open('app/pairings.settings') as config:
+		settings = json.loads(config.read())
+
+	pairings_bot = slack_bot(settings['pairings_channel_url'], settings['pairings_channel_name'], settings['pairings_bot_name'], settings['pairings_bot_icon'])
+
 
 	if not normalPairings and not twoHeadedPairings:
 	 	attachment = {
