@@ -1,6 +1,6 @@
 from sqlalchemy import func, and_, extract, case
 from sqlalchemy.sql import text
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from app.models import Player, Tournament, Match, Set, Statistics, TournamentType, Entity, EntityParticipant, MatchParticipant
 from itertools import combinations
 import smtplib
@@ -14,11 +14,6 @@ from app import db
 
 def postPairings(playerList):
 
-	with open('app/pairings.settings') as config:
-		settings = json.loads(config.read())
-
-	pairings_bot = slack_bot(settings['pairings_channel_url'], settings['pairings_channel_name'], settings['pairings_bot_name'], settings['pairings_bot_icon'])
-
 	twoHeadedPairings = []
 	twoHeadedPairings = getPairings(playerList, True)
 
@@ -28,81 +23,39 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	if not normalPairings and not twoHeadedPairings:
-	 	attachment = {
-	 				'title': "Uh oh!",
-       				'text': "There are no match pairings. Must be time to draft!",
-        			    'color': "#7CD197"
-       			 }
-
-	 	pairings_bot.post_attachment(attachment)
-	else:	
-		attachment = {
-					'title': "Today's magical pairings:",
-  				    'color': "#7CD197"
-  				}
-
-		pairings_bot.post_attachment(attachment)
-
-		if twoHeadedPairings:
-			for twoHeadedPairing in twoHeadedPairings:
-
-				message = '*' + twoHeadedPairing[1][0] + '* and *' + twoHeadedPairing[1][1] + '* versus *' + twoHeadedPairing[1][2] + '* and *' + twoHeadedPairing[1][3] + '* \n' + twoHeadedPairing[0] 
-
-				attachment = {
-						'text': message,
-        		    	'color': "#7CD197",
-        		    	'mrkdwn_in': ["text"]
-     			  	 }
-
-				pairings_bot.post_attachment(attachment)
-
-		if normalPairings:
-			for normalPairing in normalPairings:
-
-				message = '*' + normalPairing[1][0] + '* versus *' + normalPairing[1][1] + '* \n' + normalPairing[0] 
-
-				attachment = {
-      					'text': message,
-       				    'color': "#7CD197",
-       				    'mrkdwn_in': ["text"]
-      				 }
-
-				pairings_bot.post_attachment(attachment)
+	slackPairings(normalPairings,twoHeadedPairings)
 
 
 def getPairings(playerList, twoHeaded):
 
 	if twoHeaded:
-		numberOfMatches = int(len(playerList) / 4) 
-		matchPairings = getTwoHeadedMatches(playerList)
+		maxNumberOfMatches = int(len(playerList) / 4) 
+		matches = getTwoHeadedMatches(playerList)
 	else:
-		numberOfMatches = int(len(playerList) / 2) 
-		matchPairings = getMatches(playerList) 
+		maxNumberOfMatches = int(len(playerList) / 2) 
+		matches = getMatches(playerList) 
 
 	potentialPairings = []
 
-	for i in range(numberOfMatches, 0, -1): 
-		print(i) 
-		potentialPairings = list(getPotentialPairings(matchPairings, i))
+	for i in range(maxNumberOfMatches, 0, -1):  
+		potentialPairings = list(getAllPossiblePairings(matches, i))
 		if potentialPairings:
 			break
 
 	if potentialPairings:
-		oldestMatches = getOldestDates(potentialPairings)
+		averageTournaments = getAverageTournament(potentialPairings)
 
-		for pairings, oldestTournament in zip(potentialPairings, oldestMatches):
-			if oldestTournament == min(oldestMatches):
+		for pairings, averageTournament in zip(potentialPairings, averageTournaments):
+			if averageTournament == min(averageTournaments):
 				return pairings
 				break
 			
 
-
-def getPotentialPairings(matchPairings, r):
+def getAllPossiblePairings(matches, r):
 	
 	outputPairings = []
  
-	for pairings in combinations(matchPairings, r):
+	for pairings in combinations(matches, r):
 		allPlayers = list(flatten([x[1] for x in pairings]))
 		seen = []
 		for player in allPlayers:
@@ -114,23 +67,22 @@ def getPotentialPairings(matchPairings, r):
 	return outputPairings
 
 
-def getOldestDates(potentialPairings):
+def getAverageTournament(potentialPairings):
 
-	outputDates = []
+	averages = []
 
 	for pairings in potentialPairings:
-		dates = [x[2] for x in pairings] 
-		minDate = min(dates)
-		outputDates.append(minDate)
+		tournaments = list([x[2] for x in pairings])
+		averages.append(statistics.mean(tournaments))
 
-	return outputDates
+	return averages
 
 
 def getMatches(playerList):
 
 	matchList = []
 
-	sql = """SELECT t.name, p1.name, p2.name, t.date
+	sql = """SELECT t.name, p1.name, p2.name, t.id
 				FROM match AS m
 				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
@@ -145,12 +97,14 @@ def getMatches(playerList):
 					AND mp1.game_wins <> tt.game_wins_required
 					AND mp2.game_wins <> tt.game_wins_required
 					AND tt.description = 'Normal' 
-				GROUP BY t.name, p1.name, p2.name, t.date"""
+				GROUP BY t.name, p1.name, p2.name, t.id"""
 
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
-		matchList.append((row[0],[row[1],row[2]],row[3]))
+		# The SQL will return both (match1,player1,player2,id) and (match1,player2,player3,id)
+		if matchList.count((row[0],[row[2],row[1]],row[3])) == 0:
+			matchList.append((row[0],[row[1],row[2]],row[3]))
 
 	return matchList
 
@@ -159,7 +113,7 @@ def getTwoHeadedMatches(playerList):
 
 	matchList = []
 
-	sql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.date
+	sql = """SELECT t.name, p1.name, p2.name, p3.name, p4.name, t.id
 				FROM match AS m
 				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
@@ -180,7 +134,7 @@ def getTwoHeadedMatches(playerList):
 					AND mp1.game_wins <> tt.game_wins_required
 					AND mp2.game_wins <> tt.game_wins_required
 					AND tt.description = 'Two Headed Giant'
-				GROUP BY t.name, p1.name, p2.name, p3.name, p4.name, t.date"""
+				GROUP BY t.name, p1.name, p2.name, p3.name, p4.name, t.id"""
 
 	results = db.session.execute(sql).fetchall()
 
@@ -188,6 +142,57 @@ def getTwoHeadedMatches(playerList):
 		matchList.append((row[0],[row[1],row[2],row[3],row[4]],row[5]))
 
 	return matchList 
+
+
+def slackPairings(normalPairings,twoHeadedPairings):
+
+	with open('app/pairings.settings') as config:
+		settings = json.loads(config.read())
+
+	pairings_bot = slack_bot(settings['pairings_channel_url'], settings['pairings_channel_name'], settings['pairings_bot_name'], settings['pairings_bot_icon'])
+
+
+	if not normalPairings and not twoHeadedPairings:
+	 	attachment = {
+	 				'title': "Uh oh!",
+       				'text': "There are no match pairings. Must be time to draft!",
+        			    'color': "#7CD197"
+       			 }
+
+	 	pairings_bot.post_attachment(attachment)
+	else:	
+		attachment = {
+					'title': "Today's magical pairings:",
+  				    'color': "#7CD197"
+  				}
+
+		pairings_bot.post_attachment(attachment)
+
+		if twoHeadedPairings:
+			for twoHeadedPairing in twoHeadedPairings:
+
+				message = '*' + twoHeadedPairing[1][0] + '* and *' + twoHeadedPairing[1][1] + '* vs *' + twoHeadedPairing[1][2] + '* and *' + twoHeadedPairing[1][3] + '* \n' + twoHeadedPairing[0] 
+
+				attachment = {
+						'text': message,
+        		    	'color': "#7CD197",
+        		    	'mrkdwn_in': ["text"]
+     			  	 }
+
+				pairings_bot.post_attachment(attachment)
+
+		if normalPairings:
+			for normalPairing in normalPairings:
+
+				message = '*' + normalPairing[1][0] + '* vs *' + normalPairing[1][1] + '* \n' + normalPairing[0] 
+
+				attachment = {
+      					'text': message,
+       				    'color': "#7CD197",
+       				    'mrkdwn_in': ["text"]
+      				 }
+
+				pairings_bot.post_attachment(attachment)
 
 
 def flatten(l):
