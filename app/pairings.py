@@ -28,62 +28,22 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	if not normalPairings and not twoHeadedPairings:
-	 	attachment = {
-	 				'title': "Uh oh!",
-       				'text': "There are no match pairings. Must be time to draft!",
-        			    'color': "#7CD197"
-       			 }
-
-	 	pairings_bot.post_attachment(attachment)
-	else:	
-		attachment = {
-					'title': "Today's magical pairings:",
-  				    'color': "#7CD197"
-  				}
-
-		pairings_bot.post_attachment(attachment)
-
-		if twoHeadedPairings:
-			for twoHeadedPairing in twoHeadedPairings:
-
-				message = '*' + twoHeadedPairing[1][0] + '* and *' + twoHeadedPairing[1][1] + '* vs *' + twoHeadedPairing[1][2] + '* and *' + twoHeadedPairing[1][3] + '* \n' + twoHeadedPairing[0] 
-
-				attachment = {
-						'text': message,
-        		    	'color': "#7CD197",
-        		    	'mrkdwn_in': ["text"]
-     			  	 }
-
-				pairings_bot.post_attachment(attachment)
-
-		if normalPairings:
-			for normalPairing in normalPairings:
-
-				message = '*' + normalPairing[1][0] + '* vs *' + normalPairing[1][1] + '* \n' + normalPairing[0] 
-
-				attachment = {
-      					'text': message,
-       				    'color': "#7CD197",
-       				    'mrkdwn_in': ["text"]
-      				 }
-
-				pairings_bot.post_attachment(attachment)
+	slackPairings(normalPairings,twoHeadedPairings)
 
 
 def getPairings(playerList, twoHeaded):
 
 	if twoHeaded:
-		numberOfMatches = int(len(playerList) / 4) 
-		matchPairings = getTwoHeadedMatches(playerList)
+		maxNumberOfMatches = int(len(playerList) / 4) 
+		matches = getTwoHeadedMatches(playerList)
 	else:
-		numberOfMatches = int(len(playerList) / 2) 
-		matchPairings = getMatches(playerList) 
+		maxNumberOfMatches = int(len(playerList) / 2) 
+		matches = getMatches(playerList) 
 
 	potentialPairings = []
 
-	for i in range(numberOfMatches, 0, -1):  
-		potentialPairings = list(getPotentialPairings(matchPairings, i))
+	for i in range(maxNumberOfMatches, 0, -1):  
+		potentialPairings = list(getAllPossiblePairings(matches, i))
 		if potentialPairings:
 			break
 
@@ -96,12 +56,11 @@ def getPairings(playerList, twoHeaded):
 				break
 			
 
-
-def getPotentialPairings(matchPairings, r):
+def getAllPossiblePairings(matches, r):
 	
 	outputPairings = []
  
-	for pairings in combinations(matchPairings, r):
+	for pairings in combinations(matches, r):
 		allPlayers = list(flatten([x[1] for x in pairings]))
 		seen = []
 		for player in allPlayers:
@@ -148,7 +107,7 @@ def getMatches(playerList):
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
-		print(matchList.count((row[0],[row[2],row[1]],row[3])))
+		# The SQL will return both (match1,player1,player2,id) and (match1,player2,player3,id)
 		if matchList.count((row[0],[row[2],row[1]],row[3])) == 0:
 			matchList.append((row[0],[row[1],row[2]],row[3]))
 
@@ -188,6 +147,51 @@ def getTwoHeadedMatches(playerList):
 		matchList.append((row[0],[row[1],row[2],row[3],row[4]],row[5]))
 
 	return matchList 
+
+
+def slackPairings(normalPairings,twoHeadedPairings):
+
+	if not normalPairings and not twoHeadedPairings:
+	 	attachment = {
+	 				'title': "Uh oh!",
+       				'text': "There are no match pairings. Must be time to draft!",
+        			    'color': "#7CD197"
+       			 }
+
+	 	pairings_bot.post_attachment(attachment)
+	else:	
+		attachment = {
+					'title': "Today's magical pairings:",
+  				    'color': "#7CD197"
+  				}
+
+		pairings_bot.post_attachment(attachment)
+
+		if twoHeadedPairings:
+			for twoHeadedPairing in twoHeadedPairings:
+
+				message = '*' + twoHeadedPairing[1][0] + '* and *' + twoHeadedPairing[1][1] + '* vs *' + twoHeadedPairing[1][2] + '* and *' + twoHeadedPairing[1][3] + '* \n' + twoHeadedPairing[0] 
+
+				attachment = {
+						'text': message,
+        		    	'color': "#7CD197",
+        		    	'mrkdwn_in': ["text"]
+     			  	 }
+
+				pairings_bot.post_attachment(attachment)
+
+		if normalPairings:
+			for normalPairing in normalPairings:
+
+				message = '*' + normalPairing[1][0] + '* vs *' + normalPairing[1][1] + '* \n' + normalPairing[0] 
+
+				attachment = {
+      					'text': message,
+       				    'color': "#7CD197",
+       				    'mrkdwn_in': ["text"]
+      				 }
+
+				pairings_bot.post_attachment(attachment)
 
 
 def flatten(l):
