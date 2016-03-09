@@ -149,10 +149,18 @@ def slackPairings(normalPairings,twoHeadedPairings):
 
 	try:
 		print(app)
+	except:
+		pass
+
 	try:
 		print(app.testing)
+	except:
+		pass
+
 	try:
 		print(app.config.testing)	
+	except:	
+		pass	
 
 	if True == True:	
 		channel = settings['testing_channel_name']
