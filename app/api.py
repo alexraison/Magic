@@ -406,7 +406,7 @@ def slackResults(id):
 	with open('app/results.settings') as config:
 		settings = json.loads(config.read())
 
-	if app.testing == True:	
+	if app.config['TESTING'] == True:	
 		channel = settings['testing_channel_name']
 	else:	
 		channel = settings['channel_name']
