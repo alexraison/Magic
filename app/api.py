@@ -7,7 +7,7 @@ import json
 from itertools import combinations
 from app.post import slack_bot
 
-from app import db, config
+from app import app, db
 
 ############################################################
 # Type APIs
