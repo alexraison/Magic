@@ -147,22 +147,10 @@ def getTwoHeadedMatches(playerList):
 def slackPairings(normalPairings,twoHeadedPairings):
 
 
-	try:
-		print(app)
-	except:
-		pass
+	with open('app/pairings.settings') as config:
+		settings = json.loads(config.read())	
 
-	try:
-		print(app.testing)
-	except:
-		pass
-
-	try:
-		print(app.config.testing)	
-	except:	
-		pass	
-
-	if True == True:	
+	if app.testing == True:	
 		channel = settings['testing_channel_name']
 	else:	
 		channel = settings['channel_name']

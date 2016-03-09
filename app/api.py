@@ -406,11 +406,9 @@ def slackResults(id):
 	with open('app/results.settings') as config:
 		settings = json.loads(config.read())
 
-	if configTESTING == True:	
-		URL = settings['testing_channel_url']
+	if app.testing == True:	
 		channel = settings['testing_channel_name']
 	else:	
-		URL = settings['channel_url']
 		channel = settings['channel_name']
 	results_bot = slack_bot(settings['channel_url'], channel, settings['bot_name'], settings['bot_icon'])
 
