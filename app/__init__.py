@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
-print(os.environ)
+
 db = SQLAlchemy(app)
 
 def playerInParticipantOne(currentPlayer, match):
