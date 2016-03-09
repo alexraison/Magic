@@ -1,6 +1,8 @@
 	{
-		"results_channel_url":"https://hooks.slack.com/services/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",
-		"results_channel_name":"#fun-house",
-		"results_bot_name":"Jace, the Result Sculptor",
-		"results_bot_icon":"http://i.imgur.com/80oo6Aw.png"
+		"channel_url":"https://hooks.slack.com/services/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",
+		"testing_url":"https://hooks.slack.com/services/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",
+		"channel_name":"#fun-house",
+		"testing_channel_name":"#jhcmagic-testing",
+		"bot_name":"Jace, the Result Sculptor",
+		"bot_icon":"http://i.imgur.com/80oo6Aw.png"
 	}

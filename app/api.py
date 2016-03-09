@@ -402,10 +402,17 @@ def setExists(id):
 ############################################# 
 def slackResults(id):
 
+	
 	with open('app/results.settings') as config:
 		settings = json.loads(config.read())
 
-	results_bot = slack_bot(settings['results_channel_url'], settings['results_channel_name'], settings['results_bot_name'], settings['results_bot_icon'])
+	if app.TESTING = True:	
+		URL = settings['testing_channel_url']
+		channel = settings['testing_channel_name']
+	else:	
+		URL = settings['channel_url']
+		channel = settings['channel_name']
+	results_bot = slack_bot(URL, channel, settings['bot_name'], settings['bot_icon'])
 
 	tournament = getTournamentResults(id)
 
@@ -417,9 +424,9 @@ def slackResults(id):
 
 	title = tournamentName + ' Results'
 	for row in tournament:
+		outPlayers = ''
 		for idx, player in enumerate(row.entity.participants):
-			outPlayers = ''
-			if idx > 1:
+			if idx > 0:
 				outPlayers += ' & '
 			outPlayers += player.player.name
 
