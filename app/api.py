@@ -7,7 +7,7 @@ import json
 from itertools import combinations
 from app.post import slack_bot
 
-from app import db
+from app import db, config
 
 ############################################################
 # Type APIs
@@ -406,7 +406,7 @@ def slackResults(id):
 	with open('app/results.settings') as config:
 		settings = json.loads(config.read())
 
-	if app.TESTING == True:	
+	if configTESTING == True:	
 		URL = settings['testing_channel_url']
 		channel = settings['testing_channel_name']
 	else:	
