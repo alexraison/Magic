@@ -152,10 +152,8 @@ def slackPairings(normalPairings,twoHeadedPairings):
 
 	if app.config['TESTING'] == True:	
 		channel = settings['testing_channel_name']
-		print('It only fucking worked')
 	else:	
-		channel = settings['testing_channel_name']
-		print('Nope, try again')
+		channel = settings['channel_name']
 	pairings_bot = slack_bot(settings['channel_url'], channel, settings['bot_name'], settings['bot_icon'])
 
 
