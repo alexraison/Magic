@@ -146,13 +146,11 @@ def getTwoHeadedMatches(playerList):
 
 def slackPairings(normalPairings,twoHeadedPairings):
 
-	if app.TESTING = True:	
-		URL = settings['testing_channel_url']
+	if app.TESTING == True:	
 		channel = settings['testing_channel_name']
 	else:	
-		URL = settings['channel_url']
 		channel = settings['channel_name']
-	pairings_bot = slack_bot(URL, channel, settings['bot_name'], settings['bot_icon'])
+	pairings_bot = slack_bot(settings['channel_url'], channel, settings['bot_name'], settings['bot_icon'])
 
 
 	if not normalPairings and not twoHeadedPairings:
