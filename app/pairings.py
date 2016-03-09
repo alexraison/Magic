@@ -9,7 +9,7 @@ import collections
 from app.post import slack_bot
 import statistics
 
-from app import db
+from app import app, db
 
 
 def postPairings(playerList):
@@ -146,7 +146,15 @@ def getTwoHeadedMatches(playerList):
 
 def slackPairings(normalPairings,twoHeadedPairings):
 
-	if app.TESTING == True:	
+
+	try:
+		print(app)
+	try:
+		print(app.testing)
+	try:
+		print(app.config.testing)	
+
+	if True == True:	
 		channel = settings['testing_channel_name']
 	else:	
 		channel = settings['channel_name']
