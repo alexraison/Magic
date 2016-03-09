@@ -67,6 +67,11 @@ def createTournament(name, set, entities, typeLiteral):
 
 	rebuildStatistics(newTournament.id)
 
+def createTournamentType(name,gameWinsRequired):
+	newTournamentType = TournamentType(name = name, game_wins_required = gameWinsRequired)
+	db.session.add(newTournamentType)
+	db.session.commit()
+
 def getTournamentResults(id):
 
 	return Statistics.query.filter(Statistics.tournament_id == id).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc()).all()
