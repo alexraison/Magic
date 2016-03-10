@@ -247,8 +247,8 @@ def rebuildStatistics(tournamentId):
 	players = [player.entity.participants for player in Statistics.query.filter(Statistics.tournament_id == tournamentId).filter(Statistics.position == 1).all()]
 
 	if players:
-		print(players)
 		winnerList = [player.player.name for player in players[0]]
+		print(winnerList)
 		winnerString = ", ".join(winnerList)
 		tournament = Tournament.query.filter(Tournament.id == tournamentId).first()
 		tournament.winners = winnerString
