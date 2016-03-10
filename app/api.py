@@ -67,6 +67,11 @@ def createTournament(name, set, entities, typeLiteral):
 
 	rebuildStatistics(newTournament.id)
 
+def createTournamentType(description,gameWinsRequired):
+	newTournamentType = TournamentType(description = description, game_wins_required = gameWinsRequired)
+	db.session.add(newTournamentType)
+	db.session.commit()
+
 def getTournamentResults(id):
 
 	return Statistics.query.filter(Statistics.tournament_id == id).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc()).all()
@@ -428,6 +433,7 @@ def slackResults(id):
 				outPlayers += ' & '
 			outPlayers += player.player.name
 
+		print(str(row.position) + ' ' + outPlayers)
 		if row.position == 1 and outPlayers == 'Mike':
 			results_bot.post_attachment(mikeVictoryMessage(tournamentName))
 
@@ -460,5 +466,7 @@ def mikeVictoryMessage(tournament):
 
 	attachment = {
 			'text': message,
-            'color': "danger"
-        }
+			'color': "danger"
+		}
+		
+	return attachment
