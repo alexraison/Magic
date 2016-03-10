@@ -433,6 +433,7 @@ def slackResults(id):
 				outPlayers += ' & '
 			outPlayers += player.player.name
 
+		print(str(row.position) + ' ' + outPlayers)
 		if row.position == 1 and outPlayers == 'Mike':
 			results_bot.post_attachment(mikeVictoryMessage(tournamentName))
 
