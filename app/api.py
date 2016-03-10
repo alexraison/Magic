@@ -126,8 +126,7 @@ def getYearStatistics(year):
 		                    	func.sum(Statistics.game_losses).label("total_game_losses"),               	
 							extract('YEAR', Tournament.date).label("year")).join(Statistics).join(Tournament).join(TournamentType).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').group_by(Entity.id, extract('YEAR', Tournament.date)).all()
 
-	tournamentWins = db.session.query(Entity, func.count(Statistics.position).label("tournament_wins"),
-				extract('YEAR', Tournament.date).label("year")).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').group_by(Entity.id, extract('YEAR', Tournament.date)).all()
+	tournamentWins = db.session.query(Entity, func.count(Statistics.position).label("tournament_wins")).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').group_by(Entity.id, extract('YEAR', Tournament.date)).all()
 
 	statistics = []
 	for row in results:
