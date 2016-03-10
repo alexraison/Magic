@@ -1,4 +1,4 @@
-from app.api import rebuildStatistics
+from app.api import *
 from app.models import Tournament
 
 for tournament in getTournaments():
