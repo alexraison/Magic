@@ -466,7 +466,7 @@ def mikeVictoryMessage(tournament):
 
 	attachment = {
 			'text': message,
-            'color': "danger"
-       	}
-       	
-    return attachment
+			'color': "danger"
+		}
+		
+	return attachment
