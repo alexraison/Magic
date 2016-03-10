@@ -67,8 +67,8 @@ def createTournament(name, set, entities, typeLiteral):
 
 	rebuildStatistics(newTournament.id)
 
-def createTournamentType(name,gameWinsRequired):
-	newTournamentType = TournamentType(name = name, game_wins_required = gameWinsRequired)
+def createTournamentType(description,gameWinsRequired):
+	newTournamentType = TournamentType(description = description, game_wins_required = gameWinsRequired)
 	db.session.add(newTournamentType)
 	db.session.commit()
 
