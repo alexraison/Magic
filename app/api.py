@@ -141,7 +141,7 @@ def getYearStatistics(year):
 						 'total_matches_played':row.total_match_wins + row.total_match_losses,
 						 'player':row.Entity.participants[0].player.name,
 						 'year':row.year,
-						 'tournament_wins':dict(wins)[row.Entity]}
+						 'tournament_wins':dict(tournamentWins)[row.Entity]}
 
 		statistics.append(rowDictionary)	
 
