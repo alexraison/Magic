@@ -74,7 +74,7 @@ def createTournamentType(description,gameWinsRequired):
 
 def getTournamentResults(id):
 
-	return Statistics.query.filter(Statistics.tournament_id == id).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc()).all()
+	return Statistics.query.filter(Statistics.tournament_id == id).order_by(Statistics.match_wins.desc(), Statistics.game_win_percentage.desc(), Statistics.game_losses.asc()).all()
 
 def addPositions(statistics):
 
@@ -247,7 +247,9 @@ def rebuildStatistics(tournamentId):
 	players = [player.entity.participants for player in Statistics.query.filter(Statistics.tournament_id == tournamentId).filter(Statistics.position == 1).all()]
 
 	if players:
-		winnerList = [player.player.name for player in players[0]]
+		winnerList = []
+		for i in players:
+			winnerList += [player.player.name for player in i]
 		winnerString = ", ".join(winnerList)
 		tournament = Tournament.query.filter(Tournament.id == tournamentId).first()
 		tournament.winners = winnerString
