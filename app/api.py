@@ -133,7 +133,7 @@ def getYearStatistics(year):
 
 		try:
 			wins = dict(tournamentWins)[row.Entity]
-		else:
+		except:
 			wins = 0
 
 		rowDictionary = {'total_match_wins':row.total_match_wins,
