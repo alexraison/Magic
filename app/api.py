@@ -123,15 +123,14 @@ def getYearStatistics(year):
 	results = db.session.query(Entity, func.sum(Statistics.match_wins).label("total_match_wins"), 
 								func.sum(Statistics.match_losses).label("total_match_losses"), 
 		                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
-		                    	func.sum(Statistics.game_losses).label("total_game_losses"),
-		                    	
+		                    	func.sum(Statistics.game_losses).label("total_game_losses"),               	
 							extract('YEAR', Tournament.date).label("year")).join(Statistics).join(Tournament).join(TournamentType).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').group_by(Entity.id, extract('YEAR', Tournament.date)).all()
-	wins = db.session.query(Entity, func.count(Statistics.position).label("tournament_wins")
+
+	tournamentWins = db.session.query(Entity, func.count(Statistics.position).label("tournament_wins"),
 				extract('YEAR', Tournament.date).label("year")).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').group_by(Entity.id, extract('YEAR', Tournament.date)).all()
+
 	statistics = []
 	for row in results:
-
-		wins.tournament_wins row.Entity == wins.Entity
 
 		rowDictionary = {'total_match_wins':row.total_match_wins,
 						 'total_match_losses':row.total_match_losses,
@@ -142,7 +141,7 @@ def getYearStatistics(year):
 						 'total_matches_played':row.total_match_wins + row.total_match_losses,
 						 'player':row.Entity.participants[0].player.name,
 						 'year':row.year,
-						 'tournament_wins':tournamentWins}
+						 'tournament_wins':dict(wins)[row.Entity]}
 
 		statistics.append(rowDictionary)	
 
