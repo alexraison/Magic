@@ -111,7 +111,7 @@ def getLifetimeStatistics():
 
 		wins = 0
 		for tournament in tournaments:
-			if Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
+			row.Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
 				wins += 1
 
 		rowDictionary = {'total_match_wins':row.total_match_wins,
@@ -142,7 +142,7 @@ def getYearStatistics(year):
 
 		wins = 0
 		for tournament in tournaments:
-			if Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
+			row.Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
 				wins += 1
 
 		rowDictionary = {'total_match_wins':row.total_match_wins,
@@ -173,7 +173,7 @@ def getSetStatistics(id):
 
 		wins = 0
 		for tournament in tournaments:
-			if Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
+			if row.Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
 				wins += 1
 
 		rowDictionary = {'total_match_wins':row.total_match_wins,
