@@ -13,7 +13,8 @@
           <th>Game Wins</th>
           <th>Game Losses</th>   
           <th>Game Win Percentage</th>    
-          <th>Matches Played</th>                
+          <th>Matches Played</th>          
+          <th>Tournament Wins</th>         
         </tr>
       </thead>
 
@@ -28,7 +29,8 @@
           <td>{{row['total_game_wins']}}</td>
           <td>{{row['total_game_losses']}}</td>
           <td>{{row['game_win_percentage']|round(1)}}</td>
-          <td>{{row['total_matches_played']}}</td>          
+          <td>{{row['total_matches_played']}}</td>    
+          <td>{{row['tournament_wins']}}</td>       
         </tr>
       {% endfor %}
     </tbody>

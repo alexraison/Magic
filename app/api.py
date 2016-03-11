@@ -104,8 +104,16 @@ def getLifetimeStatistics():
 		                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
 		                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).filter(TournamentType.description == 'Normal').group_by(Entity.id).all()
 
+	tournaments = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(TournamentType.description == 'Normal').all()
+
 	statistics = []
 	for row in results:
+
+		wins = 0
+		for tournament in tournaments:
+			if row.Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
+				wins += 1
+
 		rowDictionary = {'total_match_wins':row.total_match_wins,
 						 'total_match_losses':row.total_match_losses,
 						 'total_game_wins':row.total_game_wins,
@@ -113,7 +121,8 @@ def getLifetimeStatistics():
 			 			 'match_win_percentage':row.total_match_wins/(row.total_match_wins + row.total_match_losses) * 100 if (row.total_match_wins + row.total_match_losses) > 0 else 0.0,
 						 'game_win_percentage':row.total_game_wins/(row.total_game_wins + row.total_game_losses) * 100 if (row.total_game_wins + row.total_game_losses) > 0 else 0.0,
 						 'total_matches_played':row.total_match_wins + row.total_match_losses,
-						 'player':row.Entity.participants[0].player.name}
+						 'player':row.Entity.participants[0].player.name,
+						 'tournament_wins':wins}
 		statistics.append(rowDictionary)
 
 	return addPositions(statistics)
@@ -123,11 +132,19 @@ def getYearStatistics(year):
 	results = db.session.query(Entity, func.sum(Statistics.match_wins).label("total_match_wins"), 
 								func.sum(Statistics.match_losses).label("total_match_losses"), 
 		                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
-		                    	func.sum(Statistics.game_losses).label("total_game_losses"),
+		                    	func.sum(Statistics.game_losses).label("total_game_losses"),               	
 							extract('YEAR', Tournament.date).label("year")).join(Statistics).join(Tournament).join(TournamentType).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').group_by(Entity.id, extract('YEAR', Tournament.date)).all()
+
+	tournaments = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').all()
 
 	statistics = []
 	for row in results:
+
+		wins = 0
+		for tournament in tournaments:
+			if row.Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
+				wins += 1
+
 		rowDictionary = {'total_match_wins':row.total_match_wins,
 						 'total_match_losses':row.total_match_losses,
 						 'total_game_wins':row.total_game_wins,
@@ -136,7 +153,8 @@ def getYearStatistics(year):
 						 'game_win_percentage':row.total_game_wins/(row.total_game_wins + row.total_game_losses) * 100 if (row.total_game_wins + row.total_game_losses) > 0 else 0.0,
 						 'total_matches_played':row.total_match_wins + row.total_match_losses,
 						 'player':row.Entity.participants[0].player.name,
-						 'year':row.year}
+						 'year':row.year,
+						 'tournament_wins':wins}
 		statistics.append(rowDictionary)	
 
 	return addPositions(statistics)
@@ -148,8 +166,16 @@ def getSetStatistics(id):
 		                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
 		                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).join(Set).filter(TournamentType.description == 'Normal').filter(Set.id == id).group_by(Entity.id, Set.id).all()
 
+	tournaments = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).join(Set).filter(Statistics.position == 1).filter(Statistics.matches_unfinished == 0).filter(TournamentType.description == 'Normal').filter(Set.id == id).all()
+
 	statistics = []
 	for row in results:
+
+		wins = 0
+		for tournament in tournaments:
+			if row.Entity == tournament[0] and not unfinishedMatchesInTournament(tournament[1]):
+				wins += 1
+
 		rowDictionary = {'total_match_wins':row.total_match_wins,
 						 'total_match_losses':row.total_match_losses,
 						 'total_game_wins':row.total_game_wins,
@@ -158,7 +184,8 @@ def getSetStatistics(id):
 						 'game_win_percentage':row.total_game_wins/(row.total_game_wins + row.total_game_losses) * 100 if (row.total_game_wins + row.total_game_losses) > 0 else 0.0,
 						 'total_matches_played':row.total_match_wins + row.total_match_losses,
 						 'player':row.Entity.participants[0].player.name,
-						 'set':row.Set.name}
+						 'set':row.Set.name,
+						 'tournament_wins':wins}
 		statistics.append(rowDictionary)	
 
 	return addPositions(statistics)	
