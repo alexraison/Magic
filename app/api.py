@@ -104,16 +104,15 @@ def getLifetimeStatistics():
 		                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
 		                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).filter(TournamentType.description == 'Normal').group_by(Entity.id).all()
 
-	tournamentWins = db.session.query(Entity, func.count(Statistics.position).label("tournament_wins")).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(Statistics.matches_unfinished == 0).filter(TournamentType.description == 'Normal').group_by(Entity.id).all()
+	tournaments = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(TournamentType.description == 'Normal').all()
 
 	statistics = []
 	for row in results:
 
-		try:
-			wins = dict(tournamentWins)[row.Entity]
-		except:
-			wins = 0
-
+		wins = 0
+		for t in tournaments:
+			if Entity = tournament[0] and not unfinishedMatchesInTournament(t[1]):
+				wins += 1
 
 		rowDictionary = {'total_match_wins':row.total_match_wins,
 						 'total_match_losses':row.total_match_losses,
@@ -136,15 +135,15 @@ def getYearStatistics(year):
 		                    	func.sum(Statistics.game_losses).label("total_game_losses"),               	
 							extract('YEAR', Tournament.date).label("year")).join(Statistics).join(Tournament).join(TournamentType).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').group_by(Entity.id, extract('YEAR', Tournament.date)).all()
 
-	tournamentWins = db.session.query(Entity, func.count(Statistics.position).label("tournament_wins")).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(Statistics.matches_unfinished == 0).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').group_by(Entity.id, extract('YEAR', Tournament.date)).all()
+	tournamentWins = db.session.query(Entity, Torunament.id).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(extract('YEAR', Tournament.date) == year).filter(TournamentType.description == 'Normal').all()
 
 	statistics = []
 	for row in results:
 
-		try:
-			wins = dict(tournamentWins)[row.Entity]
-		except:
-			wins = 0
+		wins = 0
+		for t in tournaments:
+			if Entity = tournament[0] and not unfinishedMatchesInTournament(t[1]):
+				wins += 1
 
 		rowDictionary = {'total_match_wins':row.total_match_wins,
 						 'total_match_losses':row.total_match_losses,
@@ -167,15 +166,15 @@ def getSetStatistics(id):
 		                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
 		                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).join(Set).filter(TournamentType.description == 'Normal').filter(Set.id == id).group_by(Entity.id, Set.id).all()
 
-	tournamentWins = db.session.query(Entity, func.count(Statistics.position).label("tournament_wins")).join(Statistics).join(Tournament).join(TournamentType).join(Set).filter(Statistics.position == 1).filter(Statistics.matches_unfinished == 0).filter(TournamentType.description == 'Normal').filter(Set.id == id).group_by(Entity.id, Set.id).all()
+	tournamentWins = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).join(Set).filter(Statistics.position == 1).filter(Statistics.matches_unfinished == 0).filter(TournamentType.description == 'Normal').filter(Set.id == id).all()
 
 	statistics = []
 	for row in results:
 
-		try:
-			wins = dict(tournamentWins)[row.Entity]
-		except:
-			wins = 0
+		wins = 0
+		for t in tournaments:
+			if Entity = tournament[0] and not unfinishedMatchesInTournament(t[1]):
+				wins += 1
 
 		rowDictionary = {'total_match_wins':row.total_match_wins,
 						 'total_match_losses':row.total_match_losses,
