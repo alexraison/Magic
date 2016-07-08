@@ -463,8 +463,6 @@ def slackResults(id):
 			outPlayers += player.player.name
 
 		print(str(row.position) + ' ' + outPlayers)
-		if row.position == 1 and outPlayers == 'Mike':
-			results_bot.post_attachment(mikeVictoryMessage(tournamentName))
 
 		outPercentage += '{!s}.\t{!s}%\n'.format(row.position, round(row.game_win_percentage,1))
 		outMatchWins += '{!s}. {!s} :   {!s} / {!s}\n'.format(row.position, outPlayers, row.match_wins, row.match_losses)
@@ -488,14 +486,3 @@ def slackResults(id):
 
 	results_bot.post_attachment(attachment)
 
-
-def mikeVictoryMessage(tournament):
-
-	message = '"I have nothing to offer but blood, toil, tears and sweat. We have before us an ordeal of the most grievous kind. We have before us many, many long months of struggle and of suffering. You ask, what is our policy? I can say: It is to wage war, by sea, land and air, with all our might and with all the strength that God can give us; to wage war against a monstrous tyranny, never surpassed in the dark, lamentable catalogue of human crime. That is our policy. You ask, what is our aim? I can answer in one word: It is victory, victory at all costs, victory in spite of all terror, victory, however long and hard the road may be"\n - Mike Burns, before ' + tournament
-
-	attachment = {
-			'text': message,
-			'color': "danger"
-		}
-		
-	return attachment
