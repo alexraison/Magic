@@ -23,7 +23,7 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-    if normalPairings:
+	if normalPairings:
 		for player in flatten([x[1] for x in normalPairings]):
 			playerList.remove(player)
 
