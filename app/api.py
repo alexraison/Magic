@@ -463,6 +463,8 @@ def slackResults(id):
 			outPlayers += player.player.name
 
 		print(str(row.position) + ' ' + outPlayers)
+		if row.position == 1 and outPlayers == 'Alex L':
+			results_bot.post_attachment(victoryMessage(tournamentName))
 
 		outPercentage += '{!s}.\t{!s}%\n'.format(row.position, round(row.game_win_percentage,1))
 		outMatchWins += '{!s}. {!s} :   {!s} / {!s}\n'.format(row.position, outPlayers, row.match_wins, row.match_losses)
@@ -486,3 +488,12 @@ def slackResults(id):
 
 	results_bot.post_attachment(attachment)
 
+def victoryMessage(tournament):
+
+	message = 'My love has got no money\nHis name is Alex Lees\nMy love has got no power\nHis name is Alex Lees\nMy love has got no fame\nHis name is Alex Lees\nMy love has got no money\nHis name is Alex Lees\n\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\n\n -- GALA - ' + tournament 
+		attachment = {
+			'text': message,
+			'color': "danger"
+		}
+		
+	return attachment
