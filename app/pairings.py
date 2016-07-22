@@ -23,7 +23,11 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	slackPairings(normalPairings,twoHeadedPairings)
+	if normalPairings:
+		for player in flatten([x[1] for x in normalPairings]):
+			playerList.remove(player)
+
+	slackPairings(normalPairings,twoHeadedPairings, playerList)
 
 
 def getPairings(playerList, twoHeaded):
@@ -144,7 +148,7 @@ def getTwoHeadedMatches(playerList):
 	return matchList 
 
 
-def slackPairings(normalPairings,twoHeadedPairings):
+def slackPairings(normalPairings,twoHeadedPairings, remainder):
 
 
 	with open('app/pairings.settings') as config:
@@ -198,6 +202,23 @@ def slackPairings(normalPairings,twoHeadedPairings):
       				 }
 
 				pairings_bot.post_attachment(attachment)
+
+		if remainder:
+
+			message = '*No games for these chumps:*\n'
+
+			for player in remainder:
+
+				message += player + '\n'
+
+			attachment = {
+      					'text': message,
+       				    'color': "#7CD197",
+       				    'mrkdwn_in': ["text"]
+      				 }
+
+			pairings_bot.post_attachment(attachment)	
+
 
 
 def flatten(l):
