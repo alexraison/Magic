@@ -491,7 +491,7 @@ def slackResults(id):
 def victoryMessage(tournament):
 
 	message = 'My love has got no money\nHis name is Alex Lees\nMy love has got no power\nHis name is Alex Lees\nMy love has got no fame\nHis name is Alex Lees\nMy love has got no money\nHis name is Alex Lees\n\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\n\n -- GALA - ' + tournament 
-		attachment = {
+	attachment = {
 			'text': message,
 			'color': "danger"
 		}
