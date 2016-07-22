@@ -204,7 +204,7 @@ def slackPairings(normalPairings,twoHeadedPairings, remainder):
 
 		if remainder:
 
-			message = 'No games for these chumps:\n'
+			message = '*No games for these chumps:*\n'
 
 			for player in remainder:
 
