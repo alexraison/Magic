@@ -23,8 +23,9 @@ def postPairings(playerList):
 
 	normalPairings = getPairings(playerList, False)
 
-	for player in flatten([x[1] for x in normalPairings]):
-		playerList.remove(player)
+    if normalPairings:	
+		for player in flatten([x[1] for x in normalPairings]):
+			playerList.remove(player)
 
 	slackPairings(normalPairings,twoHeadedPairings, playerList)
 
