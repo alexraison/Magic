@@ -37,7 +37,7 @@ def getPairings(playerList, twoHeaded):
 		#maxNumberOfMatches = int(len(playerList) / 4) 
 		#matches = getTwoHeadedMatches(playerList)
 	#else:
-	maxNumberOfMatches = int(len(playerList) / 2) 
+	#maxNumberOfMatches = int(len(playerList) / 2) 
 	matches = getMatches(playerList) 
 
 	inputList = []
@@ -45,12 +45,15 @@ def getPairings(playerList, twoHeaded):
 		inputList.append((match[3], match[4], (match[2] * -1 + 1000)))
 
 	outputList = []
-	outputList = list(filter((-1).__ne__, maxWeightMatching(inputList, True)))
-	it = iter(outputList)
+	outputList = maxWeightMatching(inputList, True)
+	outputStuff = list(filter((-1).__ne__, outputList))
+	it = iter(outputStuff)
 	outputMatches = []
 	outputMatches = zip(it, it)
 
+	print(outputStuff)
 	print(outputList)
+	print(outputMatches)
 
 	pairings = []
 	for outputMatch in outputMatches:
