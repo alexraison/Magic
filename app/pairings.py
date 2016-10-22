@@ -39,20 +39,28 @@ def getPairings(playerList, twoHeaded):
 		maxNumberOfMatches = int(len(playerList) / 2) 
 		matches = getMatches(playerList) 
 
-	potentialPairings = []
+	matchingList = []
+	for match in matches:
+		matchingList.append((match[1], match[2], match[3]))
 
-	for i in range(maxNumberOfMatches, 0, -1):  
-		potentialPairings = list(getAllPossiblePairings(matches, i))
-		if potentialPairings:
-			break
+	#potentialPairings = []
 
-	if potentialPairings:
-		averageTournaments = getAverageTournament(potentialPairings)
+	#for i in range(maxNumberOfMatches, 0, -1):  
+		#potentialPairings = list(getAllPossiblePairings(matches, i))
+		#if potentialPairings:
+			#break
 
-		for pairings, averageTournament in zip(potentialPairings, averageTournaments):
-			if averageTournament == min(averageTournaments):
-				return pairings
-				break
+	#if potentialPairings:
+		#averageTournaments = getAverageTournament(potentialPairings)
+
+		#for pairings, averageTournament in zip(potentialPairings, averageTournaments):
+			#if averageTournament == min(averageTournaments):
+				#return pairings
+				#break
+
+	pairings = []
+	pairings = maxWeightMatching(matchingList)
+	print(pairings)
 			
 
 def getAllPossiblePairings(matches, r):
