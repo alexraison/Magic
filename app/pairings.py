@@ -60,7 +60,8 @@ def getPairings(playerList, twoHeaded):
 	pairings = []
 	for outputMatch in outputMatches
 		for match in matches:
-			if (match[3] == outputMatch[0] and match[4] == outputMatch[1]) or (match[3] == outputMatch[1] and match[4] == outputMatch[0]):
+			if ((match[3] == outputMatch[0] and match[4] == outputMatch[1]) or 
+				(match[3] == outputMatch[1] and match[4] == outputMatch[0])):
 				pairings.append(match)
 
 	return pairings
