@@ -49,15 +49,19 @@ def getPairings(playerList, twoHeaded):
 	plusAmount = max(matchIDs) + 1
 
 	for x in inputList:
-		x[3] = (x[3] * -1) + plusAmount
+		x[2] = (x[2] * -1) + plusAmount
 
 	outputList = []
-	outputList = maxWeightMatching(inputList, True)
+	outputList = list(filter((-1).__ne__, maxWeightMatching(inputList, True)))
+	it = iter(outputList)
+	outputMatches = []
+	outputMatches = zip(it, it)
 
 	pairings = []
-	for match in matches:
-		if match[3] == player1 and match[4] == player2:
-			pairings.append(match)
+	for outputMatch in outputMatches
+		for match in matches:
+			if (match[3] == outputMatch[0] and match[4] == outputMatch[1]) or (match[3] == outputMatch[1] and match[4] == outputMatch[0]):
+				pairings.append(match)
 
 	return pairings
 			
