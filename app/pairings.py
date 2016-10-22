@@ -42,7 +42,7 @@ def getPairings(playerList, twoHeaded):
 
 	matchingList = []
 	for match in matches:
-		matchingList.append((match[3], match[4], match[2] * -1))
+		matchingList.append((match[3], match[4], match[2]))
 
 	#potentialPairings = []
 
