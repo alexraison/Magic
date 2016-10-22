@@ -16,7 +16,7 @@ from app import app, db
 def postPairings(playerList):
 
 	twoHeadedPairings = []
-	twoHeadedPairings = getPairings(playerList, True)
+	#twoHeadedPairings = getPairings(playerList, True)
 
 	if twoHeadedPairings:
 		for player in flatten([x[1] for x in twoHeadedPairings]):
