@@ -44,6 +44,8 @@ def getPairings(playerList, twoHeaded):
 	for match in matches:
 		matchingList.append((match[3], match[4], match[2]))
 
+	print(len(matchingList))
+
 	#potentialPairings = []
 
 	#for i in range(maxNumberOfMatches, 0, -1):  
@@ -60,7 +62,7 @@ def getPairings(playerList, twoHeaded):
 				#break
 
 	pairings = []
-	pairings = maxWeightMatching(matchingList)
+	pairings = maxWeightMatching(matchingList, True)
 	print(pairings)
 			
 
