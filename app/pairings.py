@@ -86,22 +86,25 @@ def getMatches(playerList):
 
 	matchList = []
 
-	sql = """SELECT t.name, p1.name, p2.name, t.id
-				FROM match AS m
-				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
-				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
-				INNER JOIN entity_participant AS ep1 ON ep1.entity_id = mp1.entity_id
-				INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp2.entity_id
-				INNER JOIN player AS p1 ON p1.id = ep1.player_id
-				INNER JOIN player AS p2 ON p2.id = ep2.player_id
-				INNER JOIN tournament AS t ON t.id = m.tournament_id
-				INNER JOIN tournament_type AS tt on t.type = tt.id
-				WHERE p1.name IN ('""" + "', '".join(playerList) + """')
-					AND p2.name IN ('""" + "', '".join(playerList) + """')
-					AND mp1.game_wins <> tt.game_wins_required
-					AND mp2.game_wins <> tt.game_wins_required
-					AND tt.description = 'Normal' 
-				GROUP BY t.name, p1.name, p2.name, t.id"""
+	sql = """SELECT tm.name, x.player1, x.player2, x.tournamentID 
+				FROM (SELECT p1.name as player1, p2.name as player2, min(t.id) as tournamentID
+					FROM match AS m
+					INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
+					INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
+					INNER JOIN entity_participant AS ep1 ON ep1.entity_id = mp1.entity_id
+					INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp2.entity_id
+					INNER JOIN player AS p1 ON p1.id = ep1.player_id
+					INNER JOIN player AS p2 ON p2.id = ep2.player_id
+					INNER JOIN tournament AS t ON t.id = m.tournament_id
+					INNER JOIN tournament_type AS tt on t.type = tt.id
+					WHERE p1.name IN ('""" + "', '".join(playerList) + """')
+						AND p2.name IN ('""" + "', '".join(playerList) + """')
+						AND mp1.game_wins <> tt.game_wins_required
+						AND mp2.game_wins <> tt.game_wins_required
+						AND tt.description = 'Normal' 
+					GROUP BY p1.name, p2.name) AS x
+				INNER JOIN tournament AS tm
+					ON tm.id = x.tournamentID"""
 
 	results = db.session.execute(sql).fetchall()
 
