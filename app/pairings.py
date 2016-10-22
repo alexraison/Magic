@@ -43,13 +43,6 @@ def getPairings(playerList, twoHeaded):
 	inputList = []
 	for match in matches:
 		inputList.append((match[3], match[4], (match[2] * -1 + 1000)))
-		matchIDs = []
-		matchIDs.append(match[2])
-
-	plusAmount = max(matchIDs) + 1
-
-	for x in inputList:
-		x[2] = (x[2] * -1) + plusAmount
 
 	outputList = []
 	outputList = list(filter((-1).__ne__, maxWeightMatching(inputList, True)))
