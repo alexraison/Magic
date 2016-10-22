@@ -42,7 +42,7 @@ def getPairings(playerList, twoHeaded):
 
 	inputList = []
 	for match in matches:
-		inputList.append((match[3], match[4], match[2]))
+		inputList.append((match[3], match[4], (match[2] * -1 + 1000)))
 		matchIDs = []
 		matchIDs.append(match[2])
 
