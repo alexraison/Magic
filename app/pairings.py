@@ -9,7 +9,7 @@ import collections
 from app.post import slack_bot
 import statistics
 
-from app import app, db
+from app import app, db, mwmatching
 
 
 def postPairings(playerList):
