@@ -42,7 +42,7 @@ def getPairings(playerList, twoHeaded):
 
 	matchingList = []
 	for match in matches:
-		matchingList.append((match[1][0], match[1][1], match[2]))
+		matchingList.append((match[1][0], match[1][1], match[2] * -1))
 
 	#potentialPairings = []
 
@@ -96,7 +96,7 @@ def getMatches(playerList):
 	matchList = []
 
 	sql = """SELECT tm.name, x.player1, x.player2, x.tournamentID 
-				FROM (SELECT p1.name as player1, p2.name as player2, min(t.id) as tournamentID
+				FROM (SELECT p1.id as player1, p2.id as player2, min(t.id) as tournamentID
 					FROM match AS m
 					INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 					INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
@@ -118,7 +118,7 @@ def getMatches(playerList):
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
-		# The SQL will return both (match1,player1,player2,id) and (match1,player2,player3,id)
+		# The SQL will return both (match1,player1,player2,id) and (match1,player2,player1,id)
 		if matchList.count((row[0],[row[2],row[1]],row[3])) == 0:
 			matchList.append((row[0],[row[1],row[2]],row[3]))
 
