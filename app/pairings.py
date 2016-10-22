@@ -16,13 +16,13 @@ from app import app, db
 def postPairings(playerList):
 
 	twoHeadedPairings = []
-	#twoHeadedPairings = getPairings(playerList, True)
+	twoHeadedPairings = getTwoHeadedPairings(playerList)
 
 	if twoHeadedPairings:
 		for player in flatten([x[1] for x in twoHeadedPairings]):
 			playerList.remove(player)
 
-	normalPairings = getPairings(playerList, False)
+	normalPairings = getPairings(playerList)
 
 	if normalPairings:
 		for player in flatten([x[1] for x in normalPairings]):
@@ -31,20 +31,13 @@ def postPairings(playerList):
 	slackPairings(normalPairings,twoHeadedPairings, playerList)
 
 
-def getPairings(playerList, twoHeaded):
+def getPairings(playerList):
 
-	#if twoHeaded:
-		#maxNumberOfMatches = int(len(playerList) / 4) 
-		#matches = getTwoHeadedMatches(playerList)
-	#else:
-	#maxNumberOfMatches = int(len(playerList) / 2) 
 	matches = getMatches(playerList) 
 
 	inputList = []
 	for match in matches:
 		inputList.append((match[3], match[4], (match[2] * -1)))
-	print(matches)
-	print(inputList)
 
 	outputList = []
 	outputList = enumerate(maxWeightMatching(inputList, True))
@@ -56,6 +49,26 @@ def getPairings(playerList, twoHeaded):
 				pairings.append(match)
 
 	return pairings
+
+def getTwoHeadedPairings(playerList):
+
+	maxNumberOfMatches = int(len(playerList) / 4) 
+	matches = getTwoHeadedMatches(playerList)
+
+	potentialPairings = []
+
+	for i in range(maxNumberOfMatches, 0, -1):  
+		potentialPairings = list(getAllPossiblePairings(matches, i))
+		if potentialPairings:
+			break
+
+	if potentialPairings:
+		averageTournaments = getAverageTournament(potentialPairings)
+
+		for pairings, averageTournament in zip(potentialPairings, averageTournaments):
+			if averageTournament == min(averageTournaments):
+				return pairings
+				break
 			
 
 def getAllPossiblePairings(matches, r):
