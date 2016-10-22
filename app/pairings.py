@@ -43,8 +43,10 @@ def getPairings(playerList, twoHeaded):
 	inputList = []
 	for match in matches:
 		inputList.append((match[3], match[4], match[2]))
+		matchIDs = []
+		matchIDs.append(match[2])
 
-	plusAmount = max(x[3]) + 1
+	plusAmount = max(matchIDs[3]) + 1
 
 	for x in inputList:
 		x[3] = (x[3] * -1) + plusAmount
