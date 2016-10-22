@@ -44,6 +44,8 @@ def getPairings(playerList, twoHeaded):
 	for match in matches:
 		inputList.append((match[3], match[4], (match[2] * -1 + 1000)))
 
+	print(inputList)
+
 	outputList = []
 	outputList = maxWeightMatching(inputList, True)
 	outputStuff = list(filter((-1).__ne__, outputList))
