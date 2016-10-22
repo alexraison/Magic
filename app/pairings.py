@@ -7,9 +7,10 @@ import smtplib
 import json
 import collections
 from app.post import slack_bot
+from app.mwmatching import maxWeightMatching
 import statistics
 
-from app import app, db, mwmatching
+from app import app, db
 
 
 def postPairings(playerList):
