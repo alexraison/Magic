@@ -45,7 +45,7 @@ def getPairings(playerList, twoHeaded):
 		inputList.append((match[3], match[4], match[2]))
 
 	plusAmount = max(x[3]) + 1
-	
+
 	for x in inputList:
 		x[3] = (x[3] * -1) + plusAmount
 
@@ -54,7 +54,7 @@ def getPairings(playerList, twoHeaded):
 
 	pairings = []
 	for match in matches:
-		if match[3] = player1 and match[4] = player2:
+		if match[3] == player1 and match[4] == player2:
 			pairings.append(match)
 
 	return pairings
