@@ -47,21 +47,12 @@ def getPairings(playerList, twoHeaded):
 	print(inputList)
 
 	outputList = []
-	outputList = maxWeightMatching(inputList, True)
-	outputStuff = list(filter((-1).__ne__, outputList))
-	it = iter(outputStuff)
-	outputMatches = []
-	outputMatches = zip(it, it)
-
-	print(outputStuff)
-	print(outputList)
-	print(outputMatches)
+	outputList = enumerate(maxWeightMatching(inputList, True))
 
 	pairings = []
-	for outputMatch in outputMatches:
+	for x in outputList:
 		for match in matches:
-			if ((match[3] == outputMatch[0] and match[4] == outputMatch[1]) or 
-				(match[3] == outputMatch[1] and match[4] == outputMatch[0])):
+			if ((match[3] == x[0] and match[4] == x[1]):
 				pairings.append(match)
 
 	return pairings
