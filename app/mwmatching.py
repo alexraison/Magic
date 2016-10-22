@@ -1,39 +1,8 @@
-"""Found in http://jorisvr.nl/files/graphmatching/20130407/mwmatching.py
-Written by Joris van Rantwijk"""
-
-
-"""Weighted maximum matching in general graphs.
-
-The algorithm is taken from "Efficient Algorithms for Finding Maximum
-Matching in Graphs" by Zvi Galil, ACM Computing Surveys, 1986.
-It is based on the "blossom" method for finding augmenting paths and
-the "primal-dual" method for finding a matching of maximum weight, both
-due to Jack Edmonds.
-Some ideas came from "Implementation of algorithms for maximum matching
-on non-bipartite graphs" by H.J. Gabow, Standford Ph.D. thesis, 1973.
-
-A C program for maximum weight matching by Ed Rothberg was used extensively
-to validate this new code.
-"""
-
-#
-# Changes:
-#
-# 2013-04-07
-#   * Added Python 3 compatibility with contributions from Daniel Saunders.
-#
-# 2008-06-08
-#   * First release.
-#
-
 from __future__ import print_function
 
 # If assigned, DEBUG(str) is called with lots of debug messages.
 DEBUG = None
-"""def DEBUG(s):
-    from sys import stderr
-    print('DEBUG:', s, file=stderr)
-"""
+
 
 # Check delta2/delta3 computation after every substage;
 # only works on integer weights, slows down the algorithm to O(n^4).
@@ -44,19 +13,7 @@ CHECK_OPTIMUM = True
 
 
 def maxWeightMatching(edges, maxcardinality=False):
-    """Compute a maximum-weighted matching in the general undirected
-    weighted graph given by "edges".  If "maxcardinality" is true,
-    only maximum-cardinality matchings are considered as solutions.
 
-    Edges is a sequence of tuples (i, j, wt) describing an undirected
-    edge between vertex i and vertex j with weight wt.  There is at most
-    one edge between any two vertices; no vertex has an edge to itself.
-    Vertices are identified by consecutive, non-negative integers.
-
-    Return a list "mate", such that mate[i] == j if vertex i is
-    matched to vertex j, and mate[i] == -1 if vertex i is not matched.
-
-    This function takes time O(n ** 3)."""
 
     #
     # Vertices are numbered 0 .. (nvertex-1).
