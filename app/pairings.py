@@ -50,6 +50,8 @@ def getPairings(playerList, twoHeaded):
 	outputMatches = []
 	outputMatches = zip(it, it)
 
+	print(outputList)
+
 	pairings = []
 	for outputMatch in outputMatches:
 		for match in matches:
