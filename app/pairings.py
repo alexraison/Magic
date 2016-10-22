@@ -42,7 +42,7 @@ def getPairings(playerList, twoHeaded):
 
 	matchingList = []
 	for match in matches:
-		matchingList.append((match[1][0], match[1][1], match[2] * -1))
+		matchingList.append((match[4], match[5], match[2] * -1))
 
 	#potentialPairings = []
 
@@ -95,8 +95,8 @@ def getMatches(playerList):
 
 	matchList = []
 
-	sql = """SELECT tm.name, x.player1, x.player2, x.tournamentID 
-				FROM (SELECT p1.id as player1, p2.id as player2, min(t.id) as tournamentID
+	sql = """SELECT tm.name, x.p1name, x.p2name, x.tournamentID, x.p1id, x.p2id
+				FROM (SELECT p1.id AS p1id, p1.name AS p1name, p2.id AS p2id, p2.name AS p2name, min(t.id) as tournamentID
 					FROM match AS m
 					INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
 					INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
@@ -111,16 +111,16 @@ def getMatches(playerList):
 						AND mp1.game_wins <> tt.game_wins_required
 						AND mp2.game_wins <> tt.game_wins_required
 						AND tt.description = 'Normal' 
-					GROUP BY p1.name, p2.name) AS x
+					GROUP BY p1.id, p1.name, p2.id, p2.name) AS x
 				INNER JOIN tournament AS tm
 					ON tm.id = x.tournamentID"""
 
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
-		# The SQL will return both (match1,player1,player2,id) and (match1,player2,player1,id)
-		if matchList.count((row[0],[row[2],row[1]],row[3])) == 0:
-			matchList.append((row[0],[row[1],row[2]],row[3]))
+		# The SQL will return both (match1,player1,player2,id, p1id, p2id) and (match1,player2,player1,id, p2id, p1id)
+		if matchList.count((row[0],[row[2],row[1]],row[3],row[5], row[4])) == 0:
+			matchList.append((row[0],[row[1],row[2]],row[3], row[4], row[5]))
 
 	return matchList
 
