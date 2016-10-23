@@ -7,6 +7,7 @@ import smtplib
 import json
 import collections
 from app.post import slack_bot
+from app.mwmatching import maxWeightMatching
 import statistics
 
 from app import app, db
@@ -15,13 +16,13 @@ from app import app, db
 def postPairings(playerList):
 
 	twoHeadedPairings = []
-	twoHeadedPairings = getPairings(playerList, True)
+	twoHeadedPairings = getTwoHeadedPairings(playerList)
 
 	if twoHeadedPairings:
 		for player in flatten([x[1] for x in twoHeadedPairings]):
 			playerList.remove(player)
 
-	normalPairings = getPairings(playerList, False)
+	normalPairings = getPairings(playerList)
 
 	if normalPairings:
 		for player in flatten([x[1] for x in normalPairings]):
@@ -30,14 +31,29 @@ def postPairings(playerList):
 	slackPairings(normalPairings,twoHeadedPairings, playerList)
 
 
-def getPairings(playerList, twoHeaded):
+def getPairings(playerList):
 
-	if twoHeaded:
-		maxNumberOfMatches = int(len(playerList) / 4) 
-		matches = getTwoHeadedMatches(playerList)
-	else:
-		maxNumberOfMatches = int(len(playerList) / 2) 
-		matches = getMatches(playerList) 
+	matches = getMatches(playerList) 
+
+	inputList = []
+	for match in matches:
+		inputList.append((match[3], match[4], (match[2] * -1)))
+
+	outputList = []
+	outputList = enumerate(maxWeightMatching(inputList, True))
+
+	pairings = []
+	for x in outputList:
+		for match in matches:
+			if match[3] == x[0] and match[4] == x[1]:
+				pairings.append(match)
+
+	return pairings
+
+def getTwoHeadedPairings(playerList):
+
+	maxNumberOfMatches = int(len(playerList) / 4) 
+	matches = getTwoHeadedMatches(playerList)
 
 	potentialPairings = []
 
@@ -86,29 +102,32 @@ def getMatches(playerList):
 
 	matchList = []
 
-	sql = """SELECT t.name, p1.name, p2.name, t.id
-				FROM match AS m
-				INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
-				INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
-				INNER JOIN entity_participant AS ep1 ON ep1.entity_id = mp1.entity_id
-				INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp2.entity_id
-				INNER JOIN player AS p1 ON p1.id = ep1.player_id
-				INNER JOIN player AS p2 ON p2.id = ep2.player_id
-				INNER JOIN tournament AS t ON t.id = m.tournament_id
-				INNER JOIN tournament_type AS tt on t.type = tt.id
-				WHERE p1.name IN ('""" + "', '".join(playerList) + """')
-					AND p2.name IN ('""" + "', '".join(playerList) + """')
-					AND mp1.game_wins <> tt.game_wins_required
-					AND mp2.game_wins <> tt.game_wins_required
-					AND tt.description = 'Normal' 
-				GROUP BY t.name, p1.name, p2.name, t.id"""
+	sql = """SELECT tm.name, x.p1name, x.p2name, x.tournamentID, x.p1id, x.p2id
+				FROM (SELECT p1.id AS p1id, p1.name AS p1name, p2.id AS p2id, p2.name AS p2name, min(t.id) as tournamentID
+					FROM match AS m
+					INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
+					INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
+					INNER JOIN entity_participant AS ep1 ON ep1.entity_id = mp1.entity_id
+					INNER JOIN entity_participant AS ep2 ON ep2.entity_id = mp2.entity_id
+					INNER JOIN player AS p1 ON p1.id = ep1.player_id
+					INNER JOIN player AS p2 ON p2.id = ep2.player_id
+					INNER JOIN tournament AS t ON t.id = m.tournament_id
+					INNER JOIN tournament_type AS tt on t.type = tt.id
+					WHERE p1.name IN ('""" + "', '".join(playerList) + """')
+						AND p2.name IN ('""" + "', '".join(playerList) + """')
+						AND mp1.game_wins <> tt.game_wins_required
+						AND mp2.game_wins <> tt.game_wins_required
+						AND tt.description = 'Normal' 
+					GROUP BY p1.id, p1.name, p2.id, p2.name) AS x
+				INNER JOIN tournament AS tm
+					ON tm.id = x.tournamentID"""
 
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
-		# The SQL will return both (match1,player1,player2,id) and (match1,player2,player3,id)
-		if matchList.count((row[0],[row[2],row[1]],row[3])) == 0:
-			matchList.append((row[0],[row[1],row[2]],row[3]))
+		# The SQL will return both (match1,player1,player2,id, p1id, p2id) and (match1,player2,player1,id, p2id, p1id)
+		if matchList.count((row[0],[row[2],row[1]],row[3],row[5], row[4])) == 0:
+			matchList.append((row[0],[row[1],row[2]],row[3], row[4], row[5]))
 
 	return matchList
 
