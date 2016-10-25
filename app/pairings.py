@@ -48,7 +48,10 @@ def getPairings(playerList):
 			if match[3] == x[0] and match[4] == x[1]:
 				pairings.append(match)
 
-	return pairings
+	sortedPairings = []
+	sortedPairings = sorted(pairings, key=lambda tup: tup[2])
+
+	return sortedPairings
 
 def getTwoHeadedPairings(playerList):
 
