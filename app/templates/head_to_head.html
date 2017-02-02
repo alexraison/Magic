@@ -17,6 +17,7 @@
         <tr>
           <th>Player</th>
           <th>Opponent</th>
+          <th>Match Win %</th>
           <th>Match Wins</th>
           <th>Match Losses</th>
           <th>Game Wins</th>
@@ -30,6 +31,7 @@
         <tr>
           <td>{{row['player']}}</td>
           <td>{{row['opponent']}}</td>
+          <td>{{row['match_win_percentage']|round(1)}}
           <td>{{row['total_match_wins']}}</td>
           <td>{{row['total_match_losses']}}</td>
           <td>{{row['total_game_wins']}}</td>
