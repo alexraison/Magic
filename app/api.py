@@ -206,7 +206,7 @@ def getPlayerHeadToHeadData():
 
 	sql = '''SELECT t.player AS player, t.opponent AS opponent, t.total_match_wins AS total_match_wins, t.total_match_losses AS total_match_losses, 
 					t.total_game_wins AS total_game_wins, t.total_game_losses AS total_game_losses, t.total_matches_played AS total_matches_played, 
-					CASE WHEN t.total_game_wins = 0 THEN 0 ELSE t.total_game_wins/t.total_matches_played*100 AS match_win_percentage
+					CASE WHEN t.total_game_wins = 0 THEN 0 ELSE t.total_game_wins/t.total_matches_played*100 END AS match_win_percentage
 			 FROM 
 			(SELECT p1.name AS player, p2.name AS opponent, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_wins, 
 	                sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_losses, sum(mp1.game_wins) AS total_game_wins, 
