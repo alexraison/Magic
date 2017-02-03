@@ -204,9 +204,13 @@ def getUnfinishedTournamentResults(id):
 
 def getPlayerHeadToHeadData():
 
-	sql = '''SELECT p1.name AS player, p2.name AS opponent, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_wins, 
+	sql = '''SELECT t.player AS player, t.opponent AS opponent, t.total_match_wins AS total_match_wins, t.total_match_losses AS total_match_losses, 
+					t.total_game_wins AS total_game_wins, t.total_game_losses AS total_game_losses, t.total_matches_played AS total_matches_played, 
+					CASE WHEN t.total_matches_played = 0 THEN 0 ELSE (CAST(t.total_match_wins AS decimal)/cast(t.total_matches_played AS decimal))*100 END AS match_win_percentage
+			 FROM 
+			(SELECT p1.name AS player, p2.name AS opponent, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_wins, 
 	                sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_losses, sum(mp1.game_wins) AS total_game_wins, 
-	                sum(mp2.game_wins) AS total_game_losses, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) + sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_matches_played
+					sum(mp2.game_wins) AS total_game_losses, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) + sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_matches_played
 			  FROM match AS m
 			    INNER JOIN tournament AS t ON m.tournament_id = t.id
 			    INNER JOIN tournament_type AS tt ON t.type = tt.id
@@ -217,8 +221,8 @@ def getPlayerHeadToHeadData():
 			    INNER JOIN entity_participant AS ep2 ON mp2.entity_id = ep2.entity_id AND ep1.entity_id <> ep2.entity_id
 			    INNER JOIN player AS p2 ON ep2.player_id = p2.id    
 			WHERE tt.description = 'Normal' 
-			GROUP BY ep1.entity_id, p1.name, ep2.entity_id, p2.name
-			ORDER BY p1.name, p2.name'''
+			GROUP BY ep1.entity_id, p1.name, ep2.entity_id, p2.name) AS t
+			ORDER BY match_win_percentage DESC'''
 			
 	return db.session.execute(sql).fetchall()
 
