@@ -35,11 +35,12 @@ def getPairings(playerList):
 
 	matches = getMatches(playerList) 
 
-	oldestTournament = getOldestTournament
+	oldestTournament = getOldestTournament(matches)
 
 	inputList = []
 	for match in matches:
-		matchWeighting = (match[2] - oldestTournament + 1) * (match[2] - oldestTournament + 1) * -1
+		match[2]
+		matchWeighting = -(match[2] - oldestTournament + 1) * (match[2] - oldestTournament + 1)
 		inputList.append((match[3], match[4], matchWeighting))
 
 	outputList = []
