@@ -35,9 +35,12 @@ def getPairings(playerList):
 
 	matches = getMatches(playerList) 
 
+	oldestTournament = getOldestTournament
+
 	inputList = []
 	for match in matches:
-		inputList.append((match[3], match[4], (match[2] * -1)))
+		matchWeighting = (match[2] - oldestTournament + 1) * (match[2] - oldestTournament + 1) * -1
+		inputList.append((match[3], match[4], matchWeighting))
 
 	outputList = []
 	outputList = enumerate(maxWeightMatching(inputList, True))
@@ -253,6 +256,13 @@ def flatten(l):
 		else:
 			yield el
 
+def getOldestTournament (matches):
+
+	tournaments = []
+	for match in matches:
+		tournaments.append(match[2])
+
+	return min(tournaments)
 
 
 
