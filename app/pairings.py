@@ -36,11 +36,9 @@ def getPairings(playerList):
 	matches = getMatches(playerList) 
 
 	tournamentWeightings = getTournamentWeightings(matches)
-	print(tournamentWeightings)
 
 	inputList = []
 	for match in matches:
-		print(tournamentWeightings[match[2]])
 		inputList.append((match[3], match[4], tournamentWeightings[match[2]]))
 
 	outputList = []
