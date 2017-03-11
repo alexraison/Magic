@@ -265,7 +265,7 @@ def getTournamentWeightings (matches):
 		if tournaments.count(match[2]) == 0:
 			tournaments.append(match[2])
 
-	return {t[1]:t[0]*t[0] for t in enumerate(sorted(tournaments, reverse))}
+	return {t[1]:t[0]*t[0] for t in enumerate(sorted(tournaments, reverse=True))}
 
 
 
