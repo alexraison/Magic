@@ -35,9 +35,11 @@ def getPairings(playerList):
 
 	matches = getMatches(playerList) 
 
+	tournamentWeightings = getTournamentWeightings(matches)
+
 	inputList = []
 	for match in matches:
-		inputList.append((match[3], match[4], (match[2] * -1)))
+		inputList.append((match[3], match[4], tournamentWeightings[match[2]]))
 
 	outputList = []
 	outputList = enumerate(maxWeightMatching(inputList, True))
@@ -253,6 +255,15 @@ def flatten(l):
 		else:
 			yield el
 
+
+def getTournamentWeightings (matches):
+
+	tournaments = []
+	for match in matches:
+		if tournaments.count(match[2]) == 0:
+			tournaments.append(match[2])
+
+	return {t[1]:t[0]*t[0] for t in enumerate(sorted(tournaments, reverse=True))}
 
 
 
