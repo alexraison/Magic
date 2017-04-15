@@ -11,7 +11,10 @@ class Channel:
 		self.channelName = channelName
 		self.token = token
 		self.session = requests.session()
-		self.oldest = time.mktime(datetime.date.today().timetuple())
+		if app.config['TESTING'] == True:
+			self.oldest = 0
+		else:
+			self.oldest = time.mktime(date.today().timetuple())
 
 	def getPairingsMessage(self):
 		getChannelFromList(self)
