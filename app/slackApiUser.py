@@ -11,7 +11,7 @@ class User:
 		self.session = requests.session()
 
 	def getUserName(self):
-		getUserInfo(self)
+		getUserInfo()
 		return self.userName
 
 	def getUserInfo(self):
@@ -21,7 +21,7 @@ class User:
 		}
 		payload = {'payload':json.dumps(message)}
 
-		parseUserInfo(self, self.session.get('https://slack.com/api/users.info', data=payload).json())
+		parseUserInfo(self.session.get('https://slack.com/api/users.info', data=payload).json())
 
 	def parseUserInfo(self, userInfoResponse):
 		if userInfoResponse['ok'] and not userInfoResponse['deleted']:
