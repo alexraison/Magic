@@ -35,13 +35,13 @@ def automatePairings():
 	pairingsMessageReactions = getReactions(pairingsChannel.channelId, pairingsMessage[3])
 
 	for reaction in pairingsMessageReactions:
- 		if reaction[0] = 'hand':
- 			playList = []
- 			playList = reaction[1]
+ 		if reaction[0] == 'hand':
+ 			playList == []
+ 			playList == reaction[1]
 
- 		if reaction[0] = 'metal':
- 			draftList = []
- 			draftList = reaction[1]
+ 		if reaction[0] =='metal':
+ 			draftList == []
+ 			draftList == reaction[1]
 
  	if len[draftList] > 6:
  		for player in draftList:
