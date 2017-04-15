@@ -6,9 +6,9 @@ import smtplib
 import json
 import collections
 from app.post import slack_bot
-from app.slackapi.channel import channel
-from app.slackapi.user import user
-from app.slackapi.reactions import getReactions
+from app.slackApiChannel import channel
+from app.slackApiUser import user
+from app.slackApiReactions import getReactions
 import app.api
 import schedule
 
