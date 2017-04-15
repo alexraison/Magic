@@ -8,7 +8,6 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 db = SQLAlchemy(app)
 
-scheduledPairings()
 
 def playerInParticipantOne(currentPlayer, match):
 	for participant in match.participants[1].entity.participants:
