@@ -23,7 +23,7 @@ class Channel:
 	def getChannelFromList(self):
 		payload = {'payload':json.dumps({'token': self.token})}
 
-		parseChannelFromList(self, self.session.get('https://slack.com/api/channels.list', data=payload)).json())
+		parseChannelFromList(self, self.session.get('https://slack.com/api/channels.list', data=payload).json())
 
 	def parseChannelFromList(self, channeLListResponse):
 		if userInfoResponse['ok']:
@@ -40,7 +40,7 @@ class Channel:
 		}
 		payload = {'payload':json.dumps(message)}
 
-		parseChannelHistory(self, self.session.get('https://slack.com/api/channels.history', data=payload))
+		parseChannelHistory(self, self.session.get('https://slack.com/api/channels.history', data=payload).json())
 
 	def parseChannelhistory(self, historyResponse):
 		self.history = []
