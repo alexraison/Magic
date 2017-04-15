@@ -1,7 +1,9 @@
 	{
 		"channel_url":"https://hooks.slack.com/services/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",
+		"token":"xoxp-15228092837-15233549559-167490909664-21d367ce83a90c8fa07b6d7b3081cb1b",
 		"channel_name":"#fun-house",
 		"testing_channel_name":"#jhcmagic-testing",
-		"bot_name":"Herald of the Pair",
-		"bot_icon":"http://i.imgur.com/oVTtCZy.jpg"
+		"pairings_channel_name":"#pairings"
+		"bot_name":"Throne of the God-Pairer",
+		"bot_icon":"http://imgur.com/VSzBCvM.jpg"
 	}
