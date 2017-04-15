@@ -20,7 +20,7 @@ class Channel:
 			self.oldest = time.mktime(date.today().timetuple())
 
 	def getPairingsMessage(self):
-		getChannelFromList()
+		self.getChannelFromList()
 
 		for item in self.history:
 			if item[0] == ['message'] and item[1] == ['USLACKBOT'] and item[2] == 'Reminder: <!here> :pear: :ring: s?':
@@ -29,14 +29,14 @@ class Channel:
 	def getChannelFromList(self):
 		payload = {'payload':json.dumps({'token': self.token})}
 
-		parseChannelFromList(self.session.get('https://slack.com/api/channels.list', data=payload).json())
+		self.parseChannelFromList(self.session.get('https://slack.com/api/channels.list', data=payload).json())
 
 	def parseChannelFromList(self, channeLListResponse):
 		if userInfoResponse['ok']:
 			for channel in channeLListResponse['channels']:
 				if channel['name'] == self.channelName:
 					self.channelId = channel['id']
-					getChannelHistory()
+					self.getChannelHistory()
 
 	def getChannelHistoryForToday(self):
 		message = {
@@ -46,7 +46,7 @@ class Channel:
 		}
 		payload = {'payload':json.dumps(message)}
 
-		parseChannelHistory(self.session.get('https://slack.com/api/channels.history', data=payload).json())
+		self.parseChannelHistory(self.session.get('https://slack.com/api/channels.history', data=payload).json())
 
 	def parseChannelhistory(self, historyResponse):
 		self.history = []
