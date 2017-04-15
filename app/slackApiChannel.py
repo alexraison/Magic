@@ -5,12 +5,15 @@ import os
 import time
 from datetime import date, datetime
 
+from app import app
+
 class Channel:
 
 	def __init__(self, token, channelName):
 		self.channelName = channelName
 		self.token = token
 		self.session = requests.session()
+
 		if app.config['TESTING'] == True:
 			self.oldest = 0
 		else:
