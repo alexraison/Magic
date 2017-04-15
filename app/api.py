@@ -330,12 +330,12 @@ def usernameAlreadyTaken(username):
 
 	return Player.query.filter(func.upper(Player.username) == username.upper()).first()
 
-def createPlayer(name, email, password, username):
+def createPlayer(name, slackUser, password, username):
 
 	if not name or not password or not username:
 		raise ValueError('Invalid input when creating a new player')
 
-	player = Player(name = name, email = email, password = password, username = username)	
+	player = Player(name = name, slackUser = slackUser, password = password, username = username)	
 	db.session.add(player)
 	db.session.commit()
 
@@ -351,7 +351,7 @@ def playerExists(id):
 
 	return Player.query.filter(Player.id == id).first() is not None
 
-def updatePlayer(id, name, email):
+def updatePlayer(id, name, slackUser):
 
 	if not playerExists(id):
 		raise ValueError('Player does not exist')	
@@ -359,7 +359,7 @@ def updatePlayer(id, name, email):
 	player = getPlayer(id)
 
 	player.name = name
-	player.email = email
+	player.slackUser = slackUser
 	db.session.commit()
 
 def getPlayers():
@@ -399,6 +399,22 @@ def createPair(players):
 		db.session.add(EntityParticipant(entity_id = entity.id, player_id = player))
 
 	db.session.commit()
+
+def getPlayerNamesFromSlackUsers(slackUsers):
+
+	playerList = []
+
+	sql = """SELECT p.name
+				FROM  player AS p
+				WHERE p.slackUser IN ('""" + "', '".join(slackUsers) + """')"""
+
+	results = db.session.execute(sql).fetchall()
+
+	for row in results:
+		playerList.append(row)
+
+	return playerList 
+
 
 ############################################################
 # Set APIs

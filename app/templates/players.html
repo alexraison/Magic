@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 				<th>Name</th>
-				<th>Email</th>
+				<th>slackUser</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -15,7 +15,7 @@
 		  {% for player in players %}
 			<tr>
 				<td>{{ player.name }}</td>
-				<td>{{ player.email }}</td>  
+				<td>{{ player.slackUser }}</td>  
 				<td><a href="{{url_for('editPlayer', id=player.id)}}">Edit</td>  
 			</tr>
 		  {% endfor %}

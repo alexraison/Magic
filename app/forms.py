@@ -5,12 +5,12 @@ from wtforms.validators import Required, Length
 class AddPlayer(Form):
 	username        = TextField('Username', validators = [Required(), validators.Length(min=2, max=30)])
 	name            = TextField('Name', validators = [Required(), validators.Length(min=2, max=30)])
-	email           = TextField('Email', validators = [Required(), validators.Length(min=6, max=100)])
+	slackUser       = TextField('slackUser', validators = [Required(), validators.Length(min=2, max=100)])
 	password        = TextField('Password', validators = [Required(), validators.Length(min=6, max=30)])
 
 class EditPlayer(Form):
 	name            = TextField('Name', validators = [Required(), validators.Length(min=2, max=30)])
-	email           = TextField('Email', validators = [Required(), validators.Length(min=6, max=100)])
+	slackUser       = TextField('slackUser', validators = [Required(), validators.Length(min=2, max=21)])
 	
 class AddTournament(Form):
 	name            = TextField('Name', validators = [Required(), validators.Length(min=2, max=50)])
