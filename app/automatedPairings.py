@@ -20,8 +20,8 @@ def scheduledPairings():
 	schedule.every().day.at("11:45").do(automatePairings())
 
 	while True:
-	    schedule.run_pending()
-	    time.sleep(60) # wait one minute
+		schedule.run_pending()
+		time.sleep(60) # wait one minute
 
 
 def automatePairings():
@@ -35,22 +35,22 @@ def automatePairings():
 	pairingsMessageReactions = getReactions(pairingsChannel.channelId, pairingsMessage[3])
 
 	for reaction in pairingsMessageReactions:
- 		if reaction[0] == 'hand':
- 			playList == []
- 			playList == reaction[1]
+		if reaction[0] == 'hand':
+			playList == []
+			playList == reaction[1]
 
- 		if reaction[0] =='metal':
- 			draftList == []
- 			draftList == reaction[1]
+		if reaction[0] =='metal':
+			draftList == []
+			draftList == reaction[1]
 
- 	if len[draftList] > 6:
- 		for player in draftList:
- 			if player in playList:
- 				playList.remove(player)
+	if len[draftList] > 6:
+		for player in draftList:
+			if player in playList:
+				playList.remove(player)
 
- 		postDraftingMessage(getPlayerNamesFromSlackNames(draftList))
+		postDraftingMessage(getPlayerNamesFromSlackNames(draftList))
 
- 	if len[playList] > 1:
+	if len[playList] > 1:
 		postPairings(getPlayerNamesFromSlackNames(playList))
 
 
@@ -74,9 +74,9 @@ def postDraftingMessage(playerList):
 		attachment = {
 				'title': "Friends, Romans, Drafters:",
 				'text': message,
-		    	'color': "#7CD197",
-		    	'mrkdwn_in': ["text"]
-			  	 }
+				'color': "#7CD197",
+				'mrkdwn_in': ["text"]
+				 }
 
 		pairings_bot.post_attachment(attachment)
 
