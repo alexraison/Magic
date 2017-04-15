@@ -27,4 +27,3 @@ class User:
 		if userInfoResponse['ok'] and not userInfoResponse['deleted']:
 			self.userName = userInfoResponse['name']
 
-}

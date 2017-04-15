@@ -49,7 +49,7 @@ class Channel:
 			for item in historyResponse['messages']:
 				self.history.append(item['type'], item['user'], item['text'], item['ts'])
 
-}
+
 
 
 
