@@ -4,8 +4,11 @@ import json
 import os
 import time
 from datetime import date, datetime
+import logging
+import string
 
 from app import app
+
 
 class Channel:
 
@@ -13,49 +16,53 @@ class Channel:
 		self.channelName = channelName
 		self.token = token
 		self.session = requests.session()
+		self.history = []
 
 		if app.config['TESTING'] == True:
 			self.oldest = 0
 		else:
 			self.oldest = time.mktime(date.today().timetuple())
 
+		with open('app/pairings.settings') as config:
+			settings = json.loads(config.read())	
+		
+
 	def getPairingsMessage(self):
 		self.getChannelFromList()
-
+		
 		for item in self.history:
-			if item[0] == ['message'] and item[1] == ['USLACKBOT'] and item[2] == 'Reminder: <!here> :pear: :ring: s?':
+			if item['type'] == 'message' and item['user'] == 'USLACKBOT' and item['text'] == 'Reminder: <!here> :pear: :ring: s?':
 				return item
 
+
 	def getChannelFromList(self):
-		payload = {'payload':json.dumps({'token': self.token})}
+		payload = {'token': self.token}
 
-		self.parseChannelFromList(self.session.get('https://slack.com/api/channels.list', data=payload).json())
+		response = self.session.get('https://slack.com/api/channels.list', params=payload)
 
-	def parseChannelFromList(self, channeLListResponse):
-		if userInfoResponse['ok']:
-			for channel in channeLListResponse['channels']:
-				if channel['name'] == self.channelName:
-					self.channelId = channel['id']
-					self.getChannelHistory()
+		if response.status_code == 200:
+			channelListResponse = response.json()
+			if channelListResponse['ok']:
+				for channel in channelListResponse['channels']:
+					if channel['name'] == self.channelName:
+						self.channelId = channel['id']
+						self.getChannelHistoryForToday()
+			
 
 	def getChannelHistoryForToday(self):
-		message = {
+		payload = {
 		'token' : self.token,
 		'channel' : self.channelId,
 		'oldest' : self.oldest
 		}
-		payload = {'payload':json.dumps(message)}
 
-		self.parseChannelHistory(self.session.get('https://slack.com/api/channels.history', data=payload).json())
+		response = self.session.get('https://slack.com/api/channels.history', params=payload)
 
-	def parseChannelhistory(self, historyResponse):
-		self.history = []
-
-		if historyResponse['ok']:
-			for item in historyResponse['messages']:
-				self.history.append(item['type'], item['user'], item['text'], item['ts'])
-
-
+		if response.status_code == 200:
+			historyResponse = response.json()
+			if historyResponse['ok']:
+				for item in historyResponse['messages']:
+					self.history.append(item)
 
 
 

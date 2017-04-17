@@ -3,6 +3,7 @@ import requests
 import json
 import os
 
+
 class User:
 
 	def __init__(self, token, userId):
@@ -10,20 +11,24 @@ class User:
 		self.token = token
 		self.session = requests.session()
 
+
 	def getUserName(self):
-		getUserInfo()
+		self.getUserInfo()
 		return self.userName
 
+
 	def getUserInfo(self):
-		message = {
+		payload = {
 		'token' : self.token,
 		'user' : self.userId
 		}
-		payload = {'payload':json.dumps(message)}
 
-		self.parseUserInfo(self.session.get('https://slack.com/api/users.info', data=payload).json())
+		response = self.session.get('https://slack.com/api/users.info', params=payload)
+		if response.status_code == 200:
+			self.parseUserInfo(response.json())
+			
 
 	def parseUserInfo(self, userInfoResponse):
-		if userInfoResponse['ok'] and not userInfoResponse['deleted']:
-			self.userName = userInfoResponse['name']
+		if userInfoResponse['ok']:
+			self.userName = userInfoResponse['user']['name']
 

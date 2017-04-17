@@ -10,7 +10,7 @@ db.create_all()
 urlparse.uses_netloc.append("postgres")
 url = urlparse.urlparse(os.environ["DATABASE_URL"])
 
-createPlayer('Peter Parker', 'slack1', 'password', 'test1')
+createPlayer('Peter Parker', 'slack', 'password', 'test1')
 createPlayer('Matthew Murdock', 'slack2', 'password', 'test2')
 createPlayer('Ziggy Stardust', 'slack3', 'password', 'test3')
 createPlayer('Morrissey', 'slack4', 'password', 'test4')

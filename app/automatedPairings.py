@@ -6,18 +6,21 @@ import smtplib
 import json
 import collections
 from app.post import slack_bot
-from app.slackApiChannel import Channel
 from app.slackApiUser import User
-from app.slackApiReactions import getReactions
-import app.api
+from app.slackApiChannel import Channel
+from app.pairings import postPairings
+from app.api import getPlayerNamesFromSlackUsers
 import schedule
-
-from app import app, db
+import time
+import os
 
 
 def scheduledPairings():
 
-	schedule.every().day.at("11:45").do(automatePairings())
+	with open('app/pairings.settings') as config:
+		settings = json.loads(config.read())
+
+	schedule.every().day.at(settings['pairings_time']).do(automatePairings)
 
 	while True:
 		schedule.run_pending()
@@ -29,29 +32,39 @@ def automatePairings():
 	with open('app/pairings.settings') as config:
 		settings = json.loads(config.read())	
 
-	pairingsChannel = Channel(settings['token'], settings['pairings_channel_name'])
+	token = settings['token']
+
+	pairingsChannel = Channel(token, settings['pairings_channel_name'])
 	pairingsMessage = pairingsChannel.getPairingsMessage()
 
-	pairingsMessageReactions = getReactions(pairingsChannel.channelId, pairingsMessage[3])
+	pairingsMessageReactions = []
+	if pairingsMessage:
+		pairingsMessageReactions = pairingsMessage.get('reactions')
 
+	playList = []
+	draftList = []
 	for reaction in pairingsMessageReactions:
-		if reaction[0] == 'hand':
-			playList == []
-			playList == reaction[1]
+		if reaction['name'] == 'hand':
+			for userId in reaction['users']:
+				user = User(token, userId)
+				playList.append(user.getUserName())
 
-		if reaction[0] =='metal':
-			draftList == []
-			draftList == reaction[1]
+		if reaction['name'] =='metal':
+			for userId in reaction['users']:
+				user = User(token, userId)
+				draftList.append(user.getUserName())
 
-	if len[draftList] > 6:
+	if len(draftList) > 6:
 		for player in draftList:
 			if player in playList:
 				playList.remove(player)
 
-		postDraftingMessage(getPlayerNamesFromSlackNames(draftList))
+		drafters = getPlayerNamesFromSlackUsers(draftList)
+		postDraftingMessage(drafters)
 
-	if len[playList] > 1:
-		postPairings(getPlayerNamesFromSlackNames(playList))
+	if len(playList) > 1:
+		players = getPlayerNamesFromSlackUsers(playList)
+		postPairings(players)
 
 
 def postDraftingMessage(playerList):
@@ -67,12 +80,13 @@ def postDraftingMessage(playerList):
 
 	if playerList:
 
+		message = ''
 		for player in playerList:
 
 			message += player + '\n'
 
 		attachment = {
-				'title': "Friends, Romans, Drafters:",
+				'title': "Congratulations! You've won a draft:",
 				'text': message,
 				'color': "#7CD197",
 				'mrkdwn_in': ["text"]

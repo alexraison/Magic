@@ -106,7 +106,7 @@ def addPlayer():
 		if usernameAlreadyTaken(form.username.data):
 			flash('Username already taken')
 		else:	
-			createPlayer(form.name.data, form.slackUser.data, form.password.data, form.username.data)
+			createPlayer(form.name.data, form.slack_user.data, form.password.data, form.username.data)
 			return redirect(url_for('viewPlayers'))
 
 	return render_template("form.html", form=form, pageName = 'Add Player')
@@ -115,10 +115,10 @@ def addPlayer():
 def editPlayer(id):
 
 	player = getPlayer(id)
-	form = EditPlayer(name=player.name, slackUser=player.slackUser)
+	form = EditPlayer(name=player.name, slack_user=player.slack_user)
 		
 	if form.validate_on_submit():
-		updatePlayer(id, form.name.data, form.slackUser.data)
+		updatePlayer(id, form.name.data, form.slack_user.data)
 		return redirect(url_for('viewPlayers'))
 			
 	return render_template("form.html", form=form, pageName = 'Edit Player')

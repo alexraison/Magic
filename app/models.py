@@ -53,7 +53,7 @@ class Player(db.Model):
     username = db.Column(db.String(30))
     name = db.Column(db.String(30))
     password = db.Column(db.String(30))
-    slackUser = db.Column(db.String(21))
+    slack_user = db.Column(db.String(21))
 
     def is_authenticated(self):
         return True

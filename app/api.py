@@ -335,7 +335,7 @@ def createPlayer(name, slackUser, password, username):
 	if not name or not password or not username:
 		raise ValueError('Invalid input when creating a new player')
 
-	player = Player(name = name, slackUser = slackUser, password = password, username = username)	
+	player = Player(name = name, slack_user = slackUser, password = password, username = username)	
 	db.session.add(player)
 	db.session.commit()
 
@@ -359,7 +359,7 @@ def updatePlayer(id, name, slackUser):
 	player = getPlayer(id)
 
 	player.name = name
-	player.slackUser = slackUser
+	player.slack_user = slackUser
 	db.session.commit()
 
 def getPlayers():
@@ -404,14 +404,13 @@ def getPlayerNamesFromSlackUsers(slackUsers):
 
 	playerList = []
 
-	sql = """SELECT p.name
-				FROM  player AS p
-				WHERE p.slackUser IN ('""" + "', '".join(slackUsers) + """')"""
+	sql = """SELECT p.name FROM player AS p
+				WHERE p.slack_user IN ('""" + "', '".join(slackUsers) + """')"""
 
 	results = db.session.execute(sql).fetchall()
 
 	for row in results:
-		playerList.append(row)
+		playerList.append(row[0])
 
 	return playerList 
 
