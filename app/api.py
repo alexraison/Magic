@@ -512,7 +512,7 @@ def getMovingAverages():
 				SELECT EXTRACT(YEAR FROM series) AS year, EXTRACT(QUARTER FROM series) AS quarter, play1.name AS player, b.match_win_percentage
 
 				FROM player AS play1
-				  CROSS JOIN generate_series('2011-07-01  00:00', now(), interval '3 months') AS series
+				  CROSS JOIN generate_series('2011-01-01  00:00', now(), interval '3 months') AS series
 				  LEFT JOIN (
 				    SELECT a.player AS player,
 				        a.year,
@@ -538,6 +538,8 @@ def getMovingAverages():
 				    GROUP BY a.player, a.year, a.quarter) AS b 
 				    ON EXTRACT(YEAR FROM series) = b.year AND EXTRACT(QUARTER FROM series) = b.quarter AND play1.name = b.player
 				ORDER BY play1.name, year, quarter  ) AS data ) AS data2
-				WHERE NOT (data2.year = 2011 AND data2.quarter = 3)'''
+				WHERE NOT (data2.year = 2011 AND data2.quarter = 3)
+                  AND NOT (data2.year = 2011 AND data2.quarter = 2)
+                  AND NOT (data2.year = 2011 AND data2.quarter = 1)'''
 
 	return db.session.execute(sql).fetchall()				
