@@ -112,7 +112,7 @@ def addPlayer():
 		if usernameAlreadyTaken(form.username.data):
 			flash('Username already taken')
 		else:	
-			createPlayer(form.name.data, form.email.data, form.password.data, form.username.data)
+			createPlayer(form.name.data, form.slack_user.data, form.password.data, form.username.data)
 			return redirect(url_for('viewPlayers'))
 
 	return render_template("form.html", form=form, pageName = 'Add Player')
@@ -121,10 +121,10 @@ def addPlayer():
 def editPlayer(id):
 
 	player = getPlayer(id)
-	form = EditPlayer(name=player.name, email=player.email)
+	form = EditPlayer(name=player.name, slack_user=player.slack_user)
 		
 	if form.validate_on_submit():
-		updatePlayer(id, form.name.data, form.email.data)
+		updatePlayer(id, form.name.data, form.slack_user.data)
 		return redirect(url_for('viewPlayers'))
 			
 	return render_template("form.html", form=form, pageName = 'Edit Player')
@@ -277,8 +277,3 @@ def pairings():
 
 	return render_template("form.html", form=form, pageName = 'Pairings')
 
-#############################################
-# Start Application
-############################################# 
-if __name__ == "__main__":
-	app.run()

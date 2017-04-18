@@ -1,6 +1,7 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 import os
+import threading
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -16,3 +17,6 @@ def playerInParticipantOne(currentPlayer, match):
 app.jinja_env.globals.update(playerInParticipantOne=playerInParticipantOne)
 
 from app import views, models
+
+from app.automatedPairings import *
+threading.Thread(target=scheduledPairings, name='PAIRINGS').start()
