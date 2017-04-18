@@ -14,6 +14,7 @@ import schedule
 import time
 import os
 
+from app import app
 
 def scheduledPairings():
 

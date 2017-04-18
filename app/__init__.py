@@ -18,7 +18,5 @@ app.jinja_env.globals.update(playerInParticipantOne=playerInParticipantOne)
 
 from app import views, models
 
-print(os.environ.get('DEBUG'))
-
 from app.automatedPairings import *
 threading.Thread(target=scheduledPairings, name='PAIRINGS').start()

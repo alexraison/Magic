@@ -271,8 +271,3 @@ def pairings():
 
 	return render_template("form.html", form=form, pageName = 'Pairings')
 
-#############################################
-# Start Application
-############################################# 
-if __name__ == "__main__":
-	app.run()
