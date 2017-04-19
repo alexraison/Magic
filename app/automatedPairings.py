@@ -55,7 +55,7 @@ def automatePairings():
 				user = User(token, userId)
 				draftList.append(user.getUserName())
 
-	if len(draftList) > 6:
+	if len(draftList) > 5:
 		for player in draftList:
 			if player in playList:
 				playList.remove(player)
