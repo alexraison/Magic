@@ -1,10 +1,8 @@
 	{
 		"channel_url":"https://hooks.slack.com/services/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",
-		"token":"xoxp-15228092837-15233549559-169912891333-7f77d503df950d8e152da0bde0dd1da0",
 		"channel_name":"#fun-house",
 		"testing_channel_name":"#jhcmagic-testing",
 		"pairings_channel_name":"pairings",
-		"pairings_time":"10:45",
 		"bot_name":"Throne of the God-Pairaoh",
 		"bot_icon":"http://imgur.com/VSzBCvM.jpg"
 	}

@@ -34,10 +34,10 @@ slConn = sqlite3.connect('app.db')
 slCursor = slConn.cursor()
 
 # Players
-slCursor.execute('SELECT username, password, name, slackUser FROM player')
+slCursor.execute('SELECT username, password, name FROM player')
 
 for row in slCursor.fetchall():
-	pgCursor.execute('INSERT INTO player (username, password, name, slackUser) VALUES(%s, %s, %s, %s) RETURNING id', [row[0], row[1], row[2], row[3]])
+	pgCursor.execute('INSERT INTO player (username, password, name) VALUES(%s, %s, %s, %s) RETURNING id', [row[0], row[1], row[2], row[3]])
 	pgConn.commit()
 	playerId = pgCursor.fetchone()[0]
 

@@ -21,7 +21,7 @@ def scheduledPairings():
 	with open('app/pairings.settings') as config:
 		settings = json.loads(config.read())
 
-	schedule.every().day.at(settings['pairings_time']).do(automatePairings)
+	schedule.every().day.at(str(os.environ['PAIRINGS_TIME'])).do(automatePairings)
 
 	while True:
 		schedule.run_pending()
@@ -33,7 +33,7 @@ def automatePairings():
 	with open('app/pairings.settings') as config:
 		settings = json.loads(config.read())	
 
-	token = settings['token']
+	token = str(os.environ['SLACK_TOKEN'])
 
 	pairingsChannel = Channel(token, settings['pairings_channel_name'])
 	pairingsMessage = pairingsChannel.getPairingsMessage()
@@ -87,7 +87,7 @@ def postDraftingMessage(playerList):
 			message += player + '\n'
 
 		attachment = {
-				'title': "Congratulations! You've won a draft:",
+				'title': "Enough people have raised their horned hands to the God-Pairaoh, and he has answered! Praise Him!",
 				'text': message,
 				'color': "#7CD197",
 				'mrkdwn_in': ["text"]
