@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+
+<canvas id="movingAverages"></canvas>
+
+<script>
+  
+var ctx = document.getElementById('movingAverages').getContext('2d');
+var movingAverages = new Chart(ctx, {
+  type: 'line',
+  options: {
+    responsive: true, 
+    maintainAspectRatio: false,
+    multiTooltipTemplate : "<%=datasetLabel%> : <%=value%>"
+  },
+  data: {
+
+    {% for person in movingAverages|groupby('player') %}
+
+      {% if loop.index == 1 %}
+      labels: [
+
+        {% for timePeriod in person.list %}
+          "{{timePeriod.year | int}}-Q{{timePeriod.quarter | int}}",
+        {% endfor %}
+
+      ],
+
+      datasets: [
+
+      {% endif %}
+
+
+      {
+        label: '{{ person.grouper }}',
+        data: [
+          {% for entry in person.list %}
+            {% if entry.average_match_win_percentage %}{{ entry.average_match_win_percentage |round(1) }}{% else %}0{% endif %},
+          {% endfor %}         
+
+        ],
+        fill: false,
+        borderColor: getRandomColor()
+      },
+
+    {% endfor %}
+
+    ] 
+
+  }
+});
+
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+};
+
+
+</script>
+
+
+
+
+
+{% endblock %}

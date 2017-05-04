@@ -516,3 +516,45 @@ def victoryMessage(tournament):
 		}
 		
 	return attachment
+
+def getMovingAverages():
+
+	sql = '''SELECT * FROM (
+				SELECT data.player, data.year, data.quarter,  
+				       AVG(data.match_win_percentage)
+				            OVER(ORDER BY data.player, data.year, data.quarter ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) AS average_match_win_percentage
+				FROM ( 
+				SELECT EXTRACT(YEAR FROM series) AS year, EXTRACT(QUARTER FROM series) AS quarter, play1.name AS player, b.match_win_percentage
+
+				FROM player AS play1
+				  CROSS JOIN generate_series('2011-01-01  00:00', now(), interval '3 months') AS series
+				  LEFT JOIN (
+				    SELECT a.player AS player,
+				        a.year,
+				        a.quarter,
+				        CASE WHEN SUM(a.total_matches_played) = 0 THEN 0 ELSE (CAST(SUM(a.total_match_wins) AS decimal)/cast(SUM(a.total_matches_played) AS decimal))*100 END AS match_win_percentage  
+				    FROM
+				    (SELECT p1.name AS player, sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_wins, 
+				            sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_match_losses, 
+				            sum(CASE WHEN mp1.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) + sum(CASE WHEN mp2.game_wins = tt.game_wins_required THEN 1 ELSE 0 END) AS total_matches_played,
+				            t.date,
+				            EXTRACT(QUARTER FROM t.date) AS quarter,
+				            EXTRACT(YEAR FROM t.date) AS year
+				    FROM match AS m
+				        INNER JOIN tournament AS t ON m.tournament_id = t.id
+				        INNER JOIN tournament_type AS tt ON t.type = tt.id
+				        INNER JOIN match_participant AS mp1 ON m.id = mp1.match_id
+				        INNER JOIN entity_participant AS ep1 ON mp1.entity_id = ep1.entity_id
+				        INNER JOIN match_participant AS mp2 ON m.id = mp2.match_id AND mp1.entity_id <> mp2.entity_id
+				        INNER JOIN entity_participant AS ep2 ON mp2.entity_id = ep2.entity_id 
+				        INNER JOIN player AS p1 ON ep1.player_id = p1.id
+				    WHERE tt.description = 'Normal' 
+				    GROUP BY ep1.entity_id, p1.name, ep2.entity_id, t.date) AS a
+				    GROUP BY a.player, a.year, a.quarter) AS b 
+				    ON EXTRACT(YEAR FROM series) = b.year AND EXTRACT(QUARTER FROM series) = b.quarter AND play1.name = b.player
+				ORDER BY play1.name, year, quarter  ) AS data ) AS data2
+				WHERE NOT (data2.year = 2011 AND data2.quarter = 3)
+                  AND NOT (data2.year = 2011 AND data2.quarter = 2)
+                  AND NOT (data2.year = 2011 AND data2.quarter = 1)'''
+
+	return db.session.execute(sql).fetchall()				

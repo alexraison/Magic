@@ -88,6 +88,12 @@ def viewHeadToHead():
 
 	return render_template("head_to_head.html", currentPlayer = getCurrentPlayer(g.user.username), players=getPlayers(), playerHeadToHeadData = getPlayerHeadToHeadData(), pageName = 'Head to Head Statistics')
 
+@app.route('/movingaverage', methods = ['GET'])
+def viewMovingAverages():
+
+	return render_template("moving_averages.html", movingAverages=getMovingAverages(), pageName = None)
+
+
 #############################################
 # Player Routes
 ############################################# 	
