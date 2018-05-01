@@ -12,6 +12,7 @@
 		    <th>Winner(s)</th>
 		    <th>Games</th>
         <th>Edit</th>
+        <th>Remove Participant</th>
       </tr>
     </thead>
 
@@ -25,6 +26,7 @@
           <td>{{ tournament.winners }}     </td>
 		  <td><a href="{{ url_for('viewTournamentMatches', id = tournament.id) }}">Games</a></td>
           <td><a href="{{ url_for('editTournament', id = tournament.id) }}">Edit</a></td>
+          <td><a href="{{ url_for('removeParticipant', id = tournament.id) }}">Remove</a></td>
         </tr>
       {% endfor %}
 	  </tbody>
