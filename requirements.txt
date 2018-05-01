@@ -3,14 +3,14 @@ Flask==0.10.1
 Flask-Login==0.3.2
 Flask-Migrate==1.7.0
 Flask-Script==2.0.5
-Flask-SQLAlchemy==2.1
+Flask-SQLAlchemy==2.3
 Flask-WTF==0.12
 gunicorn==19.4.5
 itsdangerous==0.24
 Jinja2==2.8
 Mako==1.0.3
 MarkupSafe==0.23
-psycopg2==2.6.1
+psycopg2==2.7.3.1
 python-editor==0.5
 SQLAlchemy==1.0.11
 Werkzeug==0.11.3
@@ -18,4 +18,5 @@ wheel==0.26.0
 WTForms==2.1
 requests==2.9.1
 schedule==0.4.2
+pytz==2017.3
 

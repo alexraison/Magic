@@ -9,6 +9,7 @@ class Set(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(50))
+    constructed = db.Column(db.Boolean)
 
     tournaments = relationship('Tournament', backref='tournamentSet')
 
@@ -33,8 +34,8 @@ class Tournament(db.Model):
     date = db.Column(db.Date)
     winners = db.Column(db.String(300))
 
-    matches = relationship('Match', backref='tournament')
-    statistics = relationship('Statistics', backref='tournament')
+    matches = relationship('Match', cascade="all, delete-orphan", backref='tournament')
+    statistics = relationship('Statistics', cascade="all, delete-orphan", backref='tournament')
 
 class Match(db.Model):
 
@@ -43,7 +44,7 @@ class Match(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     tournament_id = db.Column(db.Integer, db.ForeignKey('tournament.id'))
 
-    participants = relationship("MatchParticipant", backref="matches")
+    participants = relationship("MatchParticipant", cascade="all, delete-orphan", backref=backref("matches"))
 
 class Player(db.Model):
 

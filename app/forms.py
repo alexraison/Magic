@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, SelectField, SelectMultipleField, validators, RadioField
+from wtforms import TextField, SelectField, SelectMultipleField, validators, RadioField, BooleanField
 from wtforms.validators import Required, Length
 
 class AddPlayer(Form):
@@ -28,9 +28,11 @@ class EditTournament(Form):
 
 class AddSet(Form):
 	name            = TextField('Name', validators = [Required(), validators.Length(min=2, max=50)])
+	constructed     = BooleanField('Constructed')
 
 class EditSet(Form):
 	name            = TextField('Name', validators = [Required(), validators.Length(min=2, max=50)])
+	constructed     = BooleanField('Constructed')
 
 class AddPair(Form):
 	players         = SelectMultipleField('Players')
@@ -38,3 +40,5 @@ class AddPair(Form):
 class Pairings(Form):
 	players         = SelectMultipleField('Players')
 
+class RemoveParticipant(Form):
+	participant     = SelectField('Participant')

@@ -30,9 +30,9 @@ createPair([9,10])
 createTournamentType('Normal',2)
 createTournamentType('Two Headed Giant',1)
 
-createSet('Test Set 1')
-createSet('Test Set 2')
-createSet('Test Set 3')
+createSet('Test Set 1', False)
+createSet('Test Set 2', False)
+createSet('Constructed Test Set', True)
 
 createTournament('Tournament 1', 1, [1,2,3,4,5,6,7,8,9,10], 'NORMAL')
 createTournament('Tournament 2', 2, [1,2,5,6,7,10], 'NORMAL')

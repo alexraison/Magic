@@ -6,6 +6,7 @@
     <thead>
 		<tr>
 			<th>Name</th>
+      <th>Type</th>
 			<th></th>
 		</tr>
     </thead>
@@ -14,6 +15,7 @@
       {% for set in sets %}
         <tr>
 		    <td>{{ set.name }} </td>
+        <td>{% if set.constructed == True %}Constructed{% else %}Limited{% endif %} </td>
 		    <td><a href="{{url_for('editSet', id=set.id)}}">Edit</td>  
         </tr>
       {% endfor %}

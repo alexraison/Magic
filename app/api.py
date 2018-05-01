@@ -97,12 +97,20 @@ def addPositions(statistics):
 	
 	return sortedList
 	
-def getLifetimeStatistics():
+def getLifetimeStatistics(formats):
 
-	results = db.session.query(Entity, func.sum(Statistics.match_wins).label("total_match_wins"), 
-								func.sum(Statistics.match_losses).label("total_match_losses"), 
-		                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
-		                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).filter(TournamentType.description == 'Normal').group_by(Entity.id).all()
+	if formats == 'limited' or formats == 'constructed':
+		constructedBoolean = (formats == 'constructed')
+		results = db.session.query(Entity, func.sum(Statistics.match_wins).label("total_match_wins"), 
+									func.sum(Statistics.match_losses).label("total_match_losses"), 
+			                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
+			                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).join(Set).filter(TournamentType.description == 'Normal').filter(Set.constructed == constructedBoolean).group_by(Entity.id).all()
+	else:
+		results = db.session.query(Entity, func.sum(Statistics.match_wins).label("total_match_wins"), 
+									func.sum(Statistics.match_losses).label("total_match_losses"), 
+			                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
+			                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).filter(TournamentType.description == 'Normal').group_by(Entity.id).all()
+		
 
 	tournaments = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(TournamentType.description == 'Normal').all()
 
@@ -286,6 +294,23 @@ def rebuildStatistics(tournamentId):
 		tournament.winners = winnerString
 		db.session.commit()
 
+def removeParticipantFromTournament(tournamentId, entityId):
+	
+	if MatchParticipant.query.join(Match).join(Tournament).filter(Tournament.id == tournamentId).count() > 2:
+		subQuery = db.session.query(MatchParticipant.match_id).filter(MatchParticipant.entity_id == entityId).subquery()
+		matches = db.session.query(Match).filter(Match.id.in_(subQuery)).filter(Match.tournament_id == tournamentId).all()
+
+		for match in matches:
+			db.session.delete(match)
+
+	else:
+		tournament = db.session.query(Tournament).filter(Tournament.id == tournamentId).first()
+		db.session.delete(tournament)
+
+	db.session.commit()
+ 
+	rebuildStatistics(tournamentId)
+
 ############################################################
 # Match APIs
 ############################################################
@@ -429,21 +454,22 @@ def getSet(id):
 
 	return Set.query.filter(Set.id == id).first()
 
-def createSet(name):
+def createSet(name, constructed):
 
 	if not name:
 		raise ValueError('A set name must be supplied')
 
-	db.session.add(Set(name = name))
+	db.session.add(Set(name = name, constructed = constructed))
 	db.session.commit()
 
-def updateSet(id, name):
+def updateSet(id, name, constructed):
 
 	if not setExists(id):
 		raise ValueError('Set does not exist')
 
 	set = getSet(id)
 	set.name = name
+	set.constructed = constructed
 	db.session.commit()
 
 def setExists(id):
@@ -482,8 +508,6 @@ def slackResults(id):
 			outPlayers += player.player.name
 
 		print(str(row.position) + ' ' + outPlayers)
-		if row.position == 1 and outPlayers == 'Alex L':
-			results_bot.post_attachment(victoryMessage(tournamentName))
 
 		outPercentage += '{!s}.\t{!s}%\n'.format(row.position, round(row.game_win_percentage,1))
 		outMatchWins += '{!s}. {!s} :   {!s} / {!s}\n'.format(row.position, outPlayers, row.match_wins, row.match_losses)
@@ -506,16 +530,6 @@ def slackResults(id):
         }
 
 	results_bot.post_attachment(attachment)
-
-def victoryMessage(tournament):
-
-	message = 'My love has got no money\nHis name is Alex Lees\nMy love has got no power\nHis name is Alex Lees\nMy love has got no fame\nHis name is Alex Lees\nMy love has got no money\nHis name is Alex Lees\n\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\nHis Magic skill is terrifying\nAlex Lees is on fire\n\n -- GALA - ' + tournament 
-	attachment = {
-			'text': message,
-			'color': "danger"
-		}
-		
-	return attachment
 
 def getMovingAverages():
 

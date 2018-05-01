@@ -2,6 +2,7 @@ from flask import render_template, url_for, request, flash, redirect, Flask, ses
 from flask.ext.login import LoginManager, login_user , logout_user , current_user
 
 from app import app
+from app.models import Player, Tournament, Match, Set, Statistics, TournamentType, Entity, EntityParticipant, MatchParticipant
 from app.forms import *
 from app.api import *
 from app.pairings import *
@@ -69,9 +70,10 @@ def viewUnfinishedTournamentResults():
 	return render_template("results.html", tournaments=getUnfinishedTournamentResults(id))
 
 @app.route('/lifetimestatistics', methods = ['GET'])
-def viewStatistics():
+def viewStatistics(formats='all'):
 
-	return render_template("lifetime_statistics.html", lifetimeStatistics=getLifetimeStatistics(), pageName = 'Lifetime Statistics')
+	formats = request.args.get('formats')
+	return render_template("lifetime_statistics.html", lifetimeStatistics=getLifetimeStatistics(formats), pageName = 'Lifetime Statistics', formats=formats)
 
 @app.route('/yearbyyearstatistics', methods = ['GET'])
 def viewYearByYearStatistics():
@@ -92,7 +94,6 @@ def viewHeadToHead():
 def viewMovingAverages():
 
 	return render_template("moving_averages.html", movingAverages=getMovingAverages(), pageName = None)
-
 
 #############################################
 # Player Routes
@@ -162,7 +163,7 @@ def addSet():
 	form = AddSet()
 
 	if form.validate_on_submit():
-		createSet(form.name.data)
+		createSet(form.name.data, form.constructed.data)
 		return redirect(url_for('viewSets'))
 		
 	return render_template("form.html", form=form, pageName = 'Add Set')
@@ -171,10 +172,10 @@ def addSet():
 def editSet(id):
 
 	set = getSet(id)
-	form = EditSet(name = set.name)
+	form = EditSet(name = set.name, constructed = set.constructed)
 		
 	if form.validate_on_submit():
-		updateSet(id, form.name.data)
+		updateSet(id, form.name.data, form.constructed.data)
 		return redirect(url_for('viewSets'))
 			
 	return render_template("form.html", form=form, pageName = 'Edit Set')
@@ -195,7 +196,7 @@ def addTournament():
 	subQuery = db.session.query(EntityParticipant.entity_id).group_by(EntityParticipant.entity_id).having(func.count(EntityParticipant.entity_id) == 1).subquery()
 	form.players.choices = [(str(g.id), g.participants[0].player.name) for g in Entity.query.filter(Entity.id.in_(subQuery)).all()]
 
-	form.set.choices = [(str(g.id), g.name) for g in Set.query.order_by('id')]
+	form.set.choices = [(str(g.id), g.name) for g in Set.query.order_by(Set.id.desc())]
 
 	if form.validate_on_submit():
 	
@@ -256,6 +257,20 @@ def viewTournamentMatches(id):
 def viewTournamentResults(id):
 
 	return render_template("results.html", tournaments=[getTournamentResults(id)])
+
+@app.route('/tournament/remove/<int:id>', methods = ['GET', 'POST'])
+def removeParticipant(id):
+
+	form = RemoveParticipant()
+
+	subQuery = db.session.query(MatchParticipant.entity_id).join(Match).filter(Match.tournament_id == id).subquery()
+	form.participant.choices = [(str(g.id), g.participants[0].player.name) for g in Entity.query.filter(Entity.id.in_(subQuery)).all()]
+
+	if form.validate_on_submit():
+		removeParticipantFromTournament(id, form.participant.data)
+		return redirect(url_for('viewTournaments'))
+		
+	return render_template("form.html", form=form, pageName = 'Remove Participant')
 
 #############################################
 # Pairing Routes
