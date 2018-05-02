@@ -105,14 +105,16 @@ def getLifetimeStatistics(formats):
 									func.sum(Statistics.match_losses).label("total_match_losses"), 
 			                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
 			                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).join(Set).filter(TournamentType.description == 'Normal').filter(Set.constructed == constructedBoolean).group_by(Entity.id).all()
+
+		tournaments = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).join(Set).filter(Statistics.position == 1).filter(TournamentType.description == 'Normal').filter(Set.constructed == constructedBoolean).all()
+
 	else:
 		results = db.session.query(Entity, func.sum(Statistics.match_wins).label("total_match_wins"), 
 									func.sum(Statistics.match_losses).label("total_match_losses"), 
 			                    	func.sum(Statistics.game_wins).label("total_game_wins"), 
 			                    	func.sum(Statistics.game_losses).label("total_game_losses")).join(Statistics).join(Tournament).join(TournamentType).filter(TournamentType.description == 'Normal').group_by(Entity.id).all()
 		
-
-	tournaments = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(TournamentType.description == 'Normal').all()
+		tournaments = db.session.query(Entity, Tournament.id).join(Statistics).join(Tournament).join(TournamentType).filter(Statistics.position == 1).filter(TournamentType.description == 'Normal').all()
 
 	statistics = []
 	for row in results:
