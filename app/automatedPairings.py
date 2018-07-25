@@ -31,7 +31,7 @@ def scheduledPairings():
 def automatePairings():
 
 	with open('app/pairings.settings') as config:
-		settings = json.loads(config.read())	
+		settings = json.loads(config.read())
 
 	token = str(os.environ['SLACK_TOKEN'])
 
@@ -55,7 +55,7 @@ def automatePairings():
 				user = User(token, userId)
 				draftList.append(user.getUserName())
 
-	if len(draftList) > 6:
+	if len(draftList) > 5:
 		for player in draftList:
 			if player in playList:
 				playList.remove(player)
@@ -71,11 +71,11 @@ def automatePairings():
 def postDraftingMessage(playerList):
 
 	with open('app/pairings.settings') as config:
-		settings = json.loads(config.read())	
+		settings = json.loads(config.read())
 
-	if app.config['TESTING'] == True:	
+	if app.config['TESTING'] == True:
 		channel = settings['testing_channel_name']
-	else:	
+	else:
 		channel = settings['channel_name']
 	pairings_bot = slack_bot(settings['channel_url'], channel, settings['bot_name'], settings['bot_icon'])
 
