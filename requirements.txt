@@ -19,4 +19,4 @@ WTForms==2.1
 requests==2.9.1
 schedule==0.4.2
 pytz==2017.3
-
+Flask-SSLify==0.1.5

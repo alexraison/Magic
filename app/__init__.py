@@ -1,10 +1,12 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sslify import SSLify
 import os
 import threading
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
+sslify = SSLify(app, permanent=True)
 
 db = SQLAlchemy(app)
 
