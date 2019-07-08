@@ -178,10 +178,10 @@ def slackPairings(normalPairings,twoHeadedPairings, remainder):
 	with open('app/pairings.settings') as config:
 		settings = json.loads(config.read())	
 
-	if app.config['TESTING'] == True:	
-		channel = settings['testing_channel_name']
-	else:	
-		channel = settings['channel_name']
+	if app.config['TESTING'] == True:
+		channel = os.environ['TESTING_CHANNEL_ID']
+	else:
+		channel = os.environ['CHANNEL_ID']
 	pairings_bot = slack_bot(channel, settings['bot_name'], settings['bot_icon'])
 
 

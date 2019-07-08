@@ -5,10 +5,11 @@ import datetime
 
 class slack_bot:
 
-	def __init__(self, channel_name, bot_name, bot_icon, live=True):
+	def __init__(self, channel_id, bot_name, bot_icon, live=True):
 		self.hook_url = os.environ['SLACK_HOOK']
+		self.channel = Channel(os.environ['SLACK_TOKEN'], channel_id)
 		self.default_message = {
-		'channel': channel_name,
+		'channel': self.channel.getChannelName(),
 		'username': bot_name,
 		'icon_url': bot_icon,
 		'link_names':'1'
@@ -80,3 +81,4 @@ def write_to_log(message_text, log=True):
 		log_file = '{!s}/log.txt'.format(log_directory)
 		with open(log_file, 'a+') as file:
 			file.write(message_to_log)
+

@@ -35,7 +35,7 @@ def automatePairings():
 
 	token = str(os.environ['SLACK_TOKEN'])
 
-	pairingsChannel = Channel(token, settings['pairings_channel_name'])
+	pairingsChannel = Channel(token, os.environ['PAIRINGS_CHANNEL_ID'])
 	pairingsMessage = pairingsChannel.getPairingsMessage()
 
 	pairingsMessageReactions = []
@@ -74,9 +74,9 @@ def postDraftingMessage(playerList):
 		settings = json.loads(config.read())
 
 	if app.config['TESTING'] == True:
-		channel = settings['testing_channel_name']
+		channel = os.environ['TESTING_CHANNEL_ID']
 	else:
-		channel = settings['channel_name']
+		channel = os.environ['CHANNEL_ID']
 	pairings_bot = slack_bot(channel, settings['bot_name'], settings['bot_icon'])
 
 	if playerList:
