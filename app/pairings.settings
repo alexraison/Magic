@@ -1,8 +1,4 @@
 	{
-		"channel_url":"https://hooks.slack.com/services/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",
-		"channel_name":"#fun-house",
-		"testing_channel_name":"#jhcmagic-testing",
-		"pairings_channel_name":"pairings",
 		"bot_name":"Spirit of Mike Burns",
 		"bot_icon":"https://cdn3.iconfinder.com/data/icons/mythical-creatures/300/20-512.png"
 	}
