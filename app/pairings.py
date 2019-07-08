@@ -9,6 +9,7 @@ import collections
 from app.post import slack_bot
 from app.mwmatching import maxWeightMatching
 import statistics
+import os
 
 from app import app, db
 
@@ -178,11 +179,11 @@ def slackPairings(normalPairings,twoHeadedPairings, remainder):
 	with open('app/pairings.settings') as config:
 		settings = json.loads(config.read())	
 
-	if app.config['TESTING'] == True:	
-		channel = settings['testing_channel_name']
-	else:	
-		channel = settings['channel_name']
-	pairings_bot = slack_bot(settings['channel_url'], channel, settings['bot_name'], settings['bot_icon'])
+	if app.config['TESTING'] == True:
+		channel = os.environ['TESTING_CHANNEL_ID']
+	else:
+		channel = os.environ['CHANNEL_ID']
+	pairings_bot = slack_bot(channel, settings['bot_name'], settings['bot_icon'])
 
 
 	if not normalPairings and not twoHeadedPairings:
@@ -209,7 +210,8 @@ def slackPairings(normalPairings,twoHeadedPairings, remainder):
 				attachment = {
 						'text': message,
         		    	'color': "#7CD197",
-        		    	'mrkdwn_in': ["text"]
+        		    	'mrkdwn_in': ["text"],
+        		    	'fallback': message 
      			  	 }
 
 				pairings_bot.post_attachment(attachment)
@@ -222,7 +224,8 @@ def slackPairings(normalPairings,twoHeadedPairings, remainder):
 				attachment = {
       					'text': message,
        				    'color': "#7CD197",
-       				    'mrkdwn_in': ["text"]
+       				    'mrkdwn_in': ["text"],
+        		    	'fallback': message 
       				 }
 
 				pairings_bot.post_attachment(attachment)
@@ -238,7 +241,8 @@ def slackPairings(normalPairings,twoHeadedPairings, remainder):
 			attachment = {
       					'text': message,
        				    'color': "#7CD197",
-       				    'mrkdwn_in': ["text"]
+       				    'mrkdwn_in': ["text"],
+        		    	'fallback': message 
       				 }
 
 			pairings_bot.post_attachment(attachment)	
