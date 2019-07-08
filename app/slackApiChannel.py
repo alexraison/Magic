@@ -37,17 +37,5 @@ class Channel:
 				for item in historyResponse['messages']:
 					self.history.append(item)
 
-	def getChannelName(self):
-		payload = {
-		'token' : self.token,
-		'channel' : self.channelId
-		}
-
-		response = self.session.get('https://slack.com/api/users.info', params=payload)
-		data = response.json()
-		if response.status_code == 200 and data['ok']:
-			return data['channel']['name']
-
-
 
 

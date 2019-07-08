@@ -23,7 +23,7 @@ class User:
 		'user' : self.userId
 		}
 
-		response = self.session.get('https://slack.com/api/channels.info', params=payload)
+		response = self.session.get('https://slack.com/api/users.info', params=payload)
 		if response.status_code == 200:
 			self.parseUserInfo(response.json())
 			
