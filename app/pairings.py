@@ -9,6 +9,7 @@ import collections
 from app.post import slack_bot
 from app.mwmatching import maxWeightMatching
 import statistics
+import os
 
 from app import app, db
 

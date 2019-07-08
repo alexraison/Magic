@@ -6,6 +6,7 @@ import smtplib
 import json
 from itertools import combinations
 from app.post import slack_bot
+import os
 
 from app import app, db
 
