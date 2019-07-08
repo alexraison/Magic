@@ -182,7 +182,7 @@ def slackPairings(normalPairings,twoHeadedPairings, remainder):
 		channel = settings['testing_channel_name']
 	else:	
 		channel = settings['channel_name']
-	pairings_bot = slack_bot(settings['channel_url'], channel, settings['bot_name'], settings['bot_icon'])
+	pairings_bot = slack_bot(channel, settings['bot_name'], settings['bot_icon'])
 
 
 	if not normalPairings and not twoHeadedPairings:

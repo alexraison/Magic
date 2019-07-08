@@ -491,7 +491,7 @@ def slackResults(id):
 		channel = settings['testing_channel_name']
 	else:	
 		channel = settings['channel_name']
-	results_bot = slack_bot(settings['channel_url'], channel, settings['bot_name'], settings['bot_icon'])
+	results_bot = slack_bot(channel, settings['bot_name'], settings['bot_icon'])
 
 	tournament = getTournamentResults(id)
 
