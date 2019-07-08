@@ -45,7 +45,7 @@ class Channel:
 
 		response = self.session.get('https://slack.com/api/users.info', params=payload)
 		data = response.json()
-		if response.status_code == 200 and data['ok']
+		if response.status_code == 200 and data['ok']:
 			return data['channel']['name']
 
 
