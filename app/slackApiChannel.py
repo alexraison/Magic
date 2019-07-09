@@ -28,6 +28,7 @@ class Channel:
 		'oldest' : time.mktime(date.today().timetuple())
 		}
 
+		print("Payload for channel history request: " + json.dumps(payload))
 		response = self.session.get('https://slack.com/api/channels.history', params=payload)
 		print("Channel history for: " + self.channelId + "\n" + json.dumps(response.json()))
 		history = []
