@@ -31,11 +31,14 @@ class Channel:
 
 		response = self.session.get('https://slack.com/api/channels.history', params=payload)
 
+		history = []
 		if response.status_code == 200:
 			historyResponse = response.json()
 			if historyResponse['ok']:
 				for item in historyResponse['messages']:
-					self.history.append(item)
+					history.append(item)
+		return history			
+
 
 
 
