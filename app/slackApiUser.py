@@ -6,9 +6,9 @@ import os
 
 class User:
 
-	def __init__(self, token, userId):
+	def __init__(self, userId):
 		self.userId = userId
-		self.token = token
+		self.token = str(os.environ['OAUTH_TOKEN'])
 		self.session = requests.session()
 
 

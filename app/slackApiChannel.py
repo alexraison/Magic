@@ -1,4 +1,3 @@
-
 import requests
 import json
 import os
@@ -12,9 +11,9 @@ from app import app
 
 class Channel:
 
-	def __init__(self, token, channelId):
+	def __init__(self, channelId):
 		self.channelId = channelId
-		self.token = token
+		self.token = str(os.environ['OAUTH_TOKEN'])
 		self.session = requests.session()
 
 	def getPairingsMessage(self):
@@ -29,13 +28,17 @@ class Channel:
 		'oldest' : time.mktime(date.today().timetuple())
 		}
 
+		print("Payload for channel history request: " + json.dumps(payload))
 		response = self.session.get('https://slack.com/api/channels.history', params=payload)
-
+		print("Channel history for: " + self.channelId + "\n" + json.dumps(response.json()))
+		history = []
 		if response.status_code == 200:
 			historyResponse = response.json()
 			if historyResponse['ok']:
 				for item in historyResponse['messages']:
-					self.history.append(item)
+					history.append(item)
+		return history			
+
 
 
 
