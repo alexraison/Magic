@@ -1,4 +1,3 @@
-
 import requests
 import json
 import os
@@ -30,7 +29,7 @@ class Channel:
 		}
 
 		response = self.session.get('https://slack.com/api/channels.history', params=payload)
-		print("Channel history for: " + self.channelId + "\n" + response.json())
+		print("Channel history for: " + self.channelId + "\n" + json.dumps(response.json()))
 		history = []
 		if response.status_code == 200:
 			historyResponse = response.json()
