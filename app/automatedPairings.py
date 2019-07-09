@@ -47,6 +47,7 @@ def automatePairings():
 	for reaction in pairingsMessageReactions:
 		if reaction['name'] == 'hand':
 			for userId in reaction['users']:
+				print(userId)
 				user = User(token, userId)
 				playList.append(user.getUserName())
 
