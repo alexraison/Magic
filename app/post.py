@@ -7,7 +7,7 @@ import datetime
 class slack_bot:
 
 	def __init__(self, channel_id, bot_name, bot_icon, live=True):
-		self.token = os.environ['SLACK_TOKEN']
+		self.token = os.environ['SLACK_BOT_TOKEN']
 		self.default_message = {
 		'token': self.token,
 		'channel': channel_id,

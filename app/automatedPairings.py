@@ -33,9 +33,7 @@ def automatePairings():
 	with open('app/pairings.settings') as config:
 		settings = json.loads(config.read())
 
-	token = str(os.environ['SLACK_TOKEN'])
-
-	pairingsChannel = Channel(token, os.environ['PAIRINGS_CHANNEL_ID'])
+	pairingsChannel = Channel(os.environ['PAIRINGS_CHANNEL_ID'])
 	pairingsMessage = pairingsChannel.getPairingsMessage()
 
 	pairingsMessageReactions = []
@@ -47,13 +45,12 @@ def automatePairings():
 	for reaction in pairingsMessageReactions:
 		if reaction['name'] == 'hand':
 			for userId in reaction['users']:
-				print(userId)
-				user = User(token, userId)
+				user = User(userId)
 				playList.append(user.getUserName())
 
 		if reaction['name'] =='metal':
 			for userId in reaction['users']:
-				user = User(token, userId)
+				user = User(userId)
 				draftList.append(user.getUserName())
 
 	if len(draftList) > 5:

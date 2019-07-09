@@ -11,9 +11,9 @@ from app import app
 
 class Channel:
 
-	def __init__(self, token, channelId):
+	def __init__(self, channelId):
 		self.channelId = channelId
-		self.token = token
+		self.token = str(os.environ['OAUTH_TOKEN'])
 		self.session = requests.session()
 
 	def getPairingsMessage(self):
