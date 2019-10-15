@@ -1,7 +1,6 @@
 {
   "name": "Magic",
   "description": "",
-  "stack": "heroku-18",
   "scripts": {
     "postdeploy": "python seedTestData.py"
   },
