@@ -21,7 +21,6 @@ createPlayer('Mike', 'slack8', 'password', 'test8')
 createPlayer('Thin White Duke', 'slack9', 'password', 'test9')
 createPlayer('Carl the Nampire', 'slack10', 'password', 'test10')
 
-
 createPair([1,2])
 createPair([3,4])
 createPair([5,6])
